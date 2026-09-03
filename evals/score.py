@@ -110,13 +110,28 @@ def recall(golden: dict[str, Any], findings: list[dict[str, Any]]) -> tuple[floa
     return (total_hit / total_w if total_w else 0.0), tier_tot, rows
 
 
-def _golden_by_field(golden: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    out = {}
+def _golden_by_field(golden: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
+    out: dict[str, list[dict[str, Any]]] = {}
     for fact in golden["facts"]:
         fld = fact.get("field")
         if fld and fact.get("value_any"):
-            out[normalize(fld)] = fact
+            out.setdefault(normalize(fld).replace(" ", "_"), []).append(fact)
     return out
+
+
+def _facts_for_field(by_field: dict[str, list[dict[str, Any]]], finding_field: str) -> list[dict[str, Any]]:
+    """A finding field maps to a golden field when equal, or when one is a suffix token of the other
+    (current_employer <-> employer, prior_employer <-> employer)."""
+    ff = normalize(finding_field).replace(" ", "_")
+    if not ff:
+        return []
+    if ff in by_field:
+        return by_field[ff]
+    for gf, facts in by_field.items():
+        g = gf.replace(" ", "_")
+        if ff.endswith("_" + g) or g.endswith("_" + ff):
+            return facts
+    return []
 
 
 def provenance_failure(f: dict[str, Any], workspace: Path | None) -> str | None:
@@ -155,11 +170,10 @@ def wrong(golden: dict[str, Any], findings: list[dict[str, Any]], workspace: Pat
     total, count, rows = 0.0, 0, []
     for f in findings:
         reasons, pen = [], 0.0
-        fld = normalize(f.get("field") or "")
-        fact = by_field.get(fld)
-        if fact and not any(match(v, f.get("value") or "") for v in fact["value_any"]):
-            reasons.append(f"contradicts {fact['key']}")
-            pen += float(fact.get("weight", 1))
+        facts = _facts_for_field(by_field, f.get("field") or "")
+        if facts and not any(match(v, f.get("value") or "") for fact in facts for v in fact["value_any"]):
+            reasons.append(f"contradicts {'/'.join(fact['key'] for fact in facts)}")
+            pen += max(float(fact.get("weight", 1)) for fact in facts)
         blob = normalize(json.dumps(f, ensure_ascii=False))
         for d in decoys:
             if d and d in blob:
