@@ -26,8 +26,9 @@ def append_row(row: dict[str, Any]) -> None:
     row["ts"] = row.get("ts") or datetime.now(timezone.utc).isoformat(timespec="seconds")
     with JSONL.open("a", encoding="utf-8") as f:
         f.write(json.dumps(row, ensure_ascii=False, default=str) + "\n")
-    bucket = "dev" if str(row.get("rung", "")).startswith("dev") else "ladder"
-    add_spend(bucket, float(row.get("cost_usd") or 0.0))
+    rung = str(row.get("rung", ""))
+    if not rung.startswith("v1"):  # v1 calibration rows are v1 money, not v2 spend
+        add_spend("dev" if rung.startswith("dev") else "ladder", float(row.get("cost_usd") or 0.0))
     render_md()
 
 
