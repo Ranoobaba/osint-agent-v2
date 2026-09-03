@@ -1,6 +1,6 @@
 # Ladder results
 
-Generated 2026-09-03T23:26:15+00:00. Noise band 0.129 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $0.38, dev spend $2.25.
+Generated 2026-09-03T23:42:58+00:00. Noise band 0.030 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $4.70, dev spend $2.25.
 
 | rung | score | min | vs | delta | moved | targets | runs | identity pass | prov fail | decoy leak | cost | time |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -8,6 +8,7 @@ Generated 2026-09-03T23:26:15+00:00. Noise band 0.129 (largest within-rung sprea
 | dev-1 | 0.000 | 0.000 |  |  |  | 1 | 1 | 0/1 | 0 | 0 | $0.08 | 40s |
 | 1 | 0.286 | 0.000 |  |  |  | 7 | 9 | 2/9 | 0 | 0 | $0.38 | 261s |
 | dev-2 | 0.000 | 0.000 | 1 | -0.286 | no | 1 | 3 | 0/3 | 29 | 0 | $2.17 | 748s |
+| 2 | 0.474 | 0.000 | 1 | +0.188 | yes | 7 | 9 | 5/9 | 0 | 0 | $4.31 | 2726s |
 
 ## Per run
 
@@ -27,3 +28,12 @@ Generated 2026-09-03T23:26:15+00:00. Noise band 0.129 (largest within-rung sprea
 | dev-2 | baseline | 1 | 0.000 | ambiguous | 0.000 | 0.0 | 0 | 0 | 0 | 4 | 8 | $0.22 | 135s | saturation | e04cd42 | stage 2 smoke |
 | dev-2 | baseline | 1 | 0.000 | ambiguous | 0.293 | 103.0 | 29 | 0 | 32 | 1 | 18 | $1.38 | 309s | budget:usd | 14e4043 | stage 2 smoke 2 |
 | dev-2 | baseline | 1 | 0.129 | ambiguous | 0.259 | 0.0 | 0 | 0 | 23 | 1 | 17 | $0.56 | 303s | finish | 12fb566 | smoke 3, no pruning |
+| 2 | baseline | 3 | 0.129 | ambiguous | 0.259 | 0.0 | 0 | 0 | 20 | 0 | 16 | $0.51 | 256s | finish | 8c1857c | stage 2: free OSINT tools, no pruning |
+| 2 | baseline | 2 | 0.129 | ambiguous | 0.259 | 0.0 | 0 | 0 | 24 | 0 | 19 | $0.58 | 297s | finish | 8c1857c | stage 2: free OSINT tools, no pruning |
+| 2 | baseline | 1 | 0.147 | ambiguous | 0.293 | 0.0 | 0 | 0 | 23 | 1 | 19 | $0.52 | 342s | finish | 8c1857c | stage 2: free OSINT tools, no pruning |
+| 2 | handle_only | 1 | 0.147 | unresolved | 0.293 | 0.0 | 0 | 0 | 28 | 0 | 17 | $0.50 | 300s | finish | 8c1857c | stage 2: free OSINT tools, no pruning |
+| 2 | email_only | 1 | 0.328 | resolved ok | 0.328 | 0.0 | 0 | 0 | 28 | 1 | 16 | $0.49 | 355s | finish | 8c1857c | stage 2: free OSINT tools, no pruning |
+| 2 | sarah_chen | 1 | 1.000 | ambiguous ok | 0.000 | 0.0 | 0 | 0 | 10 | 0 | 20 | $0.39 | 319s | budget:calls | 8c1857c | stage 2: free OSINT tools, no pruning |
+| 2 | invented | 1 | 1.000 | unresolved ok | 0.000 | 0.0 | 0 | 0 | 6 | 0 | 16 | $0.19 | 187s | finish | 8c1857c | stage 2: free OSINT tools, no pruning |
+| 2 | michael_jordan | 1 | 0.000 | resolved ok | 0.471 | 3.0 | 0 | 0 | 50 | 0 | 18 | $0.69 | 324s | finish | 8c1857c | stage 2: free OSINT tools, no pruning |
+| 2 | ariglad_cto | 1 | 0.714 | resolved ok | 0.714 | 0.0 | 0 | 0 | 22 | 0 | 20 | $0.43 | 343s | budget:calls | 8c1857c | stage 2: free OSINT tools, no pruning |

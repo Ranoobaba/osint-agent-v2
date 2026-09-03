@@ -77,7 +77,9 @@ def rung_summary(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
 
 
 def noise_band(summary: dict[str, dict[str, Any]], floor: float = 0.03) -> float:
-    spreads = [s["spread"] for s in summary.values() if s.get("spread") is not None]
+    """Largest within-rung spread of baseline repeats over ladder rungs only (dev and v1 rows excluded)."""
+    spreads = [s["spread"] for k, s in summary.items() if s.get("spread") is not None
+               and not str(k).startswith(("dev", "v1"))]
     return round(max([floor] + spreads), 4)
 
 

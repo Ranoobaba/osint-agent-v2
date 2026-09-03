@@ -16,12 +16,18 @@ def test_same_name_different_current_employer_is_vetoed():
     assert b.score == 0.0 and b.contradictions and "current employer mismatch" in b.contradictions[0]
 
 
-def test_email_match_alone_is_capped_and_ambiguous():
+def test_email_match_alone_is_capped_but_an_email_target_resolves_on_it():
+    # v1 kept this ambiguous. v2 rule: when the target IS the email, the matching candidate is the
+    # person by definition; the single-field cap still applies to the score itself.
     a = Anchor(target_type="email", raw="a@b.com", emails=["a@b.com"])
     cand = Candidate(id="c1", label="x", emails=["A@B.com"], evidence=EV)
     b = score_candidate(a, cand)
     assert b.capped and b.score == 0.6
-    assert resolve(a, [cand]).status == "ambiguous"
+    res = resolve(a, [cand])
+    assert res.status == "resolved" and "target_key" in res.matched_markers
+    # but a name-type anchor that merely carries an email stays ambiguous on one field
+    a2 = Anchor(target_type="name", raw="Jane a@b.com", names=["Jane Doe"], emails=["a@b.com"])
+    assert resolve(a2, [cand]).status == "ambiguous"
 
 
 def test_three_markers_resolve():
@@ -163,3 +169,24 @@ def test_dedupe_findings_promotes_sensitive_and_drops_empty():
         {"field": "junk", "value": ""},
     ])
     assert len(out) == 1 and out[0]["sensitive"] is True
+
+
+def test_bare_handle_target_resolves_on_the_handle_alone():
+    from osint2.anchors import prefill
+    anchor = prefill("Ranoobaba")
+    assert anchor.target_type == "handle" and anchor.handles == ["Ranoobaba"]
+    cand = Candidate(id="c1", label="Syed Rayyan Ali, GitHub Ranoobaba", names=["Syed Rayyan Ali"], handles=["Ranoobaba"],
+                     evidence=[Evidence(claim="github profile", source_url="https://github.com/Ranoobaba")])
+    other = Candidate(id="c2", label="someone else", names=["Syed Ali"], handles=["syedali"],
+                      evidence=[Evidence(claim="x", source_url="https://example.com")])
+    res = resolve(anchor, [cand, other])
+    assert res.status == "resolved" and res.best_candidate_id == "c1" and "target_key" in res.matched_markers
+
+
+def test_email_target_resolves_on_the_email_alone():
+    from osint2.anchors import prefill
+    anchor = prefill("jane.doe@example.com")
+    assert anchor.target_type == "email"
+    cand = Candidate(id="c1", label="Jane", names=["Jane Doe"], emails=["jane.doe@example.com"],
+                     evidence=[Evidence(claim="commit email", source_url="https://github.com/janedoe")])
+    assert resolve(anchor, [cand]).status == "resolved"

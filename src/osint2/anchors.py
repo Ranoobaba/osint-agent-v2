@@ -61,8 +61,9 @@ def prefill(target: str) -> Anchor:
         ttype = "email"
     elif handles and len(words) <= 1:
         ttype = "handle"
-    elif len(words) == 1 and re.fullmatch(r"[A-Za-z0-9_.\-]{3,39}", words[0]) and not re.fullmatch(r"[A-Z][a-z]+", words[0]):
-        # a single bare token like 'Ranoobaba' is a handle, not a name
+    elif len(words) == 1 and not emails and not urls and re.fullmatch(r"[A-Za-z0-9_.\-]{3,39}", words[0]):
+        # a single bare token like 'Ranoobaba' or 'torvalds' is a handle: nobody researches a person by
+        # one word unless that word is their username
         ttype = "handle"
         handles = sorted(set(handles) | {words[0]})
     else:

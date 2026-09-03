@@ -342,6 +342,17 @@ def score_candidate(anchor: Anchor, cand: Candidate) -> ScoreBreakdown:
     return b
 
 
+def _hard_key_target_match(anchor: Anchor, b: ScoreBreakdown) -> bool:
+    """v2 rule: when the target IS a hard key (an email address or a bare handle), a candidate that
+    matches that key is the person by definition. The single-field cap exists to stop a name plus
+    one soft marker from resolving; it must not stop the key the user handed us."""
+    if anchor.target_type == "email" and anchor.emails:
+        return b.fields.get("email", 0.0) >= 1.0
+    if anchor.target_type == "handle" and anchor.handles:
+        return b.fields.get("handle", 0.0) >= 1.0
+    return False
+
+
 def resolve(anchor: Anchor, candidates: list[Candidate]) -> Resolution:
     breakdowns = [score_candidate(anchor, c) for c in candidates]
     res = Resolution(candidates_considered=len(candidates), breakdowns=breakdowns)
@@ -359,6 +370,11 @@ def resolve(anchor: Anchor, candidates: list[Candidate]) -> Resolution:
     close_runner = runner is not None and runner.score > 0 and (best.score - runner.score) < RUNNER_UP_GAP
     if best.score >= RESOLVED_SCORE and len(best.matched_markers) >= RESOLVED_MARKERS and not close_runner:
         res.status = "resolved"
+    elif _hard_key_target_match(anchor, best) and not best.contradictions and not close_runner:
+        res.status = "resolved"
+        res.score = max(res.score, RESOLVED_SCORE)
+        if "target_key" not in res.matched_markers:
+            res.matched_markers = list(res.matched_markers) + ["target_key"]
     elif best.score >= AMBIGUOUS_SCORE or (best.score > 0 and close_runner):
         res.status = "ambiguous"
     else:
