@@ -19,8 +19,18 @@
   Surprise from research: "sarah chen, product designer, ex-figma" has no verifiable real person behind it
   (every hit is a template or demo page), so it is now an abstain target, expected unresolved.
 
+- Stage 2 (2026-09-03): free tools ported (github_intel, gravatar, wayback, whatsmyname), judge wired in
+  the ambiguous band, PRUNE_STEPS flag (off: append-only window, 90 percent prompt-cache hits, LLM cost
+  per run 1.38 to 0.56 dollars). Admission grows a quoted span to reach a value within 400 chars and
+  names the line to quote on rejection. Rung 2 recorded: 9 runs, score 0.474 vs rung 1 0.286 (+0.188,
+  band 0.030, moved), 4.31 dollars, 0 provenance failures, 0 decoy leaks, identity 5/9. Email-only
+  resolved through the commit-email chain; Ariglad CTO resolved at recall 0.71 on free tools; baseline
+  stays ambiguous (its LinkedIn key is unreachable without a paid fetch). Michael Jordan's one penalty
+  was a golden gap (Inria's title rendered as Senior Researcher); golden widened, rows rescored.
+
 ## In progress
-- Stage 2: port free tools (github_intel, gravatar, wayback, whatsmyname), judge wiring, rung 2.
+- Stage 3: input-shape hardening (bare token = handle, hard-key targets resolve on their key,
+  NUDGE_INPUT_SHAPE first moves), rung 3.
 
 ## Next
 - Stages 2 to 10 per the plan file.
