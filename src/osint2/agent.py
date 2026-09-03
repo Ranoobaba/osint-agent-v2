@@ -13,6 +13,7 @@ from typing import Any, Callable, Optional
 from .anchors import parse_anchor
 from .budget import Budget
 from .config import Settings
+from .deepdive import deep_dive
 from .evidence import EvidenceStore
 from .llm import OpenRouterClient
 from .report import build_report
@@ -176,6 +177,14 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
     res: Resolution = ctx.state.get("resolution") or Resolution()
     cands = ctx.state.get("candidates", [])
     same_person: set[str] = set()
+    deep_results: list[dict[str, Any]] = []
+    if settings.deep_dive and res.status == "resolved" and not budget.exhausted() and error is None:
+        best = next((c for c in cands if c.id == res.best_candidate_id), None)
+        if best is not None:
+            try:
+                deep_results = await deep_dive(ctx, llm, tools, best)
+            except Exception as exc:  # noqa: BLE001
+                trace.write("deep_dive", event="error", error=f"{type(exc).__name__}: {str(exc)[:200]}")
     # The judge runs only in the ambiguous band and never overrides a veto (apply_judge enforces both).
     if res.status == "ambiguous" and cands and settings.judge_model:
         try:
@@ -201,7 +210,7 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
     run = {**stats, "duration_s": duration, "stop_reason": stop_reason, "steps": step, "error": error,
            "budget": budget.snapshot(), "flags": settings.flags(), "model": settings.lead_model,
            "git_sha": _git_sha(), "run_id": ws.run_id, "trace_path": str(ws.trace_path),
-           "unsupported_candidates": ctx.state.get("unsupported_candidates", 0), **store.stats()}
+           "unsupported_candidates": ctx.state.get("unsupported_candidates", 0), "deep_dive": deep_results, **store.stats()}
     report = build_report(anchor, res, cands, store, run, same_person)
     ws.write_json("report.json", report)
     ws.write_json("graph.json", report["graph"])

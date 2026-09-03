@@ -16,13 +16,17 @@ async def _record_claim(ctx: RunContext, claims: list[dict[str, Any]]) -> ToolRe
         return ToolResult(content="record_claim needs a non-empty claims list.", error="BadArguments", store_source=False)
     res = ctx.state.get("resolution")
     default_candidate = res.best_candidate_id if (res is not None and res.status == "resolved") else None
+    pin = ctx.state.get("pin_candidate")   # set while a deep-dive subagent runs: its claims are about the resolved person
     lines, admitted, rejected = [], 0, 0
     for p in claims[:10]:
         if not isinstance(p, dict):
             continue
         ctx.trace.write("claim_proposed", step=ctx.state.get("step", 0), kind=p.get("kind", "finding"),
                         field=p.get("field"), value=str(p.get("value"))[:200], source_id=p.get("source_id"))
-        claim, reason = ctx.store.admit(p, step=ctx.state.get("step", 0), default_candidate=default_candidate)
+        if pin:
+            p = {**p, "candidate_id": pin}
+        claim, reason = ctx.store.admit(p, step=ctx.state.get("step", 0), default_candidate=default_candidate,
+                                        thread=("subagent" if pin else "lead"))
         if claim:
             admitted += 1
             ctx.trace.write("claim_admitted", step=ctx.state.get("step", 0), claim_id=claim.id, kind=claim.kind,
