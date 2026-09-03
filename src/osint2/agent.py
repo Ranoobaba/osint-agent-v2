@@ -16,7 +16,7 @@ from .config import Settings
 from .evidence import EvidenceStore
 from .llm import OpenRouterClient
 from .report import build_report
-from .resolution import Resolution
+from .resolution import Resolution, apply_judge, judge_candidates
 from .tools import RunContext, parse_tool_args, registry, run_tool
 from .trace import TraceWriter, read_trace, summarize_trace
 from .workspace import Workspace, new_run_id
@@ -173,6 +173,26 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
 
     res: Resolution = ctx.state.get("resolution") or Resolution()
     cands = ctx.state.get("candidates", [])
+    same_person: set[str] = set()
+    # The judge runs only in the ambiguous band and never overrides a veto (apply_judge enforces both).
+    if res.status == "ambiguous" and cands and settings.judge_model:
+        try:
+            ranked = sorted(res.breakdowns, key=lambda b: -b.score)[:3]
+            top_ids = {b.candidate_id for b in ranked}
+            top = [c for c in cands if c.id in top_ids]
+            evidence_lines = [f"[{c.id}] {e.claim} ({e.source_url})" for c in top for e in c.evidence]
+            evidence_lines += [f"[{cl.candidate_id}] {cl.field}={cl.value} ({cl.source_url}) excerpt: {(cl.excerpt or '')[:200]}"
+                               for cl in store.findings() if cl.candidate_id in top_ids]
+            judge = await judge_candidates(llm, settings.judge_model, anchor, top, ranked, "\n".join(evidence_lines))
+            await budget.charge_llm(0.0)
+            res = apply_judge(res, judge)
+            ws.write_json("resolution.json", res.model_dump())
+            trace.write("judge", verdict=judge.verdict, candidate_id=judge.candidate_id, reasons=judge.reasons,
+                        same_person_ids=judge.same_person_ids, status_after=res.status, model=judge.model)
+            if judge.verdict == "same":
+                same_person |= set(judge.same_person_ids)
+        except Exception as exc:  # noqa: BLE001
+            trace.write("judge", error=f"{type(exc).__name__}: {str(exc)[:200]}")
     # strip private keys before the trace summary; messages are not persisted
     duration = round(time.perf_counter() - started, 1)
     stats = summarize_trace(read_trace(ws.trace_path))
@@ -180,7 +200,7 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
            "budget": budget.snapshot(), "flags": settings.flags(), "model": settings.lead_model,
            "git_sha": _git_sha(), "run_id": ws.run_id, "trace_path": str(ws.trace_path),
            "unsupported_candidates": ctx.state.get("unsupported_candidates", 0), **store.stats()}
-    report = build_report(anchor, res, cands, store, run)
+    report = build_report(anchor, res, cands, store, run, same_person)
     ws.write_json("report.json", report)
     ws.write_json("graph.json", report["graph"])
     trace.write("report_emitted", findings=len(report["findings"]), excluded=len(report["excluded_findings"]),

@@ -8,9 +8,19 @@
   the new scorer reproduces v1's number on v1's saved report, net 0.534, core 78 / deep 38 /
   surprise 0, identity PASS, provenance not checked (v1 findings carry no excerpt).
 
+- Stage 1 (2026-09-03): runtime core (config with env flags, shared Budget with reserve/settle, OpenRouter
+  client with caching, EvidenceStore with excerpt re-anchoring and per-kind admission, tool registry that
+  stores every data result as a hashed source, record_candidate / record_claim / record_not_found / finish,
+  anchors, report builder with code-owned confidence, lead loop with pruning and dry-step stopping), the
+  ladder runner (presets, repeats, concurrency 3, spend cap and cut order), 41 tests. Golden entries 2, 3
+  (own facts under email-only and handle-only inputs), 6 to 9 (public targets, researched with URLs).
+  Rung 1 recorded: 9 runs, 7 targets, score 0.286, $0.38. Every resolvable target scores 0 (no source to
+  cite, all claims rejected); the two abstain targets score 1.0. Candidates from memory are rejected too.
+  Surprise from research: "sarah chen, product designer, ex-figma" has no verifiable real person behind it
+  (every hit is a template or demo page), so it is now an abstain target, expected unresolved.
+
 ## In progress
-- Stage 1: ladder.py, evidence.py, record_claim, record_candidate, budget.py, llm.py, minimal
-  report.py and agent.py for TOOLS=none, the 9 golden entries, rung 1.
+- Stage 2: port free tools (github_intel, gravatar, wayback, whatsmyname), judge wiring, rung 2.
 
 ## Next
 - Stages 2 to 10 per the plan file.
@@ -18,5 +28,6 @@
 ## Blocked on Rayyan
 - EXA_API_KEY (dashboard.exa.ai) and FIRECRAWL_API_KEY into .env. Exa blocks the collision-pair
   script in Stage 1.
-- Confirm one same-name same-school pair from evals/find_collisions.py output.
+- Confirm one same-name same-school pair from evals/find_collisions.py output (targets 4 and 5 are
+  skipped by the ladder until then).
 - Confirm the Ariglad CTO from the public source I will show.
