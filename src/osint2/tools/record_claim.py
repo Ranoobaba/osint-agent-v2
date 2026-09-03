@@ -46,8 +46,10 @@ record_claim = Tool(
     name="record_claim",
     description=(
         "Record what you learned. Every finding must cite the source_id of a tool result from THIS run and quote "
-        "the exact sentence (excerpt) from it that states the value. Code checks the quote against the stored page; "
-        "a quote that is not in the page, or that does not contain the value, is rejected. Findings recorded before "
+        "the exact line (excerpt) from it that states the value; the value string must appear inside the excerpt. "
+        "One value per claim: record each repo, each account, each employer as its own claim, never a comma list. "
+        "Code checks the quote against the stored page; a quote that is not in the page, or that does not contain "
+        "the value, is rejected with the line you should have quoted. Findings recorded before "
         "identity is resolved must name the candidate_id they are about. Use kind 'not_found' for a field you searched "
         "for and could not establish (name the source ids or tools you tried in searched), 'conflict' when two admitted "
         "findings disagree (based_on = their claim ids), and 'synthesis' for an inference resting on two or more "

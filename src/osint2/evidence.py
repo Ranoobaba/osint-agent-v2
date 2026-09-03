@@ -26,6 +26,7 @@ from .workspace import Workspace
 Kind = Literal["finding", "not_found", "conflict", "synthesis"]
 MARKDOWN_CHARS = set("*_#`>|")
 REANCHOR_SCORE = 92.0
+EXTEND_WINDOW = 400   # chars the span may grow to reach the value in the same source
 
 # tool name -> method label on the claim
 METHOD_BY_TOOL = {
@@ -183,15 +184,19 @@ class EvidenceStore:
             if loc is None:
                 return self._reject(proposal, "excerpt not found in the source; quote it verbatim")
             start, end, score = loc
-            span = text[start:end]
             nv = norm_text(base["value"])
-            nspan = norm_text(span)
-            if "@" in nv or "/" in nv:
-                contained = nv in nspan
-            else:
-                contained = nv in nspan or fuzz.partial_ratio(nv, nspan) >= REANCHOR_SCORE
-            if not contained:
-                return self._reject(proposal, "the excerpt does not contain the value")
+            if not self._contains(text[start:end], nv):
+                # The model quoted a nearby line. If the value sits within EXTEND_WINDOW chars of the
+                # quoted span in the same source, grow the span to include it: the stored excerpt is
+                # still verbatim source text. Otherwise reject and show the line to quote.
+                grown = self._extend_to_value(text, start, end, nv)
+                if grown is None:
+                    hint = self._line_with_value(text, nv)
+                    if hint:
+                        return self._reject(proposal, f"the excerpt does not contain the value; the source states it here, quote this line: {hint[:200]!r}")
+                    return self._reject(proposal, "the excerpt does not contain the value, and the value does not appear in that source at all; do not record it from this source")
+                start, end = grown
+            span = text[start:end]
             src = self.sources[sid]
             claim = Claim(**base, source_id=sid, source_url=src.url or proposal.get("source_url"),
                           excerpt=span, excerpt_span=[start, end], content_hash=src.content_hash,
@@ -224,6 +229,38 @@ class EvidenceStore:
         self.claims.append(claim)
         self._persist(claim)
         return claim, None
+
+    @staticmethod
+    def _contains(span: str, nv: str) -> bool:
+        nspan = norm_text(span)
+        if "@" in nv or "/" in nv:
+            return nv in nspan
+        return nv in nspan or fuzz.partial_ratio(nv, nspan) >= REANCHOR_SCORE
+
+    def _extend_to_value(self, text: str, start: int, end: int, nv: str) -> Optional[tuple[int, int]]:
+        ns, offsets = normalize(text)
+        pos = ns.find(nv)
+        if pos < 0:
+            return None
+        # map every occurrence; pick the one nearest the quoted span
+        best = None
+        while pos >= 0:
+            vs, ve = offsets[pos], offsets[pos + len(nv) - 1] + 1
+            dist = 0 if (vs < end and ve > start) else min(abs(vs - end), abs(start - ve))
+            if dist <= EXTEND_WINDOW and (best is None or dist < best[0]):
+                best = (dist, vs, ve)
+            pos = ns.find(nv, pos + 1)
+        if best is None:
+            return None
+        _, vs, ve = best
+        return min(start, vs), max(end, ve)
+
+    @staticmethod
+    def _line_with_value(text: str, nv: str) -> Optional[str]:
+        for line in text.splitlines():
+            if nv and nv in norm_text(line):
+                return line.strip()
+        return None
 
     def _reject(self, proposal: dict[str, Any], reason: str) -> tuple[None, str]:
         self.rejected.append({"proposal": {k: (str(v)[:200] if v is not None else None) for k, v in proposal.items()}, "reason": reason})

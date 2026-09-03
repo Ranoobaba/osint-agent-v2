@@ -103,3 +103,18 @@ def test_store_reloads_from_disk(tmp_path):
 
 def test_anchor_excerpt_returns_none_for_short_fuzzy():
     assert anchor_excerpt("some text here", "zzz") is None
+
+
+def test_span_extends_to_nearby_value(tmp_path):
+    store = make_store(tmp_path)
+    claim, reason = store.admit({"field": "personal_email", "value": "jane.doe@example.com", "source_id": "s001",
+                                "excerpt": "Previously she led infrastructure at Widget Co"}, step=1)
+    assert reason is None, reason
+    assert "jane.doe@example.com" in claim.excerpt and "Widget Co" in claim.excerpt and claim.excerpt in PAGE
+
+
+def test_value_absent_from_source_is_rejected_with_reason(tmp_path):
+    store = make_store(tmp_path)
+    claim, reason = store.admit({"field": "phone", "value": "555-0100", "source_id": "s001",
+                                "excerpt": "Contact: jane.doe@example.com"}, step=1)
+    assert claim is None and "does not appear in that source" in reason

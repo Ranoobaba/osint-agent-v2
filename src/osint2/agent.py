@@ -127,6 +127,7 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
             ctx.state["step"] = step
             ctx.state["step_admitted"] = 0
             ctx.state["step_candidates"] = 0
+            sources_before = len(store.sources)
             ex = budget.exhausted()
             if ex:
                 stop_reason = f"budget:{ex}"
@@ -159,7 +160,7 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
             if ctx.state.get("finish"):
                 stop_reason = "finish"
                 break
-            if ctx.state["step_admitted"] == 0 and ctx.state["step_candidates"] == 0:
+            if ctx.state["step_admitted"] == 0 and ctx.state["step_candidates"] == 0 and len(store.sources) == sources_before:
                 dry += 1
             else:
                 dry = 0
