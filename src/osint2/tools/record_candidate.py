@@ -12,6 +12,10 @@ from ..resolution import (Anchor, Candidate, Employment, Evidence, missing_evide
 from . import RunContext, Tool, ToolResult
 
 
+def _norm_src_url(u: str | None) -> str:
+    return norm_url(u) if u else ""
+
+
 def _keys(c: Candidate) -> set[str]:
     return ({"email:" + norm_email(e) for e in c.emails}
             | {"url:" + norm_url(u) for u in c.profile_urls}
@@ -71,6 +75,19 @@ async def _record_candidate(
     )
     if not new.evidence:
         return ToolResult(content="record_candidate needs at least one evidence item with claim and source_url.", error="BadArguments", store_source=False)
+    # A candidate must rest on something read in this run: an evidence item citing a source id, or a
+    # URL the run actually fetched. Without that the model is recalling from memory, which is exactly
+    # what rung 1 measures and later rungs must not admit.
+    known_ids = set(ctx.store.sources)
+    known_urls = {_norm_src_url(s.url) for s in ctx.store.sources.values() if s.url}
+    cited = [e for e in evidence if isinstance(e, dict) and (e.get("source_id") in known_ids or _norm_src_url(e.get("source_url")) in known_urls)]
+    if not cited:
+        ctx.state["unsupported_candidates"] = ctx.state.get("unsupported_candidates", 0) + 1
+        ctx.trace.write("candidate_rejected", step=ctx.state.get("step", 0), label=label[:80],
+                        reason="no evidence item cites a source id or URL read in this run")
+        return ToolResult(content=("REJECTED: no evidence item cites a source_id or a URL that a tool in this run returned. "
+                                   "Candidates come from pages you read here, not from memory. Use a tool first, then record."),
+                          error="Unsupported", store_source=False)
 
     target = None
     nk = _keys(new)
@@ -148,7 +165,8 @@ record_candidate = Tool(
             "bio": {"type": "string"},
             "disclaims_identity": {"type": "boolean", "description": "True if the page explicitly says this is NOT the target."},
             "evidence": {"type": "array", "items": {"type": "object", "properties": {
-                "claim": {"type": "string"}, "source_url": {"type": "string"}}, "required": ["claim", "source_url"]}},
+                "claim": {"type": "string"}, "source_url": {"type": "string"}, "source_id": {"type": "string", "description": "the [source_id] of the tool result you read this on"}}, "required": ["claim", "source_url"]},
+                "description": "At least one item must cite a source_id or URL returned by a tool in this run."},
         },
         "required": ["label", "names", "evidence"],
     },

@@ -91,7 +91,8 @@ async def one_run(rung: str, target: str, golden: dict[str, Any], env: dict[str,
             "prov_fail": sum(1 for w in row["wrong_rows"] if any(r.startswith("provenance") for r in w["reasons"])),
             "decoy_leak": row["decoy_leak"], "proposed_claims": run.get("proposed"), "admitted": run.get("admitted"),
             "rejected": run.get("rejected"), "cost_usd": run.get("cost_usd"), "duration_s": run.get("duration_s"),
-            "stop_reason": run.get("stop_reason"), "tool_calls": run.get("tool_calls"), "git_sha": git_sha(),
+            "stop_reason": run.get("stop_reason"), "tool_calls": (run.get("budget") or {}).get("calls", run.get("tool_calls")), "git_sha": git_sha(),
+            "unsupported_candidates": run.get("unsupported_candidates"),
             "note": note, "run_id": ws.run_id, "branch": row["branch"], "workspace": str(ws.dir),
             "method_counts": _method_counts(report),
         }
@@ -138,7 +139,10 @@ def main() -> None:
     golden = golden_by_id()
     missing = [t for t in targets if TARGETS[t] not in golden]
     if missing:
-        sys.exit(f"golden entries missing for {missing}; ids expected {[TARGETS[t] for t in missing]}")
+        print(f"skipping targets without a golden entry yet: {missing}", file=sys.stderr)
+        targets = [t for t in targets if t not in missing]
+    if not targets:
+        sys.exit("no targets to run")
     env = {**DEFAULT_ENV, **preset["env"]}
     sp = spend()
     est = preset["estimate"] * (len(targets) / max(1, len(preset["targets"])))
