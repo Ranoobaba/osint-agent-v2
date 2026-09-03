@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 
 from .evidence import Claim, EvidenceStore, norm_text
 from .graph import build_graph
-from .resolution import Anchor, Candidate, Resolution
+from .resolution import Anchor, Candidate, Resolution, missing_evidence_hint
 
 
 def _norm_fact(s: Any) -> str:
@@ -116,6 +116,11 @@ def build_report(anchor: Anchor, resolution: Resolution, candidates: list[Candid
     conflicts = [{"id": c.id, "field": c.field, "values": c.value.split(" | "), "based_on": c.based_on}
                  for c in store.claims if c.kind == "conflict"]
     not_found = [{"field": c.field, "note": c.value or None, "searched": c.searched} for c in store.claims if c.kind == "not_found"]
+    if resolution.status != "resolved":
+        # Say what would have settled identity, so an honest non-answer is still actionable.
+        top = max(resolution.breakdowns, key=lambda b: b.score, default=None)
+        hint = missing_evidence_hint(anchor, top) if top else "no candidate matched the anchor; a hard key (email, handle, profile URL) would settle it"
+        not_found.insert(0, {"field": "identity", "note": f"{resolution.status}: {hint}", "searched": [s.tool for s in store.sources.values()][:8]})
 
     cand_rows = []
     for b in resolution.breakdowns:
