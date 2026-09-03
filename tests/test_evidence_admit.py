@@ -50,11 +50,14 @@ def test_excerpt_not_in_source_is_rejected(tmp_path):
     assert claim is None and "not found" in reason
 
 
-def test_excerpt_without_value_is_rejected(tmp_path):
-    store = make_store(tmp_path)
-    claim, reason = store.admit({"field": "current_employer", "value": "Widget Co", "source_id": "s001",
-                                "excerpt": "Staff Engineer at Example Labs since 2021"}, step=1)
-    assert claim is None and "does not contain the value" in reason
+def test_excerpt_far_from_value_is_rejected_with_line_hint(tmp_path):
+    ws = Workspace(tmp_path, "run2")
+    store = EvidenceStore(ws)
+    page = "Header line about Widget Co.\n" + ("filler text. " * 60) + "\nJane is a Staff Engineer at Example Labs."
+    store.add_source("fetch_page", {"url": "https://example.com/far"}, page, "https://example.com/far", step=1)
+    claim, reason = store.admit({"field": "prior_employer", "value": "Widget Co", "source_id": "s001",
+                                "excerpt": "Jane is a Staff Engineer at Example Labs"}, step=1)
+    assert claim is None and "quote this line" in reason and "Widget Co" in reason
 
 
 def test_email_value_needs_exact_containment(tmp_path):

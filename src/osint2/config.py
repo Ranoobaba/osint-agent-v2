@@ -61,6 +61,7 @@ class Settings:
     max_seconds: int
     max_steps: int
     saturation_dry_steps: int
+    prune_steps: int
     reasoning_max_tokens: int
     nudges: frozenset[str]
     runs_dir: Path
@@ -94,6 +95,9 @@ class Settings:
             max_seconds=int(env.get("MAX_SECONDS", "480")),
             max_steps=int(env.get("MAX_STEPS", "60")),
             saturation_dry_steps=int(env.get("SATURATION_DRY_STEPS", "3")),
+            # 0 keeps every tool result in the window (append-only, so Anthropic prompt caching hits);
+            # N replaces results older than N steps with a stub (smaller window, cache prefix rewritten).
+            prune_steps=int(env.get("PRUNE_STEPS", "0")),
             reasoning_max_tokens=int(env.get("REASONING_MAX_TOKENS", "1024")),
             nudges=nudges,
             runs_dir=Path(env.get("RUNS_DIR", "runs")),
@@ -105,5 +109,5 @@ class Settings:
         """What this run was configured with; written into report.run so a row is reproducible."""
         return {"tools": list(self.tools), "deep_dive": self.deep_dive, "nudges": sorted(self.nudges),
                 "max_tool_calls": self.max_tool_calls, "max_usd": self.max_usd, "max_seconds": self.max_seconds,
-                "saturation_dry_steps": self.saturation_dry_steps, "lead_model": self.lead_model,
+                "saturation_dry_steps": self.saturation_dry_steps, "prune_steps": self.prune_steps, "lead_model": self.lead_model,
                 "judge_model": self.judge_model}

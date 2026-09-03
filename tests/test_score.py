@@ -61,6 +61,19 @@ def test_contradiction_on_known_field():
     assert r["wrong"] == 3.0 and r["recall"] == 0.0
 
 
+def test_extra_value_on_multi_valued_field_is_not_a_contradiction():
+    g = dict(GOLDEN, facts=GOLDEN["facts"] + [{"key": "proj", "field": "project", "tier": "deep", "weight": 2, "value_any": ["Alpha"]}])
+    r = score_target(g, report(findings=[finding("project", "Beta", "built Beta")]))
+    assert r["wrong"] == 0.0
+
+
+def test_ambiguous_branch_scores_only_the_leading_candidate():
+    r = score_target(GOLDEN, report(status="ambiguous", cand="cand1", excluded=[
+        finding("current_employer", "Example Labs", "works at Example Labs", candidate="cand1"),
+        finding("current_title", "Janitor", "is a Janitor", candidate="cand2")]))
+    assert r["wrong"] == 0.0 and abs(r["net"] - 0.5 * (3 / 9)) < 1e-3
+
+
 def test_not_resolved_when_expected_resolved_halves_over_admitted():
     r = score_target(GOLDEN, report(status="ambiguous", cand=None, excluded=[
         finding("current_employer", "Example Labs", "works at Example Labs", candidate="cand2")]))

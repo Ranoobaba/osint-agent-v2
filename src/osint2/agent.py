@@ -132,7 +132,8 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
             if ex:
                 stop_reason = f"budget:{ex}"
                 break
-            _prune(messages, keep_steps=2, step=step)
+            if settings.prune_steps > 0:
+                _prune(messages, keep_steps=settings.prune_steps, step=step)
             messages.append({"role": "user", "content": recitation(ctx, step, store)})
             send = [{k: v for k, v in m.items() if not k.startswith("_")} for m in messages]
             result = await llm.chat(send, specs, step=step)

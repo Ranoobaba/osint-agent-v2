@@ -51,7 +51,7 @@ FREE = "github,gravatar,wayback,whatsmyname"
 
 RUNGS: dict[str, dict[str, Any]] = {
     "1": {"env": {"TOOLS": "none", "DEEP_DIVE": "0"}, "targets": ALL, "repeats": {"baseline": 3}, "compare_to": None, "estimate": 1.5},
-    "2": {"env": {"TOOLS": FREE, "DEEP_DIVE": "0"}, "targets": ALL, "repeats": {"baseline": 3}, "compare_to": "1", "estimate": 7.0},
+    "2": {"env": {"TOOLS": FREE, "DEEP_DIVE": "0"}, "targets": ALL, "repeats": {"baseline": 3}, "compare_to": "1", "estimate": 10.0},
     "3": {"env": {"TOOLS": FREE, "DEEP_DIVE": "0", "NUDGE_INPUT_SHAPE": "1"}, "targets": ALL, "repeats": {}, "compare_to": "2", "estimate": 5.0},
     "4": {"env": {"TOOLS": FREE + ",perplexity", "DEEP_DIVE": "0", "NUDGE_INPUT_SHAPE": "1"}, "targets": SUBSET4, "repeats": {}, "compare_to": "3", "estimate": 4.0},
     "5": {"env": {"TOOLS": FREE + ",exa", "DEEP_DIVE": "0", "NUDGE_INPUT_SHAPE": "1"}, "targets": SUBSET4, "repeats": {}, "compare_to": "3", "estimate": 4.0},

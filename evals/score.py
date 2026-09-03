@@ -42,6 +42,12 @@ from typing import Any
 from rapidfuzz import fuzz
 
 DECOY_PENALTY = 3.0
+# Only single-valued fields can be contradicted. A person has many projects, accounts, employers over
+# time and emails; an extra value there is not a contradiction. These are the fields where a value
+# that matches none of the golden values is wrong.
+EXCLUSIVE_FIELDS = {"current_employer", "current_title", "current_role", "location_city", "location", "age",
+                    "birth_year", "birth_date", "religion", "partner", "spouse", "nationality", "phone",
+                    "github_handle", "linkedin_url", "google_scholar_url", "personal_website"}
 PROVENANCE_PENALTY = 2.0
 AMBIGUOUS_LEAK_PENALTY = 0.5
 NOT_RESOLVED_FACTOR = 0.5
@@ -134,7 +140,19 @@ def _facts_for_field(by_field: dict[str, list[dict[str, Any]]], finding_field: s
     return []
 
 
-def provenance_failure(f: dict[str, Any], workspace: Path | None) -> str | None:
+def _source_path(f: dict[str, Any], workspace: Path, source_paths: dict[str, str]) -> Path | None:
+    sid = f.get("source_id")
+    if not sid:
+        return None
+    rel = source_paths.get(sid)
+    if rel:
+        return workspace / rel
+    sdir = workspace / "sources"
+    hits = (sorted(sdir.glob(f"*_{sid}_*")) + sorted(sdir.glob(f"{sid}_*"))) if sdir.exists() else []
+    return hits[0] if hits else None
+
+
+def provenance_failure(f: dict[str, Any], workspace: Path | None, source_paths: dict[str, str] | None = None) -> str | None:
     """Return a reason string if the finding fails provenance, None if it passes, or None with
     prov_checked False when the finding predates excerpts (no key at all)."""
     if "excerpt" not in f:
@@ -150,12 +168,8 @@ def provenance_failure(f: dict[str, Any], workspace: Path | None) -> str | None:
     elif nv not in ne and not (fuzz.partial_ratio(nv, ne) >= 95):
         return "value not in excerpt"
     if workspace is not None and f.get("source_id") and f.get("content_hash"):
-        src = workspace / "sources" / f"{f['source_id']}"
-        if not src.exists():
-            # source files are named <id>_<tool>_<label>.md; accept a prefix match
-            cands = list((workspace / "sources").glob(f"{f['source_id']}*")) if (workspace / "sources").exists() else []
-            src = cands[0] if cands else src
-        if not src.exists():
+        src = _source_path(f, workspace, source_paths or {})
+        if src is None or not src.exists():
             return "source file missing"
         digest = hashlib.sha256(src.read_bytes()).hexdigest()
         if digest != f["content_hash"]:
@@ -163,14 +177,18 @@ def provenance_failure(f: dict[str, Any], workspace: Path | None) -> str | None:
     return None
 
 
-def wrong(golden: dict[str, Any], findings: list[dict[str, Any]], workspace: Path | None) -> tuple[float, int, list[dict[str, Any]]]:
+def wrong(golden: dict[str, Any], findings: list[dict[str, Any]], workspace: Path | None,
+          source_paths: dict[str, str] | None = None) -> tuple[float, int, list[dict[str, Any]]]:
     """Summed penalty, count of wrong findings, and per-finding reasons."""
     by_field = _golden_by_field(golden)
     decoys = [normalize(d["marker"]) for d in golden.get("decoys", [])]
     total, count, rows = 0.0, 0, []
     for f in findings:
         reasons, pen = [], 0.0
-        facts = _facts_for_field(by_field, f.get("field") or "")
+        # Contradiction needs an exact field name match on a single-valued field: current_employer is
+        # judged only against a golden current_employer fact, never against the list of past employers.
+        ff = normalize(f.get("field") or "").replace(" ", "_")
+        facts = by_field.get(ff, []) if ff in EXCLUSIVE_FIELDS else []
         if facts and not any(match(v, f.get("value") or "") for fact in facts for v in fact["value_any"]):
             reasons.append(f"contradicts {'/'.join(fact['key'] for fact in facts)}")
             pen += max(float(fact.get("weight", 1)) for fact in facts)
@@ -179,7 +197,7 @@ def wrong(golden: dict[str, Any], findings: list[dict[str, Any]], workspace: Pat
             if d and d in blob:
                 reasons.append(f"decoy leak: {d}")
                 pen += DECOY_PENALTY
-        pf = provenance_failure(f, workspace)
+        pf = provenance_failure(f, workspace, source_paths)
         if pf:
             reasons.append(f"provenance: {pf}")
             pen += PROVENANCE_PENALTY
@@ -208,10 +226,15 @@ def score_target(golden: dict[str, Any], report: dict[str, Any], workspace: str 
     findings = list(report.get("findings") or [])
     excluded = list(report.get("excluded_findings") or [])
     admitted = [f for f in findings + excluded if (f.get("kind") in (None, "finding"))]
+    source_paths = {s["id"]: s["path"] for s in (report.get("sources") or []) if s.get("id") and s.get("path")}
     if status == "resolved":
         attributed = [f for f in findings if resolved_id is None or f.get("candidate_id") in (None, resolved_id)]
     else:
         attributed = []
+        # In the ambiguous band the report attributes nothing, but the scorer should judge the facts
+        # recorded about the leading candidate, not those about the namesakes it correctly kept apart.
+        if resolved_id and any(f.get("candidate_id") == resolved_id for f in admitted):
+            admitted = [f for f in admitted if f.get("candidate_id") == resolved_id]
     prov_checked = any("excerpt" in f for f in admitted)
 
     expect = golden["expect_identity"]
@@ -233,12 +256,12 @@ def score_target(golden: dict[str, Any], report: dict[str, Any], workspace: str 
         if status == "resolved":
             row["identity_ok"] = True
             r, tiers, rrows = recall(golden, attributed)
-            w, wc, wrows = wrong(golden, attributed, ws)
+            w, wc, wrows = wrong(golden, attributed, ws, source_paths)
             net = max(0.0, r - w)
             row["branch"] = "resolved_right"
         else:
             r, tiers, rrows = recall(golden, admitted)
-            w, wc, wrows = wrong(golden, admitted, ws)
+            w, wc, wrows = wrong(golden, admitted, ws, source_paths)
             net = NOT_RESOLVED_FACTOR * max(0.0, r - w)
             row["branch"] = "not_resolved"
         row.update(recall=round(r, 4), wrong=round(w, 4), wrong_count=wc, tiers=tiers,
@@ -261,7 +284,7 @@ def score_target(golden: dict[str, Any], report: dict[str, Any], workspace: str 
         row["net"] = 0.0
         return row
     row["identity_ok"] = True
-    w, wc, wrows = wrong(golden, admitted, ws)
+    w, wc, wrows = wrong(golden, admitted, ws, source_paths)
     row.update(wrong=round(w, 4), wrong_count=wc, wrong_rows=wrows,
                net=round(1.0 - wc / max(1, len(admitted)), 4))
     return row
