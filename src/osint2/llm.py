@@ -26,10 +26,17 @@ def _apply_cache_control(messages: list[dict[str, Any]]) -> list[dict[str, Any]]
         if m.get("role") == "system" and isinstance(m.get("content"), str) and m["content"]:
             m["content"] = [{"type": "text", "text": m["content"], "cache_control": {"type": "ephemeral"}}]
             break
+    # rolling breakpoint on the last tool result (a stable message); the recitation after it is
+    # replaced every turn, so a breakpoint there would never be reused
     for m in reversed(out):
-        if isinstance(m.get("content"), str) and m["content"]:
+        if m.get("role") == "tool" and isinstance(m.get("content"), str) and m["content"]:
             m["content"] = [{"type": "text", "text": m["content"], "cache_control": {"type": "ephemeral"}}]
             break
+    else:
+        for m in reversed(out):
+            if isinstance(m.get("content"), str) and m["content"]:
+                m["content"] = [{"type": "text", "text": m["content"], "cache_control": {"type": "ephemeral"}}]
+                break
     return out
 
 

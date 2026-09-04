@@ -96,10 +96,10 @@ async def run_subagent(ctx: RunContext, llm: OpenRouterClient, tools: dict[str, 
             stop = "budget"
             break
         if ctx.state.get("thread_calls", {}).get(thread, 0) >= share:
-            # own share spent: one last turn with no data tools so it can record what it read
-            specs = [t.spec() for t in sub_tools.values() if t.name in ("record_claim", "record_not_found", "finish")]
+            # own share spent: tell the model in text (changing the tool list would break the cache prefix)
+            messages.append({"role": "user", "content": "Your data-call share is spent. Record what you read with record_claim, then call finish."})
             stop = "share"
-        result = await llm.chat(messages, specs, thread=thread, step=step)
+        result = await llm.chat(messages, specs, thread=thread, step=step, model=ctx.settings.sub_model)
         await ctx.budget.charge_llm(result.usage.get("cost_usd"))
         messages.append(result.message)
         if not result.tool_calls:

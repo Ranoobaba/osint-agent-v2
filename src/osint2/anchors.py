@@ -77,13 +77,13 @@ async def parse_anchor(target: str, llm: OpenRouterClient | None, settings: Sett
     if llm is not None and anchor.target_type not in ("email", "handle"):
         messages = [{"role": "system", "content": PROMPT}, {"role": "user", "content": target}]
         try:
-            result = await llm.chat(messages, tools=None, model=settings.lead_model, thread="anchor", reasoning=False,
+            result = await llm.chat(messages, tools=None, model=settings.anchor_model, thread="anchor", reasoning=False,
                                     response_format={"type": "json_schema", "json_schema": {"name": "anchor", "strict": True, "schema": ANCHOR_SCHEMA}})
             data = json.loads(result.text)
         except Exception:  # noqa: BLE001
             try:
                 result = await llm.chat(messages + [{"role": "user", "content": "Reply with one JSON object only, keys: target_type, names, companies, roles, locations."}],
-                                        tools=None, model=settings.lead_model, thread="anchor", reasoning=False)
+                                        tools=None, model=settings.anchor_model, thread="anchor", reasoning=False)
                 text = result.text
                 data = json.loads(text[text.find("{"): text.rfind("}") + 1])
             except Exception:  # noqa: BLE001

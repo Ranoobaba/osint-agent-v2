@@ -66,6 +66,9 @@ class Settings:
     extractor_model: str
     extractor_chars: int
     sweep: bool
+    sub_model: str
+    anchor_model: str
+    lead_view_chars: int
     reasoning_max_tokens: int
     max_output_tokens: int
     nudges: frozenset[str]
@@ -110,6 +113,10 @@ class Settings:
             extractor_chars=int(env.get("EXTRACTOR_CHARS", "6000")),
             # SWEEP=1: once resolved, code drives every surface tool at the confirmed keys (no model turn).
             sweep=_flag(env.get("SWEEP"), True),
+            sub_model=env.get("SUB_MODEL", env.get("LEAD_MODEL", "anthropic/claude-opus-5")),
+            anchor_model=env.get("ANCHOR_MODEL", "anthropic/claude-haiku-4.5"),
+            # the lead sees at most this many chars of a page; the full text is stored for the extractor and admission
+            lead_view_chars=int(env.get("LEAD_VIEW_CHARS", "4000")),
             reasoning_max_tokens=int(env.get("REASONING_MAX_TOKENS", "1024")),
             max_output_tokens=int(env.get("MAX_OUTPUT_TOKENS", "6000")),
             nudges=nudges,
@@ -122,5 +129,5 @@ class Settings:
         """What this run was configured with; written into report.run so a row is reproducible."""
         return {"tools": list(self.tools), "deep_dive": self.deep_dive, "nudges": sorted(self.nudges),
                 "max_tool_calls": self.max_tool_calls, "max_usd": self.max_usd, "max_seconds": self.max_seconds,
-                "saturation_dry_steps": self.saturation_dry_steps, "prune_steps": self.prune_steps, "extractor": self.extractor, "extractor_model": self.extractor_model, "sweep": self.sweep, "lead_model": self.lead_model,
+                "saturation_dry_steps": self.saturation_dry_steps, "prune_steps": self.prune_steps, "extractor": self.extractor, "extractor_model": self.extractor_model, "sweep": self.sweep, "sub_model": self.sub_model, "anchor_model": self.anchor_model, "lead_view_chars": self.lead_view_chars, "lead_model": self.lead_model,
                 "judge_model": self.judge_model}

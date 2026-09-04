@@ -28,6 +28,11 @@ async def _fetch_page(ctx: RunContext, url: str, max_chars: int = 8000) -> ToolR
                                            json={"url": url, "formats": ["markdown"], "onlyMainContent": True}, timeout=60.0)
     except Exception as exc:  # noqa: BLE001
         return ToolResult(content=f"fetch_page error: {type(exc).__name__}", error="HTTPError", cost_usd=FIRECRAWL_PRICE)
+    if resp.status_code in (401, 403) and "exa" in ctx.settings.tools and ctx.settings.exa_api_key:
+        from .exa_contents import _exa_contents
+        out = await _exa_contents(ctx, url, max_chars)
+        out.meta["fallback"] = f"firecrawl HTTP {resp.status_code}"
+        return out
     if resp.status_code != 200:
         return ToolResult(content=f"fetch_page HTTP {resp.status_code}: {resp.text[:200]}", error="HTTPError", cost_usd=FIRECRAWL_PRICE)
     try:

@@ -158,10 +158,13 @@ async def run_tool(tools: dict[str, Tool], name: str, args: dict[str, Any], ctx:
             memo.pop(key, None)   # a larger read was asked for than the cached one; refetch
             cached = None
     if key is not None and key in memo and cached is not None:
+        sid = cached.meta.get("source_id")
+        stub = ToolResult(content=f"[already read this run as source {sid}; its text is stored and quotable, do not fetch it again]" if sid else cached.content,
+                          error=cached.error, store_source=False, meta={**cached.meta, "cached": True})
         ctx.trace.write("execute_tool", tool=name, args=args, thread=thread, step=step, tool_call_id=tool_call_id,
                         latency_ms=int((time.perf_counter() - started) * 1000), cached=True,
-                        result_bytes=len(cached.content.encode("utf-8")), source_id=cached.meta.get("source_id"), error=cached.error)
-        return cached
+                        result_bytes=len(stub.content.encode("utf-8")), source_id=sid, error=cached.error)
+        return stub
 
     ticket = None
     if tool is None:
@@ -190,10 +193,14 @@ async def run_tool(tools: dict[str, Tool], name: str, args: dict[str, Any], ctx:
 
     source_id = None
     if result.store_source and result.error is None and name not in BOOKKEEPING_TOOLS and result.content.strip():
-        src = ctx.store.add_source(name, args, result.content, result.url, step)
+        src = ctx.store.add_source(name, args, result.content, result.url, step)   # full text stored
         source_id = src.id
         result.meta["source_id"] = source_id
-        result.content = f"[source_id: {source_id}]  cite this id in record_claim\n" + result.content
+        view = result.content
+        cap = ctx.settings.lead_view_chars
+        if name in ("exa_contents", "fetch_page", "wayback_lookup") and len(view) > cap:
+            view = view[:cap] + f"\n\n[view cut at {cap} chars; the full {len(result.content)} chars are stored as {source_id} and the extractor reads all of it]"
+        result.content = f"[source_id: {source_id}]  cite this id in record_claim\n" + view
 
     ctx.trace.write("execute_tool", tool=name, args=args, thread=thread, step=step, tool_call_id=tool_call_id,
                     latency_ms=int((time.perf_counter() - started) * 1000), result_bytes=len(result.content.encode("utf-8")),

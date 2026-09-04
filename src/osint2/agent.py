@@ -71,6 +71,7 @@ def recitation(ctx: RunContext, step: int, store: EvidenceStore) -> str:
     cands = ctx.state.get("candidates", [])
     b = ctx.budget.remaining()
     lead_left = max(0, ctx.state.get("lead_call_cap", ctx.budget.max_calls) - ctx.budget.calls)
+    notes = ctx.state.pop("notes", [])
     lines = [f"STEP {step}. Budget left: {lead_left} data calls for you" + (f" (then {b['calls'] - lead_left} reserved for deep-dive subagents)" if b['calls'] > lead_left else "") + f", ${b['usd']:.2f}, {int(b['seconds'])}s.",
              f"Target: {anchor.raw!r} (type {anchor.target_type}; names {anchor.names}; emails {anchor.emails}; "
              f"handles {anchor.handles}; companies {[c.name for c in anchor.companies]}; roles {anchor.roles}; locations {anchor.locations})"]
@@ -86,9 +87,8 @@ def recitation(ctx: RunContext, step: int, store: EvidenceStore) -> str:
         fields[c.field] = fields.get(c.field, 0) + 1
     lines.append(f"Recorded: {len(store.findings())} findings ({', '.join(f'{k}x{v}' for k, v in list(fields.items())[:14])}), "
                  f"{sum(1 for c in store.claims if c.kind == 'not_found')} not_found, {len(store.rejected)} rejected.")
-    read = [s.url for s in store.sources.values() if s.url][-8:]
-    if read:
-        lines.append("Already read (do not re-fetch): " + "; ".join(read))
+    for n in notes:
+        lines.append(n)
     searched = [str(s.args.get("query")) for s in store.sources.values() if s.tool == "web_search" and s.args.get("query")][-8:]
     if searched:
         lines.append("Searched already (do not repeat; vary the angle or move on): " + " | ".join(q[:60] for q in searched))
@@ -176,7 +176,9 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
                 break
             if settings.prune_steps > 0:
                 _prune(messages, keep_steps=settings.prune_steps, step=step)
-            messages.append({"role": "user", "content": recitation(ctx, step, store)})
+            # one live recitation: the previous one is removed so the cached prefix (system + tool results) is reused
+            messages[:] = [m for m in messages if not m.get("_recitation")]
+            messages.append({"role": "user", "content": recitation(ctx, step, store), "_recitation": True})
             send = [{k: v for k, v in m.items() if not k.startswith("_")} for m in messages]
             result = await llm.chat(send, specs, step=step)
             await budget.charge_llm(result.usage.get("cost_usd"))
@@ -196,7 +198,7 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
                 res = await run_tool(tools, name, args, ctx, step=step, tool_call_id=tc.get("id"))
                 messages.append({"role": "tool", "tool_call_id": tc["id"], "content": res.content,
                                  "_step": step, "_source_id": res.meta.get("source_id")})
-                if res.meta.get("source_id"):
+                if res.meta.get("source_id") and not res.meta.get("cached"):
                     new_sources.append(res.meta["source_id"])
             if settings.extractor and new_sources:
                 r0 = ctx.state.get("resolution")
@@ -204,19 +206,18 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
                     outs = await asyncio.gather(*[extract_source(ctx, llm, sid, step) for sid in new_sources])
                     total = sum(o.get("admitted", 0) for o in outs)
                     if total:
-                        messages.append({"role": "user", "content": f"[extractor] {total} claims from the pages above were admitted automatically; "
-                                                                    f"do not re-record them. Spend your next call on a new lead."})
+                        ctx.state.setdefault("notes", []).append(f"[extractor] {total} claims from the last pages were admitted automatically; do not re-record them; spend the next call on a new lead.")
             r_now = ctx.state.get("resolution")
             if settings.sweep and r_now is not None and r_now.status == "resolved" and not ctx.state.get("swept"):
                 best_now = next((c for c in ctx.state.get("candidates", []) if c.id == r_now.best_candidate_id), None)
                 if best_now is not None:
                     try:
                         sw = await sweep(ctx, tools, best_now, step)
-                        messages.append({"role": "user", "content": f"[sweep] identity resolved, so code ran the surface tools on the confirmed keys: "
-                                                                    f"handles {sw['handles']}, emails {sw['emails']}, domains {sw['domains']}"
-                                                                    f"{', people_search' if sw['people_search'] else ''}; {sw['calls']} calls, {sw['admitted']} claims admitted"
-                                                                    f"{', profiles read: ' + ', '.join(sw['profile_reads']) if sw['profile_reads'] else ''}. "
-                                                                    f"Their results are stored as sources; read any that look worth quoting, and do not repeat these lookups."})
+                        ctx.state.setdefault("notes", []).append(
+                            f"[sweep] identity resolved, so code ran the surface tools on the confirmed keys: handles {sw['handles']}, emails {sw['emails']}, "
+                            f"domains {sw['domains']}{', people_search' if sw['people_search'] else ''}; {sw['calls']} calls, {sw['admitted']} claims admitted"
+                            f"{', profiles read: ' + ', '.join(sw['profile_reads']) if sw['profile_reads'] else ''}. Results are stored sources "
+                            f"(ids {', '.join(sid for sid, src in store.sources.items() if src.step == step)}); quote from them; do not repeat these lookups.")
                         if settings.extractor:
                             new_sids = [sid for sid, src in store.sources.items() if src.step == step and src.tool in ("wayback_lookup", "people_search", "profile_read")]
                             if new_sids:
