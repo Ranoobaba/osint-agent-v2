@@ -29,6 +29,12 @@ async def _record_claim(ctx: RunContext, claims: list[dict[str, Any]]) -> ToolRe
                                         thread=("subagent" if pin else "lead"))
         if claim:
             admitted += 1
+            ents = ctx.state.get("entities")
+            if ents is not None:
+                try:
+                    ents.ingest_claim(claim, res.best_candidate_id if (res is not None and res.status == "resolved") else None)
+                except Exception:  # noqa: BLE001
+                    pass
             ctx.trace.write("claim_admitted", step=ctx.state.get("step", 0), claim_id=claim.id, kind=claim.kind,
                             field=claim.field, value=claim.value[:200], source_id=claim.source_id,
                             content_hash=claim.content_hash, method=claim.method, candidate_id=claim.candidate_id,

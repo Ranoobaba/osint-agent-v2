@@ -14,6 +14,7 @@ from .anchors import parse_anchor
 from .budget import Budget
 from .config import Settings
 from .deepdive import deep_dive
+from .entities import EntityGraph
 from .evidence import EvidenceStore
 from .llm import OpenRouterClient
 from .report import build_report
@@ -38,7 +39,10 @@ How to work:
 3. Wrong is worse than missing. If you looked for something and could not establish it, record_not_found.
    If two sources disagree, record a conflict. Inference goes in a synthesis claim resting on admitted findings.
 4. Pivot on what you find: an email leads to Gravatar and account lookups; a handle leads to platforms; a
-   personal domain leads to archives; an employer leads to colleagues and talks.
+   personal domain leads to archives; an employer leads to colleagues and talks; a collaborator, co-author
+   or teammate is a person to identify (their public profile, and the evidence tying them to the target).
+   An account you found but have not read is not a finding yet; read it. A research affiliation means
+   openalex_lookup. Old resumes and CVs (search "<name>" filetype:pdf) hold facts nothing else does.
 5. Stop when nothing new turns up. Call finish with one sentence. Budget is limited; spend calls on new
    leads, not on re-reading pages you already have.
 
@@ -78,6 +82,10 @@ def recitation(ctx: RunContext, step: int, store: EvidenceStore) -> str:
     read = [s.url for s in store.sources.values() if s.url][-8:]
     if read:
         lines.append("Already read (do not re-fetch): " + "; ".join(read))
+    if "NUDGE_FRONTIER" in ctx.settings.nudges:
+        ft = ctx.state["entities"].frontier_text(6)
+        if ft:
+            lines.append(ft)
     if "NUDGE_INPUT_SHAPE" in ctx.settings.nudges:
         first = {"email": "First move: github_intel by email and gravatar_lookup on the address.",
                  "handle": "First move: github_intel by username and a whatsmyname sweep.",
@@ -85,7 +93,7 @@ def recitation(ctx: RunContext, step: int, store: EvidenceStore) -> str:
                  "name": "Expect namesakes. Gather a disambiguator (employer, handle) before trusting any profile."}
         lines.append(first.get(anchor.target_type, ""))
     text = "\n".join(lines)
-    return text[:1500]
+    return text[:2400]
 
 
 def _prune(messages: list[dict[str, Any]], keep_steps: int, step: int) -> None:
@@ -107,6 +115,9 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
     budget = Budget(settings.max_tool_calls, settings.max_usd, settings.max_seconds)
     llm = OpenRouterClient(settings, trace)
     ctx = RunContext(ws=ws, trace=trace, store=store, budget=budget, settings=settings)
+    entities = EntityGraph(ws)
+    entities.ingest_target(target)
+    ctx.state["entities"] = entities
     tools = registry(settings)
     specs = [t.spec() for t in tools.values()]
     started = time.perf_counter()
@@ -211,7 +222,10 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
            "budget": budget.snapshot(), "flags": settings.flags(), "model": settings.lead_model,
            "git_sha": _git_sha(), "run_id": ws.run_id, "trace_path": str(ws.trace_path),
            "unsupported_candidates": ctx.state.get("unsupported_candidates", 0), "deep_dive": deep_results, **store.stats()}
+    entities.persist()
+    run["entities"] = entities.summary()
     report = build_report(anchor, res, cands, store, run, same_person)
+    report["entities"] = entities.to_report()
     ws.write_json("report.json", report)
     ws.write_json("graph.json", report["graph"])
     trace.write("report_emitted", findings=len(report["findings"]), excluded=len(report["excluded_findings"]),

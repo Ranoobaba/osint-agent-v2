@@ -75,6 +75,9 @@ def registry(settings: Settings) -> dict[str, Tool]:
     if "whatsmyname" in settings.tools:
         from .whatsmyname import whatsmyname
         tools.append(whatsmyname)
+    if "openalex" in settings.tools:
+        from .openalex import openalex_lookup
+        tools.append(openalex_lookup)
     if "perplexity" in settings.tools or "exa" in settings.tools:
         from .web_search import web_search
         tools.append(web_search)
@@ -157,4 +160,13 @@ async def run_tool(tools: dict[str, Tool], name: str, args: dict[str, Any], ctx:
                     **{k: v for k, v in result.meta.items() if k != "source_id"})
     if key is not None and result.error is None:
         memo[key] = result
+    ents = ctx.state.get("entities")
+    if ents is not None and name not in BOOKKEEPING_TOOLS:
+        try:
+            ents.mark_explored(url=args.get("url"), handle=args.get("username"), email=args.get("email"),
+                               name=args.get("name") or (args.get("query") if name in ("web_search", "openalex_lookup") else None),
+                               domain=(args.get("url") or "").split("/")[0] if name == "wayback_lookup" else None)
+            ents.persist()
+        except Exception:  # noqa: BLE001
+            pass
     return result

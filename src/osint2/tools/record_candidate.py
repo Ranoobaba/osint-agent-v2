@@ -114,6 +114,14 @@ async def _record_candidate(
                     score=res.score, markers=res.matched_markers, candidates=len(cands),
                     changed=target.id, changed_score=mine.score, vetoed=bool(mine.contradictions))
     ctx.state["step_candidates"] = ctx.state.get("step_candidates", 0) + (1 if action == "created" else 0)
+    ents = ctx.state.get("entities")
+    if ents is not None:
+        try:
+            ents.ingest_candidate(target.id, target.label, target.names, target.handles, target.emails, target.profile_urls,
+                                  [e.name for e in target.employers], [e.name for e in target.education],
+                                  resolved=(res.status == "resolved" and res.best_candidate_id == target.id))
+        except Exception:  # noqa: BLE001
+            pass
 
     lines = [f"# record_candidate: {action} {target.id} ({target.label})",
              f"score: {mine.score:.2f}  markers: {mine.matched_markers or '[]'}  fields: "

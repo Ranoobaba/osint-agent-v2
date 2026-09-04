@@ -14,7 +14,7 @@ from .llm import OpenRouterClient
 from .resolution import Candidate
 from .tools import RunContext, Tool, parse_tool_args, run_tool
 
-MAX_SUBAGENTS = 3
+MAX_SUBAGENTS = 4
 SUB_MAX_STEPS = 6
 
 SUB_PROMPT = """You are a read-only deep-dive investigator. Identity is already settled in code; you are handed ONE
@@ -27,8 +27,22 @@ exhausted or nothing new turns up."""
 SKIP_HOSTS = ("github.com", "linkedin.com", "x.com", "twitter.com", "gravatar.com", "facebook.com", "instagram.com")
 
 
-def collect_leads(cand: Candidate) -> list[dict[str, str]]:
+def collect_leads(cand: Candidate, entities: Any = None) -> list[dict[str, str]]:
     leads: list[dict[str, str]] = []
+    # Frontier first: connections and unread accounts derived from admitted claims.
+    if entities is not None:
+        for n in entities.frontier(12):
+            if n.type == "person" and n.about == "connection" and not any(ld["kind"] == "connection" for ld in leads):
+                via = n.hints.get("via") or n.hints.get("relation") or ""
+                leads.append({"kind": "connection", "value": n.label, "task": (
+                    f"Connection '{n.label}' ({via}). Identify this person's public profile: if it is a GitHub handle, github_intel(username) "
+                    f"for the real name, then a web_search for that name (add the shared context: repo, school or employer) and exa_contents on the "
+                    f"LinkedIn or personal page you find. Record what you learn as claims about THE TARGET with field 'connection_{n.label}' style "
+                    f"fields (connection_name, connection_profile, connection_role, connection_tie) and the evidence tying them to the target. "
+                    f"Someone with the same name is not the same person: require the shared context to appear in the page you cite.")})
+            elif n.type == "account" and n.url and not any(ld["kind"] == "account" for ld in leads):
+                leads.append({"kind": "account", "value": n.label, "task": f"Account {n.label} at {n.url}: read the page (exa_contents) and record what it states about this person: bio, activity, projects, dates."})
+        leads = leads[:2]
     for h in cand.handles[:1]:
         leads.append({"kind": "handle", "value": h, "task": f"Handle '{h}': run whatsmyname on it and read the most informative profiles that clearly belong to this person."})
     for u in cand.profile_urls:
@@ -84,7 +98,7 @@ async def run_subagent(ctx: RunContext, llm: OpenRouterClient, tools: dict[str, 
 
 
 async def deep_dive(ctx: RunContext, llm: OpenRouterClient, tools: dict[str, Tool], cand: Candidate) -> list[dict[str, Any]]:
-    leads = collect_leads(cand)
+    leads = collect_leads(cand, ctx.state.get("entities"))
     ctx.trace.write("deep_dive", event="start", candidate=cand.id, leads=[ld["value"] for ld in leads], budget=ctx.budget.snapshot())
     if not leads:
         return []
