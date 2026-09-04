@@ -97,6 +97,8 @@ target, floored at 0.03.
 | v1 | the previous build, its own report re-scored | 0.534 recall | 1/1 | not checked | 0 | |
 | 1 | raw Opus, no tools | 0.286 | 2/9 | 0 | 0 | $0.38 |
 | 2 | plus GitHub, Gravatar, Wayback, whatsmyname | 0.541 | 5/9 | 0 | 0 | $4.31 |
+| 3 | plus input-shape hardening | 0.555 (+0.014, inside the band) | 6/7 | 0 | 0 | $3.45 |
+| 4 | plus Perplexity, on the 3-target subset | 0.788 (+0.294 on the same targets) | 3/3 | 0 | 0 | $2.12 |
 
 Rung 1 scores 0.286 only because the two abstain targets reward an empty report; every claim the
 model proposed without tools was rejected for lack of a source. The full per-run table is in
