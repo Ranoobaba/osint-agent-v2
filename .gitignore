@@ -9,3 +9,4 @@ runs/
 evals/golden.local.jsonl
 .gstack/
 .claude/worktrees/
+web/node_modules/

@@ -24,6 +24,7 @@ image = (
     modal.Image.debian_slim(python_version="3.12")
     .pip_install("fastapi[standard]>=0.115", "httpx>=0.27", "openai>=1.50", "pydantic>=2.8", "rapidfuzz>=3.9")
     .add_local_python_source("osint2")
+    .add_local_dir(str(ROOT / "web" / "dist"), remote_path="/root/web/dist")
 )
 app = modal.App("osint-agent-v2")
 secrets = modal.Secret.from_dotenv(ROOT)
@@ -106,6 +107,8 @@ class ModalBackend:
 @app.function(image=image, secrets=[secrets], volumes={RUNS: runs_volume})
 @modal.asgi_app()
 def web():
+    import os
+    os.environ.setdefault("WEB_DIST", "/root/web/dist")
     from osint2.api import create_app
     from osint2.config import Settings
     return create_app(ModalBackend(), Settings.from_env())

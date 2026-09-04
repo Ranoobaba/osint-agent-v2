@@ -5,12 +5,14 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import uuid
 from pathlib import Path
 from typing import Any, Optional, Protocol
 
 from fastapi import FastAPI, Header, HTTPException
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import FileResponse, PlainTextResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from .agent import run_investigation
@@ -142,6 +144,15 @@ def create_app(backend: JobBackend, settings: Settings) -> FastAPI:
         if text is None:
             raise HTTPException(404, "unknown job or source id")
         return text
+
+    # The built frontend (web/dist) is served at "/" when present, so the page and the API share an origin.
+    dist = Path(os.environ.get("WEB_DIST", str(Path(__file__).resolve().parents[2] / "web" / "dist")))
+    if (dist / "index.html").exists():
+        app.mount("/assets", StaticFiles(directory=dist / "assets"), name="assets")
+
+        @app.get("/", include_in_schema=False)
+        def index() -> FileResponse:
+            return FileResponse(dist / "index.html")
 
     return app
 
