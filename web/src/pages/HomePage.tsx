@@ -1,5 +1,5 @@
 import { Mono } from "@/components/atoms"
-import { FindingsList, HonestyPanel, IdentityPanel, InvestigationConsole } from "@/components/organisms"
+import { EntitiesPanel, FindingsList, HonestyPanel, IdentityPanel, InvestigationConsole } from "@/components/organisms"
 import { ConsoleLayout } from "@/components/templates/ConsoleLayout"
 import { useInvestigation } from "@/hooks/useInvestigation"
 
@@ -20,6 +20,7 @@ export function HomePage() {
           <>
             <IdentityPanel report={report} />
             <FindingsList report={report} jobId={state.jobId} />
+            <EntitiesPanel report={report} />
             <HonestyPanel report={report} />
           </>
         ) : undefined

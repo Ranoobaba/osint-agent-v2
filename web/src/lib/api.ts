@@ -42,6 +42,12 @@ export type Report = {
   not_found: { field: string; note: string | null; searched: string[] }[]
   conflicts: { field: string; values: string[] }[]
   synthesis: { claim: string; confidence: number }[]
+  entities?: {
+    nodes: { id: string; type: string; label: string; explored: boolean; about: string; url: string | null; hints: Record<string, string>; claims: string[] }[]
+    edges: { src: string; dst: string; rel: string; claim: string | null }[]
+    summary: { nodes: number; edges: number; by_type: Record<string, number>; unexplored: number }
+    frontier: { id: string; type: string; label: string; hints: Record<string, string> }[]
+  }
   run: {
     stop_reason: string
     duration_s: number

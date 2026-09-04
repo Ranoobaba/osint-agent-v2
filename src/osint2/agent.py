@@ -64,7 +64,8 @@ def recitation(ctx: RunContext, step: int, store: EvidenceStore) -> str:
     res: Optional[Resolution] = ctx.state.get("resolution")
     cands = ctx.state.get("candidates", [])
     b = ctx.budget.remaining()
-    lines = [f"STEP {step}. Budget left: {b['calls']} data calls, ${b['usd']:.2f}, {int(b['seconds'])}s.",
+    lead_left = max(0, ctx.state.get("lead_call_cap", ctx.budget.max_calls) - ctx.budget.calls)
+    lines = [f"STEP {step}. Budget left: {lead_left} data calls for you" + (f" (then {b['calls'] - lead_left} reserved for deep-dive subagents)" if b['calls'] > lead_left else "") + f", ${b['usd']:.2f}, {int(b['seconds'])}s.",
              f"Target: {anchor.raw!r} (type {anchor.target_type}; names {anchor.names}; emails {anchor.emails}; "
              f"handles {anchor.handles}; companies {[c.name for c in anchor.companies]}; roles {anchor.roles}; locations {anchor.locations})"]
     if res is None:
@@ -129,6 +130,10 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
     ws.write_json("anchor.json", anchor.model_dump())
     trace.write("anchor", anchor=anchor.model_dump())
 
+    # When the deep dive is on, the lead hands off with a share of the call budget still unspent, so the
+    # subagents can actually run. The share is one quarter of the calls, at least 4 and at most 8.
+    lead_call_cap = settings.max_tool_calls - (min(8, max(4, settings.max_tool_calls // 4)) if settings.deep_dive else 0)
+    ctx.state["lead_call_cap"] = lead_call_cap
     messages: list[dict[str, Any]] = [{"role": "system", "content": SYSTEM_PROMPT}]
     stop_reason = "max_steps"
     dry = 0
@@ -143,6 +148,9 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
             ex = budget.exhausted()
             if ex:
                 stop_reason = f"budget:{ex}"
+                break
+            if budget.calls >= lead_call_cap:
+                stop_reason = "handoff"
                 break
             if settings.prune_steps > 0:
                 _prune(messages, keep_steps=settings.prune_steps, step=step)
