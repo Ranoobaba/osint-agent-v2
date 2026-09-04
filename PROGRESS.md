@@ -54,6 +54,11 @@
   Admission now rejects a value that says more than its quoted line (same rule in the scorer). 1.62
   dollars. Rung 6 ran out of order (before 5) because the Exa key is still empty.
 
+- Rungs 5 and 7 (2026-09-04) ran but every run ended with stop_reason=error: the OpenRouter key hit its
+  100 dollar limit mid-run (limit_remaining 0.93). The partial rows are kept and marked error; they must
+  be rerun once credits exist. Requests now send max_tokens=6000 so a low balance cannot reject calls
+  on affordability alone.
+
 ## In progress
 - Waiting on EXA_API_KEY and FIRECRAWL_API_KEY for rungs 5 to 9 and the collision targets.
 

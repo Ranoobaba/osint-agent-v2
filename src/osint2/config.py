@@ -63,6 +63,7 @@ class Settings:
     saturation_dry_steps: int
     prune_steps: int
     reasoning_max_tokens: int
+    max_output_tokens: int
     nudges: frozenset[str]
     runs_dir: Path
     app_url: str
@@ -99,6 +100,7 @@ class Settings:
             # N replaces results older than N steps with a stub (smaller window, cache prefix rewritten).
             prune_steps=int(env.get("PRUNE_STEPS", "0")),
             reasoning_max_tokens=int(env.get("REASONING_MAX_TOKENS", "1024")),
+            max_output_tokens=int(env.get("MAX_OUTPUT_TOKENS", "6000")),
             nudges=nudges,
             runs_dir=Path(env.get("RUNS_DIR", "runs")),
             app_url=env.get("APP_URL", "https://github.com/Ranoobaba/osint-agent-v2"),

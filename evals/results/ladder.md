@@ -1,6 +1,6 @@
 # Ladder results
 
-Generated 2026-09-04T01:20:58+00:00. Noise band 0.030 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $14.76, dev spend $2.25.
+Generated 2026-09-04T02:22:27+00:00. Noise band 0.030 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $19.24, dev spend $2.25.
 
 | rung | score | min | vs | delta | moved | targets | runs | identity pass | prov fail | decoy leak | cost | time |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -12,6 +12,8 @@ Generated 2026-09-04T01:20:58+00:00. Noise band 0.030 (largest within-rung sprea
 | 3 | 0.506 | 0.129 | 2 | +0.011 on 9 | no | 9 | 9 | 7/9 | 0 | 0 | $4.28 | 2788s |
 | 4 | 0.841 | 0.483 | 3 | +0.429 on 4 | yes | 4 | 4 | 4/4 | 0 | 0 | $2.89 | 1038s |
 | 6 | 0.328 | 0.000 | 3 | -0.084 on 4 | no | 4 | 4 | 3/4 | 2 | 0 | $1.93 | 1184s |
+| 7 | 0.847 | 0.500 | best(4,5) |  |  | 4 | 4 | 4/4 | 0 | 0 | $2.00 | 720s |
+| 5 | 0.816 | 0.552 | 3 | +0.404 on 4 | yes | 4 | 4 | 4/4 | 0 | 0 | $2.47 | 748s |
 
 ## Per run
 
@@ -61,3 +63,11 @@ Generated 2026-09-04T01:20:58+00:00. Noise band 0.030 (largest within-rung sprea
 | 3 | collision_key | 1 | 0.167 | resolved ok | 0.167 | 0.0 | 0 | 0 | 19 | 0 | 18 | $0.42 | 361s | finish | 53780f2 | backfill collision targets |
 | 4 | collision_key | 1 | 1.000 | resolved ok | 1.000 | 0.0 | 0 | 0 | 38 | 2 | 18 | $0.77 | 300s | finish | 53780f2 | backfill collision targets |
 | 6 | collision_key | 1 | 0.167 | resolved ok | 0.167 | 0.0 | 0 | 0 | 12 | 0 | 18 | $0.31 | 288s | finish | 53780f2 | backfill collision targets |
+| 7 | michael_jordan | 1 | 1.000 | resolved ok | 1.000 | 0.0 | 0 | 0 | 52 | 0 | 11 | $0.72 | 225s | error | 0ba6aa1 | stage 7: Perplexity plus Exa |
+| 7 | invented | 1 | 1.000 | unresolved ok | 0.000 | 0.0 | 0 | 0 | 0 | 0 | 0 | $0.00 | 0s | error | 0ba6aa1 | stage 7: Perplexity plus Exa |
+| 5 | collision_key | 1 | 0.889 | resolved ok | 0.889 | 0.0 | 0 | 0 | 45 | 5 | 17 | $0.85 | 246s | error | 0ba6aa1 | stage 5: plus Exa |
+| 5 | invented | 1 | 1.000 | unresolved ok | 0.000 | 0.0 | 0 | 0 | 0 | 0 | 0 | $0.00 | 0s | error | 0ba6aa1 | stage 5: plus Exa |
+| 5 | michael_jordan | 1 | 0.824 | resolved ok | 0.824 | 0.0 | 0 | 0 | 58 | 5 | 14 | $0.85 | 247s | error | 0ba6aa1 | stage 5: plus Exa |
+| 5 | baseline | 1 | 0.552 | resolved ok | 0.552 | 0.0 | 0 | 0 | 49 | 4 | 16 | $0.77 | 252s | error | 0ba6aa1 | stage 5: plus Exa |
+| 7 | collision_key | 1 | 0.889 | resolved ok | 0.889 | 0.0 | 0 | 0 | 26 | 1 | 16 | $0.49 | 235s | error | 0ba6aa1 | stage 7: Perplexity plus Exa |
+| 7 | baseline | 1 | 0.500 | resolved ok | 0.500 | 0.0 | 0 | 0 | 43 | 3 | 17 | $0.79 | 258s | error | 0ba6aa1 | stage 7: Perplexity plus Exa |

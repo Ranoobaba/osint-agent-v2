@@ -73,7 +73,9 @@ class OpenRouterClient:
         extra_body: dict[str, Any] = {"usage": {"include": True}}
         if reasoning:
             extra_body["reasoning"] = {"max_tokens": self.settings.reasoning_max_tokens}
-        kwargs: dict[str, Any] = {}
+        # OpenRouter checks affordability against max_tokens (default 65k for Opus). A modest cap keeps
+        # a low balance from rejecting every call; a step never needs more than this.
+        kwargs: dict[str, Any] = {"max_tokens": self.settings.max_output_tokens}
         if tools:
             kwargs["tools"] = tools
             kwargs["tool_choice"] = tool_choice
