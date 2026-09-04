@@ -16,6 +16,7 @@ from .config import Settings
 from .deepdive import deep_dive
 from .entities import EntityGraph
 from .evidence import EvidenceStore
+from .extractor import extract_source
 from .llm import OpenRouterClient
 from .report import build_report
 from .resolution import Resolution, apply_judge, judge_candidates
@@ -171,12 +172,23 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
                     break
                 messages.append({"role": "user", "content": "Use the tools: record what you know, search for more, or call finish."})
                 continue
+            new_sources: list[str] = []
             for tc in result.tool_calls:
                 name = tc["function"]["name"]
                 args = parse_tool_args(tc["function"].get("arguments"))
                 res = await run_tool(tools, name, args, ctx, step=step, tool_call_id=tc.get("id"))
                 messages.append({"role": "tool", "tool_call_id": tc["id"], "content": res.content,
                                  "_step": step, "_source_id": res.meta.get("source_id")})
+                if res.meta.get("source_id"):
+                    new_sources.append(res.meta["source_id"])
+            if settings.extractor and new_sources:
+                r0 = ctx.state.get("resolution")
+                if r0 is not None and r0.status == "resolved":
+                    outs = await asyncio.gather(*[extract_source(ctx, llm, sid, step) for sid in new_sources])
+                    total = sum(o.get("admitted", 0) for o in outs)
+                    if total:
+                        messages.append({"role": "user", "content": f"[extractor] {total} claims from the pages above were admitted automatically; "
+                                                                    f"do not re-record them. Spend your next call on a new lead."})
             if on_step:
                 r = ctx.state.get("resolution")
                 on_step({"step": step, "status": r.status if r else "unresolved", "score": r.score if r else 0.0,

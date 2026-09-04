@@ -16,4 +16,9 @@ Append one line per experiment: what, result, why.
 - Dedupe fix replayed over all saved runs (J_replay 0.471 -> 0.479): the rung 6 michael_jordan run's two
   "provenance failures" were this bug, not model embellishment. FINDINGS.md corrected.
 
+- Extractor probe with Haiku ($0.14, same 30 sources): recall 0.706 -> 0.824, 287 admitted, 25 rejected, prov 0,
+  decoy 0. Same gain as Sonnet at one fifth the cost. Wired behind EXTRACTOR=1 (post-resolution only, 6k chars,
+  Haiku). Live confirmation: one 3-target eval with EXTRACTOR=1 against the 0.902 baseline; cap raised 6 -> 8
+  for that single run with Rayyan's approval of "offline plus one live confirmation".
+
 ## Untested ideas

@@ -74,12 +74,27 @@ export type Job =
   | { job_id: string; status: "done"; report: Report; trace_url: string }
   | { job_id: string; status: "failed"; error: { type: string; message: string } }
 
+const KEY_STORAGE = "osint2.apiKey"
+
+export function getApiKey(): string {
+  try { return localStorage.getItem(KEY_STORAGE) ?? "" } catch { return "" }
+}
+
+export function setApiKey(value: string): void {
+  try { value ? localStorage.setItem(KEY_STORAGE, value) : localStorage.removeItem(KEY_STORAGE) } catch { /* storage unavailable */ }
+}
+
+export async function health(): Promise<{ locked: boolean }> {
+  const r = await fetch("/healthz")
+  return r.ok ? r.json() : { locked: false }
+}
+
 export async function submit(target: string): Promise<{ job_id: string; poll_url: string }> {
-  const r = await fetch("/investigate", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ target }),
-  })
+  const headers: Record<string, string> = { "content-type": "application/json" }
+  const key = getApiKey()
+  if (key) headers["x-api-key"] = key
+  const r = await fetch("/investigate", { method: "POST", headers, body: JSON.stringify({ target }) })
+  if (r.status === 401) throw new Error("This endpoint is locked. Enter the API key below the form; each investigation spends the operator's budget.")
   if (!r.ok) throw new Error(`submit failed: HTTP ${r.status} ${await r.text()}`)
   return r.json()
 }

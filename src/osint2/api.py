@@ -113,13 +113,15 @@ def create_app(backend: JobBackend, settings: Settings) -> FastAPI:
 
     @app.get("/healthz")
     def healthz() -> dict[str, Any]:
-        return {"ok": True, "tools": list(settings.tools), "deep_dive": settings.deep_dive,
+        return {"ok": True, "tools": list(settings.tools), "deep_dive": settings.deep_dive, "locked": bool(settings.agent_api_key),
                 "defaults": {"max_tool_calls": settings.max_tool_calls, "max_usd": settings.max_usd, "max_seconds": settings.max_seconds},
                 "keys": {"openrouter": bool(settings.openrouter_api_key), "perplexity": bool(settings.perplexity_api_key),
                          "exa": bool(settings.exa_api_key), "firecrawl": bool(settings.firecrawl_api_key), "github": bool(settings.github_token)}}
 
     @app.post("/investigate", status_code=202)
     def investigate(body: InvestigateRequest, x_api_key: Optional[str] = Header(default=None)) -> dict[str, Any]:
+        if settings.agent_api_key and not authorized(x_api_key):
+            raise HTTPException(401, "this endpoint requires an x-api-key header; each investigation spends the operator's budget")
         ov = clamp_overrides(body, settings, authorized(x_api_key))
         job_id = backend.submit(body.target.strip(), ov)
         return {"job_id": job_id, "status": "queued", "poll_url": f"/jobs/{job_id}", "budgets": {**{"MAX_TOOL_CALLS": settings.max_tool_calls, "MAX_USD": settings.max_usd, "MAX_SECONDS": settings.max_seconds}, **ov}}

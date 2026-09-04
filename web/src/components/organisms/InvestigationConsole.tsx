@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Mono } from "@/components/atoms"
-import { IdentityPill, ProgressLine, TargetForm } from "@/components/molecules"
+import { ApiKeyField, IdentityPill, ProgressLine, TargetForm } from "@/components/molecules"
 import type { InvestigationState } from "@/hooks/useInvestigation"
 import { traceUrl } from "@/lib/api"
 
@@ -15,6 +15,7 @@ export function InvestigationConsole({ state, onStart, onReset }: { state: Inves
       </CardHeader>
       <CardContent className="grid gap-4">
         <TargetForm onSubmit={onStart} busy={busy} />
+        <ApiKeyField />
         {state.phase !== "idle" && (
           <div className="flex flex-wrap items-center gap-3 rounded-md border bg-muted/40 p-3">
             <IdentityPill status={state.phase === "done" && state.report ? state.report.identity.status : state.phase} score={state.report?.identity.score} />

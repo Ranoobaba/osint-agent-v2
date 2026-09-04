@@ -62,6 +62,9 @@ class Settings:
     max_steps: int
     saturation_dry_steps: int
     prune_steps: int
+    extractor: bool
+    extractor_model: str
+    extractor_chars: int
     reasoning_max_tokens: int
     max_output_tokens: int
     nudges: frozenset[str]
@@ -99,6 +102,11 @@ class Settings:
             # 0 keeps every tool result in the window (append-only, so Anthropic prompt caching hits);
             # N replaces results older than N steps with a stub (smaller window, cache prefix rewritten).
             prune_steps=int(env.get("PRUNE_STEPS", "0")),
+            # EXTRACTOR=1: after resolution, a cheap model proposes claims from every stored source through the
+            # same admission gate. Measured offline first; see autoresearch/LEARNINGS.md.
+            extractor=_flag(env.get("EXTRACTOR"), False),
+            extractor_model=env.get("EXTRACTOR_MODEL", "anthropic/claude-haiku-4.5"),
+            extractor_chars=int(env.get("EXTRACTOR_CHARS", "6000")),
             reasoning_max_tokens=int(env.get("REASONING_MAX_TOKENS", "1024")),
             max_output_tokens=int(env.get("MAX_OUTPUT_TOKENS", "6000")),
             nudges=nudges,
@@ -111,5 +119,5 @@ class Settings:
         """What this run was configured with; written into report.run so a row is reproducible."""
         return {"tools": list(self.tools), "deep_dive": self.deep_dive, "nudges": sorted(self.nudges),
                 "max_tool_calls": self.max_tool_calls, "max_usd": self.max_usd, "max_seconds": self.max_seconds,
-                "saturation_dry_steps": self.saturation_dry_steps, "prune_steps": self.prune_steps, "lead_model": self.lead_model,
+                "saturation_dry_steps": self.saturation_dry_steps, "prune_steps": self.prune_steps, "extractor": self.extractor, "extractor_model": self.extractor_model, "lead_model": self.lead_model,
                 "judge_model": self.judge_model}
