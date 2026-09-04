@@ -1,6 +1,6 @@
 # Ladder results
 
-Generated 2026-09-04T02:22:27+00:00. Noise band 0.030 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $19.24, dev spend $2.25.
+Generated 2026-09-04T03:23:44+00:00. Noise band 0.030 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $20.13, dev spend $2.25.
 
 | rung | score | min | vs | delta | moved | targets | runs | identity pass | prov fail | decoy leak | cost | time |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -14,6 +14,7 @@ Generated 2026-09-04T02:22:27+00:00. Noise band 0.030 (largest within-rung sprea
 | 6 | 0.328 | 0.000 | 3 | -0.084 on 4 | no | 4 | 4 | 3/4 | 2 | 0 | $1.93 | 1184s |
 | 7 | 0.847 | 0.500 | best(4,5) |  |  | 4 | 4 | 4/4 | 0 | 0 | $2.00 | 720s |
 | 5 | 0.816 | 0.552 | 3 | +0.404 on 4 | yes | 4 | 4 | 4/4 | 0 | 0 | $2.47 | 748s |
+| D | 0.824 | 0.824 | 7 | -0.176 on 1 | no | 1 | 1 | 1/1 | 0 | 0 | $0.89 | 206s |
 
 ## Per run
 
@@ -71,3 +72,4 @@ Generated 2026-09-04T02:22:27+00:00. Noise band 0.030 (largest within-rung sprea
 | 5 | baseline | 1 | 0.552 | resolved ok | 0.552 | 0.0 | 0 | 0 | 49 | 4 | 16 | $0.77 | 252s | error | 0ba6aa1 | stage 5: plus Exa |
 | 7 | collision_key | 1 | 0.889 | resolved ok | 0.889 | 0.0 | 0 | 0 | 26 | 1 | 16 | $0.49 | 235s | error | 0ba6aa1 | stage 7: Perplexity plus Exa |
 | 7 | baseline | 1 | 0.500 | resolved ok | 0.500 | 0.0 | 0 | 0 | 43 | 3 | 17 | $0.79 | 258s | error | 0ba6aa1 | stage 7: Perplexity plus Exa |
+| D | michael_jordan | 1 | 0.824 | resolved ok | 0.824 | 0.0 | 0 | 0 | 58 | 4 | 16 | $0.89 | 206s | finish |  | deployed parity run via the live endpoint, shipped config, second key |

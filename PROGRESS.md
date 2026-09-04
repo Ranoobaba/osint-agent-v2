@@ -65,6 +65,10 @@
   passes 49/49 on michael_jordan. evals/results/FINDINGS.md separates what was measured from what is
   inferred; rungs 8, 9 and the sweep are unmeasured.
 
+- Deployed parity (2026-09-04, second key): invented person unresolved with 0 findings and 9 not_found;
+  Michael Jordan resolved, 54 findings, net 0.824 with provenance verified on the served sources, 0.89
+  dollars. Rung D recorded.
+
 ## In progress
 - Nothing. Remaining ladder work needs about 33 dollars of OpenRouter credit.
 

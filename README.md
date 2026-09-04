@@ -63,7 +63,7 @@ Budgets can be raised per request (max_tool_calls, max_usd, max_seconds) but ano
 clamped to the shipped defaults; an x-api-key matching AGENT_API_KEY lifts the clamp.
 
 Deployed endpoint: https://ranoobaba--osint-agent-v2-web.modal.run, running the shipped configuration. It spends
-from the OpenRouter key in the deployment secret, which is nearly exhausted; a live run needs credits on that key. Deploy with `uv run modal deploy deploy/modal_app.py`.
+from a personal OpenRouter key with limited credit (about $1 per investigation), enough for a handful of runs. Deploy with `uv run modal deploy deploy/modal_app.py`.
 
 ## The ladder
 
@@ -105,6 +105,7 @@ evals/results/FINDINGS.md.
 | 5 | plus Exa (cut short by the key) | 4 | 0.816 | +0.404 | yes | 4/4 | 0 | 0 | $2.47 |
 | 6 | plus Firecrawl | 4 | 0.328 | −0.084 | no | 3/4 | 2 | 0 | $1.93 |
 | 7 | Perplexity plus Exa (cut short by the key) | 4 | 0.847 | +0.006 vs best single | no | 4/4 | 0 | 0 | $2.00 |
+| D | shipped configuration through the live endpoint, Michael Jordan | 1 | 0.824 | inside the band of the local run | | 1/1 | 0 | 0 | $0.89 |
 
 Rungs 8 (all three services), 9 (deep-dive subagents) and the call-budget sweep did not run: the
 OpenRouter key reached its limit. The shipped configuration (free tools plus Perplexity plus Exa, no
