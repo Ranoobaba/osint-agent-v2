@@ -62,8 +62,8 @@ curl localhost:8000/jobs/<job_id>/sources/s003 # the stored page a claim cites
 Budgets can be raised per request (max_tool_calls, max_usd, max_seconds) but anonymous callers are
 clamped to the shipped defaults; an x-api-key matching AGENT_API_KEY lifts the clamp.
 
-Deployed endpoint: see PROGRESS.md for the current URL once Stage 10 lands. Deploy with
-`uv run modal deploy deploy/modal_app.py`.
+Deployed endpoint: https://ranoobaba--osint-agent-v2-web.modal.run (configuration tracks the ladder; final after
+rung 9). Deploy with `uv run modal deploy deploy/modal_app.py`.
 
 ## The ladder
 

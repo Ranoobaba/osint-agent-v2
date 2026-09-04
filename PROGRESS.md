@@ -42,6 +42,10 @@
   The baseline now RESOLVES (net 0.483, recall 0.48) because search corroborates employer and location
   across domains; michael_jordan 0.882; invented 1.0. 0 provenance failures, 0 decoy leaks. 2.12 dollars.
 
+- Deploy plumbing verified 2026-09-04: https://ranoobaba--osint-agent-v2-web.modal.run (Modal spawn/poll,
+  Volume-backed workspaces, GET /jobs/{id}/trace and /sources/{id}). Shipped configuration is not final
+  until rungs 8 and 9 run.
+
 ## In progress
 - Waiting on EXA_API_KEY and FIRECRAWL_API_KEY for rungs 5 to 9 and the collision targets.
 
