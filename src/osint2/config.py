@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-ALL_DATA_TOOLS = ("github", "gravatar", "wayback", "whatsmyname", "openalex", "roblox", "tinder", "holehe", "perplexity", "exa", "firecrawl")
+ALL_DATA_TOOLS = ("github", "gravatar", "wayback", "whatsmyname", "openalex", "roblox", "tinder", "holehe", "peoplesearch", "perplexity", "exa", "firecrawl")
 BOOKKEEPING_TOOLS = ("record_candidate", "record_claim", "record_not_found", "finish")
 
 # Dollars per call, charged to the run budget at reserve time and settled after the call.
@@ -17,7 +17,7 @@ TOOL_PRICES: dict[str, float] = {
     "web_search": 0.005,       # perplexity or exa search
     "exa_contents": 0.001,     # per page
     "fetch_page": 0.002,       # firecrawl scrape
-    "github_intel": 0.0, "gravatar_lookup": 0.0, "wayback_lookup": 0.0, "whatsmyname": 0.0, "openalex_lookup": 0.0, "roblox_lookup": 0.0, "tinder_check": 0.0, "holehe_check": 0.0,
+    "github_intel": 0.0, "gravatar_lookup": 0.0, "wayback_lookup": 0.0, "whatsmyname": 0.0, "openalex_lookup": 0.0, "roblox_lookup": 0.0, "tinder_check": 0.0, "holehe_check": 0.0, "people_search": 0.005,
 }
 
 

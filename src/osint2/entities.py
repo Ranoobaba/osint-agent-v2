@@ -19,7 +19,7 @@ NodeType = str  # person | org | account | email | domain | document | project
 PERSON_FIELDS = ("collaborator", "coauthor", "co_author", "connection", "manager", "supervisor", "mentor", "advisor",
                  "teammate", "cofounder", "co_founder", "partner_person", "colleague", "relative", "family", "spouse", "sibling",
                  "director", "lead", "professor", "pi", "boss", "chair", "head", "officer", "president", "ceo", "cto", "founder",
-                 "friend", "contact", "reference", "recommender", "author")
+                 "friend", "contact", "reference", "recommender", "author", "relative", "parent", "mother", "father", "brother", "sister", "associate")
 ROLE_FIELDS = ("role", "title", "position")   # a role field holds a title, not a person
 # fields whose values are never people even when they look like names
 NOT_PERSON_FIELDS = ("location", "city", "country", "region", "address", "area", "topic", "research", "interest", "skill",

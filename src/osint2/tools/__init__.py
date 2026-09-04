@@ -87,6 +87,9 @@ def registry(settings: Settings) -> dict[str, Tool]:
     if "holehe" in settings.tools:
         from .holehe_check import holehe_check
         tools.append(holehe_check)
+    if "peoplesearch" in settings.tools:
+        from .people_search import people_search
+        tools.append(people_search)
     if "perplexity" in settings.tools or "exa" in settings.tools:
         from .web_search import web_search
         tools.append(web_search)
