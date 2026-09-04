@@ -27,6 +27,8 @@ COMMON_WORDS = {"admin", "user", "test", "hello", "music", "gaming", "official",
 READABLE = {"reddit.com": "reddit", "hub.docker.com": "dockerhub", "news.ycombinator.com": "hackernews", "keybase.io": "keybase", "chess.com": "chesscom", "lichess.org": "lichess"}
 SENSITIVE_SVC = {"tinder", "bumble", "hinge", "grindr", "roblox", "steam", "twitch", "pornhub", "onlyfans", "patreon", "spotify", "duolingo", "strava", "discord", "xbox", "playstation"}
 HIT_RE = re.compile(r"^\s*-\s*([^:]+):\s*(https?://\S+)\s*$", re.M)
+# whatsmyname checks existence through API, availability and search endpoints; those are not profile pages
+JUNK_URL_RE = re.compile(r"(api\.|/api/|username_available|/search\?|wayback/available|\?print=pretty|/v2/orgs/|/v2/users/|/v0/user/)", re.I)
 
 
 def _handles(cand: Candidate, ctx: RunContext) -> list[str]:
@@ -112,7 +114,11 @@ def _record(ctx: RunContext, cand: Candidate, name: str, args: dict[str, Any], r
             site, url = m.group(1).strip(), m.group(2).strip()
             host = urlparse(url).netloc.lower().removeprefix("www.")
             svc = re.sub(r"[^a-z0-9]+", "_", site.lower()).strip("_")
-            n += _admit(ctx, sid, f"account_{svc}", url, m.group(0).strip(), "online_presence", any(k in svc for k in SENSITIVE_SVC), cand.id, step)
+            readable = next((plat for h, plat in READABLE.items() if host == h or host.endswith("." + h)), None)
+            if JUNK_URL_RE.search(url) and not readable:
+                continue   # an existence check, not a page anyone can read
+            if not JUNK_URL_RE.search(url):
+                n += _admit(ctx, sid, f"account_{svc}", url, m.group(0).strip(), "online_presence", any(k in svc for k in SENSITIVE_SVC), cand.id, step)
             for h, plat in READABLE.items():
                 if host == h or host.endswith("." + h):
                     hits.append({"platform": plat, "handle": args.get("username", ""), "url": url})
@@ -150,8 +156,16 @@ def _record(ctx: RunContext, cand: Candidate, name: str, args: dict[str, Any], r
 
 
 async def sweep(ctx: RunContext, tools: dict[str, Tool], cand: Candidate, step: int) -> dict[str, Any]:
-    handles, emails, domains = _handles(cand, ctx), _emails(cand, ctx), _domains(cand, ctx)
-    loc = _us_location(ctx)
+    """Incremental: only keys not swept before are swept now, so the sweep can run again when a later
+    step recovers an email or a new handle."""
+    done: set[str] = ctx.state.setdefault("swept_keys", set())
+    handles = [h for h in _handles(cand, ctx) if f"h:{h.lower()}" not in done]
+    emails = [e for e in _emails(cand, ctx) if f"e:{e}" not in done]
+    domains = [d for d in _domains(cand, ctx) if f"d:{d}" not in done]
+    loc = None if "people_search" in done else _us_location(ctx)
+    done.update({f"h:{h.lower()}" for h in handles} | {f"e:{e}" for e in emails} | {f"d:{d}" for d in domains} | ({"people_search"} if loc else set()))
+    if not (handles or emails or domains or loc):
+        return {"handles": [], "emails": [], "domains": [], "people_search": False, "calls": 0, "admitted": 0, "profile_reads": []}
     jobs: list[tuple[str, dict[str, Any]]] = []
     for h in handles:
         jobs += [("whatsmyname", {"username": h}), ("roblox_lookup", {"username": h}), ("tinder_check", {"username": h})]

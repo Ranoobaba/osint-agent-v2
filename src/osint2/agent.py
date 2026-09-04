@@ -208,17 +208,18 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
                     if total:
                         ctx.state.setdefault("notes", []).append(f"[extractor] {total} claims from the last pages were admitted automatically; do not re-record them; spend the next call on a new lead.")
             r_now = ctx.state.get("resolution")
-            if settings.sweep and r_now is not None and r_now.status == "resolved" and not ctx.state.get("swept"):
+            if settings.sweep and r_now is not None and r_now.status == "resolved":
                 best_now = next((c for c in ctx.state.get("candidates", []) if c.id == r_now.best_candidate_id), None)
                 if best_now is not None:
                     try:
                         sw = await sweep(ctx, tools, best_now, step)
-                        ctx.state.setdefault("notes", []).append(
-                            f"[sweep] identity resolved, so code ran the surface tools on the confirmed keys: handles {sw['handles']}, emails {sw['emails']}, "
-                            f"domains {sw['domains']}{', people_search' if sw['people_search'] else ''}; {sw['calls']} calls, {sw['admitted']} claims admitted"
-                            f"{', profiles read: ' + ', '.join(sw['profile_reads']) if sw['profile_reads'] else ''}. Results are stored sources "
-                            f"(ids {', '.join(sid for sid, src in store.sources.items() if src.step == step)}); quote from them; do not repeat these lookups.")
-                        if settings.extractor:
+                        if sw["calls"]:
+                            ctx.state.setdefault("notes", []).append(
+                                f"[sweep] identity resolved, so code ran the surface tools on the confirmed keys: handles {sw['handles']}, emails {sw['emails']}, "
+                                f"domains {sw['domains']}{', people_search' if sw['people_search'] else ''}; {sw['calls']} calls, {sw['admitted']} claims admitted"
+                                f"{', profiles read: ' + ', '.join(sw['profile_reads']) if sw['profile_reads'] else ''}. Results are stored sources "
+                                f"(ids {', '.join(sid for sid, src in store.sources.items() if src.step == step)}); quote from them; do not repeat these lookups.")
+                        if settings.extractor and sw["calls"]:
                             new_sids = [sid for sid, src in store.sources.items() if src.step == step and src.tool in ("wayback_lookup", "people_search", "profile_read")]
                             if new_sids:
                                 await asyncio.gather(*[extract_source(ctx, llm, sid, step) for sid in new_sids])

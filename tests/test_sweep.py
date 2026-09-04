@@ -19,6 +19,8 @@ checked 700 curated sites, found on 3
 [social]
   - Reddit: https://www.reddit.com/user/kvnalb
   - Roblox: https://www.roblox.com/user.aspx?username=kvnalb
+  - X: https://api.x.com/i/users/username_available.json?username=kvnalb
+  - Fanslist: https://fanslist.com/search?q=kvnalb
 """
 HOLEHE = """# holehe_check: k@berkeley.edu
 services checked: 100 of 140 (3 timed out)
@@ -77,7 +79,7 @@ def test_sweep_records_hits_and_registrations_and_reads_profiles(tmp_path):
     assert names.count("whatsmyname") == 1 and "holehe_check" in names and "roblox_lookup" in names and "tinder_check" in names
     assert ctx.budget.calls == 0, "sweep calls are not metered against the call cap"
     fields = {c.field for c in ctx.store.findings()}
-    assert "account_docker_hub" in fields and "account_reddit" in fields and "account_spotify" in fields and "account_eventbrite" in fields
+    assert "account_docker_hub" in fields and "account_reddit" in fields and "account_x" not in fields and "account_fanslist" not in fields and "account_spotify" in fields and "account_eventbrite" in fields
     spotify = next(c for c in ctx.store.findings() if c.field == "account_spotify")
     assert spotify.sensitive and spotify.excerpt.startswith("registered on")
     assert out["admitted"] >= 6 and any(p.startswith("reddit:") for p in out["profile_reads"]) and any(p.startswith("dockerhub:") for p in out["profile_reads"])
