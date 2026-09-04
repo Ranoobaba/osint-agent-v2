@@ -1,6 +1,6 @@
 # Ladder results
 
-Generated 2026-09-03T23:43:43+00:00. Noise band 0.030 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $4.70, dev spend $2.25.
+Generated 2026-09-03T23:49:46+00:00. Noise band 0.030 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $6.35, dev spend $2.25.
 
 | rung | score | min | vs | delta | moved | targets | runs | identity pass | prov fail | decoy leak | cost | time |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -9,6 +9,7 @@ Generated 2026-09-03T23:43:43+00:00. Noise band 0.030 (largest within-rung sprea
 | 1 | 0.286 | 0.000 |  |  |  | 7 | 9 | 2/9 | 0 | 0 | $0.38 | 261s |
 | dev-2 | 0.129 | 0.129 | 1 | -0.156 | no | 1 | 3 | 0/3 | 0 | 0 | $2.17 | 748s |
 | 2 | 0.541 | 0.129 | 1 | +0.256 | yes | 7 | 9 | 5/9 | 0 | 0 | $4.31 | 2726s |
+| 3 | 0.273 | 0.129 | 2 | -0.268 | no | 3 | 3 | 2/3 | 0 | 0 | $1.65 | 909s |
 
 ## Per run
 
@@ -37,3 +38,6 @@ Generated 2026-09-03T23:43:43+00:00. Noise band 0.030 (largest within-rung sprea
 | 2 | invented | 1 | 1.000 | unresolved ok | 0.000 | 0.0 | 0 | 0 | 6 | 0 | 16 | $0.19 | 187s | finish | 8c1857c | stage 2: free OSINT tools, no pruning |
 | 2 | michael_jordan | 1 | 0.471 | resolved ok | 0.471 | 0.0 | 0 | 0 | 50 | 0 | 18 | $0.69 | 324s | finish | 8c1857c | stage 2: free OSINT tools, no pruning |
 | 2 | ariglad_cto | 1 | 0.714 | resolved ok | 0.714 | 0.0 | 0 | 0 | 22 | 0 | 20 | $0.43 | 343s | budget:calls | 8c1857c | stage 2: free OSINT tools, no pruning |
+| 3 | baseline | 1 | 0.129 | ambiguous | 0.259 | 0.0 | 0 | 0 | 23 | 0 | 16 | $0.51 | 263s | finish | 6726021 | stage 3: input-shape hardening |
+| 3 | email_only | 1 | 0.328 | resolved ok | 0.328 | 0.0 | 0 | 0 | 32 | 0 | 17 | $0.59 | 291s | finish | 6726021 | stage 3: input-shape hardening |
+| 3 | handle_only | 1 | 0.362 | resolved ok | 0.362 | 0.0 | 0 | 0 | 33 | 0 | 17 | $0.55 | 354s | finish | 6726021 | stage 3: input-shape hardening |
