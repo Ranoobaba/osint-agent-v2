@@ -49,8 +49,12 @@ def collect_leads(cand: Candidate, entities: Any = None) -> list[dict[str, str]]
                     continue
                 leads.append({"kind": "account", "value": n.label, "task": f"Account {n.label} at {n.url}: read the page (fetch_page if available, else exa_contents) and record what it states about this person: bio, activity, projects, dates. If neither can read it, record_not_found and finish."})
         leads = leads[:2]
-    for h in cand.handles[:1]:
-        leads.append({"kind": "handle", "value": h, "task": f"Handle '{h}': run whatsmyname on it and read the most informative profiles that clearly belong to this person."})
+    linkedin_slugs = {urlparse(u if "://" in u else "https://" + u).path.rstrip("/").split("/")[-1].lower() for u in cand.profile_urls if "linkedin.com" in u}
+    for h in cand.handles:
+        if h.lower() in linkedin_slugs:
+            continue   # a LinkedIn slug is not a username to sweep
+        leads.append({"kind": "handle", "value": h, "task": f"Handle '{h}': the lead already ran whatsmyname on it if it appears in the done list; do not repeat that. Read the most informative profiles found for it that clearly belong to this person (fetch_page or exa_contents) and record what they state."})
+        break
     for u in cand.profile_urls:
         host = urlparse(u if "://" in u else "https://" + u).netloc.lower().removeprefix("www.")
         if host and not any(host == s or host.endswith("." + s) for s in SKIP_HOSTS):

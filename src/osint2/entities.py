@@ -21,6 +21,9 @@ PERSON_FIELDS = ("collaborator", "coauthor", "co_author", "connection", "manager
                  "director", "lead", "professor", "pi", "boss", "chair", "head", "officer", "president", "ceo", "cto", "founder",
                  "friend", "contact", "reference", "recommender", "author")
 ROLE_FIELDS = ("role", "title", "position")   # a role field holds a title, not a person
+# fields whose values are never people even when they look like names
+NOT_PERSON_FIELDS = ("location", "city", "country", "region", "address", "area", "topic", "research", "interest", "skill",
+                     "language", "award", "honor", "headline", "bio", "summary", "degree", "major", "field_of_study", "hobby")
 NAME_SHAPE = re.compile(r"^(?:[A-Z][a-zA-Z'\-.]+\s){1,3}[A-Z][a-zA-Z'\-.]+$")
 TITLE_WORDS = {"president", "director", "manager", "intern", "engineer", "officer", "co", "vice", "chief", "head", "lead", "professor", "student", "founder", "ceo", "cto", "analyst", "fellow", "research", "researcher", "assistant", "associate", "university", "lab", "club", "college", "school", "company", "inc", "llc"}
 
@@ -108,7 +111,8 @@ class EntityGraph:
         """Unexplored nodes worth a pivot, people and accounts first."""
         order = {"person": 0, "account": 1, "domain": 2, "email": 3, "org": 4, "project": 5, "document": 6}
         items = [n for n in self.nodes.values() if not n.explored and n.type != "target"]
-        items.sort(key=lambda n: (order.get(n.type, 9), -len(n.claims)))
+        # a connection with a handle or profile URL is a hard lead; a bare name is a soft one
+        items.sort(key=lambda n: (order.get(n.type, 9), 0 if (n.hints.get("handle") or n.url) else 1, -len(n.claims)))
         return items[:limit]
 
     def mark_explored(self, *, url: str | None = None, handle: str | None = None, email: str | None = None,
@@ -170,8 +174,11 @@ class EntityGraph:
             self.link(pid, nid, "has_email", claim.id)
         for u in URL_RE.findall(v):
             self._account_from_url(pid, u, claim.id, about=about)
-        person_field = any(k in f for k in PERSON_FIELDS) and not any(k in f for k in ROLE_FIELDS)
-        if person_field or (looks_like_person_name(v) and not any(k in f for k in ORG_FIELDS + PROJECT_FIELDS + ROLE_FIELDS) and about == "target" and f not in ("name", "full_name", "legal_name", "alias", "headline")):
+        blocked = any(k in f for k in ROLE_FIELDS + NOT_PERSON_FIELDS)
+        person_field = any(k in f for k in PERSON_FIELDS) and not blocked
+        if (person_field and (looks_like_person_name(v) or GITHUB_REPO_RE.match(v) or "_" in v or v.islower())) or (
+                looks_like_person_name(v) and not blocked and not any(k in f for k in ORG_FIELDS + PROJECT_FIELDS) and about == "target"
+                and f not in ("name", "full_name", "legal_name", "alias")):
             m = GITHUB_REPO_RE.match(v)
             if m:
                 owner, repo = m.groups()

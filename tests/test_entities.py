@@ -44,3 +44,14 @@ def test_frontier_text_and_persist(tmp_path):
     again = EntityGraph(ws)
     assert "person:jane_doe" in again.nodes and "org:widget_co" in again.nodes
     assert again.summary()["unexplored"] >= 2
+
+
+def test_locations_and_topics_are_not_people(tmp_path):
+    g = EntityGraph(Workspace(tmp_path, "r"))
+    g.ingest_target("x")
+    g.ingest_claim(claim("c1", "location_city", "San Francisco Bay Area"), "cand1")
+    g.ingest_claim(claim("c2", "research_topic", "Disparities In Park Access"), "cand1")
+    g.ingest_claim(claim("c3", "lab_director", "Abhishek Nagaraj"), "cand1")
+    g.ingest_claim(claim("c4", "past_role", "Co President"), "cand1")
+    people = [n.label for n in g.nodes.values() if n.type == "person" and n.about == "connection"]
+    assert people == ["Abhishek Nagaraj"]
