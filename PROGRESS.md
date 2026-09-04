@@ -80,6 +80,13 @@
   ladder (no money for repeats); the numbers above are single runs. scripts/rebuild_report.py recovers a
   report from a run that died (the claims are on disk); --rederive rebuilds the entity graph.
 
+- Autoresearch pass (2026-09-04): harness in autoresearch/ (program.md, eval.py, replay.py, loop.sh, ledger).
+  Kept: dedupe keeps provenance with the richer value (found by the extractor probe; also cleared the rung 6
+  provenance failures, which were this bug); per-source extractor with Haiku after resolution (offline
+  recall 0.706 -> 0.824 at $0.14; live mini-eval net 0.902 -> 1.000 at lower cost per run). Shipped
+  EXTRACTOR=1. Endpoint locked behind AGENT_API_KEY; the page has a key field. Architecture review
+  (fresh-context subagent with Exa) in the session log; its ranked list is the ideas queue.
+
 ## In progress
 - Nothing. Remaining ladder work needs about 33 dollars of OpenRouter credit.
 

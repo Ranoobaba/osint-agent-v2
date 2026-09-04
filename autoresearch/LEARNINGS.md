@@ -21,4 +21,9 @@ Append one line per experiment: what, result, why.
   Haiku). Live confirmation: one 3-target eval with EXTRACTOR=1 against the 0.902 baseline; cap raised 6 -> 8
   for that single run with Rayyan's approval of "offline plus one live confirmation".
 
+- 4 EXTRACTOR=1 live ($4.70, 3 targets at 40 calls + deep dive): net 1.000 vs baseline 0.902 (+0.098, band 0.03),
+  michael_jordan 0.706 -> 1.000, prov 0, decoy 0, rejection 9.2%, 2.91 findings per call (was 1.77), $0.015 per
+  finding (was $0.028), mean cost $1.57 (was $1.68): the extractor's Haiku calls cost less than the lead turns they
+  replace. KEPT and shipped. Single runs; the michael_jordan gain is larger than its 0.12 single-run spread.
+
 ## Untested ideas

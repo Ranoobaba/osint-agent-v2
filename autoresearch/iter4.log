@@ -1,0 +1,5 @@
+iteration	commit	net	delta_vs_best_kept	prov_fail	decoy_leak	rejection_rate	findings_per_call	usd_per_finding	mean_cost	mean_duration	status	note	ts	runs
+4	c92968f	1.0000	+0.098	0	0	0.092	2.91	0.015	1.569	446	keep	EXTRACTOR=1 Haiku post-resolution, 6k chars (live confirmation of the offline probe)	2026-09-04T20:07:17+00:00	michael_jordan=1.000@20260904-185236-52fb84;ariglad_cto=1.000@20260904-185236-66bdb6;invented=1.000@20260904-185236-f9337b
+
+verdict by the hard rules: KEEP  (net 1.000, best kept 0.902, band 0.03, prov_fail 0, decoy 0, mean cost $1.57)
+autoresearch spend $9.74 of $8

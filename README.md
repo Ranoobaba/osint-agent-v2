@@ -133,6 +133,20 @@ graph.json, claims.jsonl, candidates.json, resolution.json and the sources/ file
 Recovered private emails in those folders are replaced by "redacted:<sha256 prefix>" (see REDACTED.md
 in each folder); every other claim replays byte for byte.
 
+## Autoresearch
+
+autoresearch/ holds a Karpathy-style loop: one experiment per invocation, an append-only ledger
+(results.tsv, LEARNINGS.md), hard keep/revert rules, a spend cap, and a STOP file. Two objectives: a
+live mini-eval on three public targets (eval.py, about $1.60 per iteration at the shipped
+configuration) and a free replay of every saved run through the current code (replay.py). Kept so far:
+a dedupe provenance fix (offline, 48 runs) and a per-source extractor with Haiku that lifted the
+mini-eval from 0.902 to 1.000 at a lower cost per run. `./autoresearch/loop.sh --max-experiments 5`
+runs it unattended.
+
+Budgets can be raised per request only with the API key. POST /investigate itself requires the
+`x-api-key` header when AGENT_API_KEY is set (it is, on the deployed endpoint), because each
+investigation spends the operator's OpenRouter balance; the page has a field for the key.
+
 ## How a finding replays
 
 Take any finding in report.json. Its id names a `claim_admitted` event in trace.jsonl, which carries
