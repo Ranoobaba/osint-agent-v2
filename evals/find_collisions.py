@@ -22,12 +22,27 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from osint2.config import load_dotenv  # noqa: E402
 
 EXA_SEARCH_URL = "https://api.exa.ai/search"
+PERPLEXITY_SEARCH_URL = "https://api.perplexity.ai/search"
+
+
+def search_perplexity(name: str, school: str, num: int) -> list[dict]:
+    """Fallback when Exa is unavailable: LinkedIn-filtered search snippets. Less complete than Exa's
+    profile index but enough to surface a same-name pair for a human to confirm."""
+    key = os.environ.get("PERPLEXITY_API_KEY", "")
+    if not key:
+        sys.exit("neither EXA_API_KEY nor PERPLEXITY_API_KEY is set")
+    body = {"query": f"{name} {school}", "max_results": min(num, 20), "search_domain_filter": ["linkedin.com"], "search_context_size": "low"}
+    r = httpx.post(PERPLEXITY_SEARCH_URL, json=body, headers={"Authorization": f"Bearer {key}", "content-type": "application/json"}, timeout=60)
+    r.raise_for_status()
+    return [{"title": it.get("title"), "url": it.get("url"), "snippet": " ".join((it.get("snippet") or "").split())[:400]}
+            for it in r.json().get("results", [])]
 
 
 def search(name: str, school: str, num: int) -> list[dict]:
     key = os.environ.get("EXA_API_KEY", "")
     if not key:
-        sys.exit("EXA_API_KEY is empty; fill it in .env first (dashboard.exa.ai)")
+        print("EXA_API_KEY is empty; using the Perplexity fallback (LinkedIn snippets)", file=sys.stderr)
+        return search_perplexity(name, school, num)
     body = {"query": f"{name} {school}", "category": "linkedin profile", "numResults": num, "type": "auto",
             "contents": {"text": {"maxCharacters": 600}}}
     r = httpx.post(EXA_SEARCH_URL, json=body, headers={"x-api-key": key, "content-type": "application/json"}, timeout=60)
