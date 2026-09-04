@@ -13,7 +13,7 @@ inference labeled as one.
 | 3 | plus input-shape hardening | 9 | 0.506 | 2 | +0.011 | no | 7/9 | 0 | 0 |
 | 4 | plus Perplexity | 4 | 0.841 | 3 | +0.429 | yes | 4/4 | 0 | 0 |
 | 5 | plus Exa (runs cut short by the key) | 4 | 0.816 | 3 | +0.404 | yes | 4/4 | 0 | 0 |
-| 6 | plus Firecrawl | 4 | 0.328 | 3 | −0.084 | no | 3/4 | 2 | 0 |
+| 6 | plus Firecrawl | 4 | 0.416 | 3 | +0.004 on 4 | no | 3/4 | 0 | 0 |
 | 7 | Perplexity plus Exa (runs cut short by the key) | 4 | 0.847 | best of 4, 5 | +0.006 | no | 4/4 | 0 | 0 |
 
 Noise band: 0.030 (the three baseline repeats at rung 2 spread 0.018, so the floor applies).
@@ -29,7 +29,7 @@ the rest before this rebuild).
 3. **Web search is the second gain (+0.43 on the subset).** Perplexity resolves the author's own
    baseline (it corroborates employer and location across two domains) and takes Michael Jordan from
    0.35 to 0.88 and the with-key collision target to 1.0 with zero decoy leaks.
-4. **Firecrawl alone adds nothing (−0.084).** The pages it can render, the free tools already reach;
+4. **Firecrawl alone adds nothing (+0.004).** The pages it can render, the free tools already reach;
    the pages that matter (LinkedIn) it cannot. Correction (2026-09-04): the two provenance failures first
    attributed to this rung were a report-layer bug (dedupe replaced a finding's value with a richer
    duplicate but kept the old excerpt), found by the autoresearch extractor probe and fixed; after the
@@ -46,19 +46,20 @@ the rest before this rebuild).
 
 ## Inferred (not measured)
 
-- **Shipped configuration: free tools plus Perplexity plus Exa, no Firecrawl, no deep dive.** Rung 7
-  scored highest on the subset (0.847) but its edge over rung 4 (0.006) is inside the band, and its runs
-  were cut short by the key. The honest statement is that Perplexity and Exa are each large gains and
-  their combination is at least as good as either. Exa is kept because it is the only route to LinkedIn
-  content (verified in v1), which the subset under-represents.
+- **Shipped configuration (updated 2026-09-04): all free tools (GitHub, Gravatar, Wayback, whatsmyname,
+  OpenAlex, Roblox, Tinder web profiles, holehe, people-search snippets) plus Perplexity, Exa and
+  Firecrawl, deep dive ON, 40 calls, $2.50, 25 minutes.** This is NOT a ladder result. It was chosen after
+  the depth pass on a second key: single runs on one target (Kunal Baldava) went 35 findings at the old
+  configuration, 50 with the entity-graph frontier, 65 with the deep dive at 40 calls, with 0 provenance
+  failures and 0 leaks each time, and a fully identified collaborator only the deep dive produced. The
+  autoresearch baseline on three golden targets at this configuration scored 0.902 (mean of 0.706, 1.0,
+  1.0) at $1.68 per run. Per-target noise is about 0.12 on a single run; none of these are repeats.
 - **Rung 8 (all three) would not beat rung 7.** Firecrawl was neutral to negative on its own and covers
   no page the other two cannot. This is an inference from rung 6, not a measurement of rung 8.
-- **Rung 9 (deep-dive subagents) is unmeasured.** The code exists (src/osint2/deepdive.py) and is off by
-  default. v1's A/B on a pre-resolution fan-out found it leaked same-name facts; the post-resolution
-  version here is pinned to the resolved candidate by construction, but its effect on recall at equal
-  budget is unknown. DEEP_DIVE=0 ships.
-- **The 20-call budget is the measured point.** The sweep at 40 and 80 calls did not run, so the
-  shipped default stays at 20 calls, $1.25, 8 minutes, which every rung above was measured at.
+- **Rung 9 (deep-dive subagents) is unmeasured on the ladder.** The single-run evidence above is why it
+  ships on; a 9-target rung with repeats would cost about $17 and has not been run.
+- **The budget sweep did not run.** 40 calls ships because the one 40-call run found 15 more admitted
+  findings than the one 24-call run on the same target, not because a knee was measured.
 
 ## What would settle the inferences
 
