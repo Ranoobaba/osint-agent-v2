@@ -1,0 +1,55 @@
+[
+  {
+    "id": "cand1",
+    "label": "Ali Avci, Co-Founder & CTO of Ariglad",
+    "names": [
+      "Ali Avci"
+    ],
+    "emails": [],
+    "handles": [
+      "aiavci"
+    ],
+    "profile_urls": [
+      "https://www.ariglad.com/team",
+      "https://github.com/aiavci"
+    ],
+    "avatar_hash": null,
+    "employers": [
+      {
+        "name": "Ariglad",
+        "role": "Co-Founder & CTO",
+        "start": null,
+        "end": null
+      },
+      {
+        "name": "Ariglad",
+        "role": "CTO",
+        "start": null,
+        "end": null
+      }
+    ],
+    "education": [],
+    "locations": [],
+    "bio": "CTO@Ariglad",
+    "disclaims_identity": false,
+    "evidence": [
+      {
+        "claim": "Ariglad team page lists 'Ali Avci — Co-Founder & CTO'",
+        "source_url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team"
+      },
+      {
+        "claim": "Ariglad is a workplace/HR case management product where employees submit anonymous HR cases through Slack or Teams",
+        "source_url": "https://web.archive.org/web/20201103000000id_/https://www.ariglad.com"
+      },
+      {
+        "claim": "GitHub user aiavci has name 'Ali Avci', company 'Ariglad', bio 'CTO@Ariglad'",
+        "source_url": "https://github.com/aiavci"
+      },
+      {
+        "claim": "Ariglad team page lists Ali Avci as Co-Founder & CTO",
+        "source_url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team"
+      }
+    ],
+    "first_seen_step": 9
+  }
+]

@@ -1,0 +1,838 @@
+{
+  "nodes": [
+    {
+      "id": "input.target",
+      "type": "ground_truth",
+      "kind": "target",
+      "value": "Michael Jordan, UC Berkeley",
+      "field": null,
+      "confidence": 100
+    },
+    {
+      "id": "candidate.cand1",
+      "type": "candidate",
+      "kind": "person",
+      "value": "Michael I. Jordan, UC Berkeley professor",
+      "field": null,
+      "confidence": 100
+    },
+    {
+      "id": "c001",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Pehong Chen Distinguished Professor Emeritus",
+      "field": "current_title",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c002",
+      "type": "finding",
+      "kind": "professional",
+      "value": "University of California, Berkeley",
+      "field": "current_employer",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c003",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Inria and l'Ecole Normale Supķrieure, Paris, France",
+      "field": "secondary_employer",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c004",
+      "type": "finding",
+      "kind": "contact",
+      "value": "jordan@cs.berkeley.edu",
+      "field": "work_email",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c005",
+      "type": "finding",
+      "kind": "contact",
+      "value": "387 Soda Hall #1776 University of California Berkeley, CA 94720-1776",
+      "field": "work_address",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c006",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Industrial Engineering & Operations Research",
+      "field": "department_affiliation",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c007",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "https://scholar.google.com/citations?user=yxUduqMAAAAJ&hl=en",
+      "field": "google_scholar",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c008",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Department of Brain and Cognitive Sciences at MIT",
+      "field": "past_employer",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c009",
+      "type": "finding",
+      "kind": "connections",
+      "value": "Percy Liang",
+      "field": "doctoral_student",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c010",
+      "type": "finding",
+      "kind": "education",
+      "value": "B.S. in psychology in 1978 from Louisiana State University",
+      "field": "education",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c011",
+      "type": "finding",
+      "kind": "education",
+      "value": "M.S. in mathematics in 1980 from Arizona State University",
+      "field": "education",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c012",
+      "type": "finding",
+      "kind": "education",
+      "value": "Ph.D. in cognitive science in 1985 from the University of California, San Diego",
+      "field": "education",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c013",
+      "type": "finding",
+      "kind": "education",
+      "value": "David Rumelhart",
+      "field": "doctoral_advisor",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c014",
+      "type": "finding",
+      "kind": "professional",
+      "value": "IEEE John von Neumann Medal (2020)",
+      "field": "award",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c015",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Member of the National Academy of Sciences (2010)",
+      "field": "award",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c016",
+      "type": "finding",
+      "kind": "professional",
+      "value": "ACM/AAAI Allen Newell Award, 2009",
+      "field": "award",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c017",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Professor, University of California, Berkeley, 1998-present",
+      "field": "employment_history",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c018",
+      "type": "finding",
+      "kind": "professional",
+      "value": "postdoctoral work at the University of Massachusetts Amherst",
+      "field": "postdoc",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c019",
+      "type": "finding",
+      "kind": "contact",
+      "value": "427 Evans Hall #3860 Berkeley, CA 94720-3860",
+      "field": "work_address_statistics",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c020",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "mijordan3",
+      "field": "github_handle",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c021",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "2013-11-29",
+      "field": "github_account_created",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c022",
+      "type": "finding",
+      "kind": "projects",
+      "value": "BNP_sensitivity",
+      "field": "project",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c023",
+      "type": "finding",
+      "kind": "projects",
+      "value": "dsten.github.io",
+      "field": "project",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c025",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "https://www.linkedin.com/in/michael-jordan-767032125",
+      "field": "linkedin",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c026",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Researcher at Inria Paris, and Professor Emeritus at UC Berkeley",
+      "field": "current_role",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c027",
+      "type": "finding",
+      "kind": "contact",
+      "value": "jordan@stat.berkeley.edu",
+      "field": "work_email_secondary",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c028",
+      "type": "finding",
+      "kind": "contact",
+      "value": "(510) 642-3806",
+      "field": "work_phone",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c029",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Frontiers of Knowledge Laureate",
+      "field": "award",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c030",
+      "type": "finding",
+      "kind": "personal",
+      "value": "February 25, 1956",
+      "field": "date_of_birth",
+      "confidence": 70,
+      "sensitive": true
+    },
+    {
+      "id": "c031",
+      "type": "finding",
+      "kind": "identity",
+      "value": "Michael Irwin Jordan",
+      "field": "full_name",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c032",
+      "type": "finding",
+      "kind": "professional",
+      "value": "machine learning, statistics, and artificial intelligence",
+      "field": "research_interests",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c033",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Latent dirichlet allocation DM Blei, AY Ng, MI Jordan Journal of machine Learning research 3 (Jan), 993-1022, 2003",
+      "field": "publication",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c034",
+      "type": "finding",
+      "kind": "professional",
+      "value": "leading role in the development of the variational approach to inference in graphical models",
+      "field": "contribution",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c035",
+      "type": "finding",
+      "kind": "professional",
+      "value": "ForMemRS",
+      "field": "honor",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c036",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "https://api.github.com/users/mijordan3",
+      "field": "handle_hits",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c037",
+      "type": "finding",
+      "kind": "professional",
+      "value": "“Markets and Machine Learning”, a new five-year chair headed by the renowned American researcher Michael I. Jordan",
+      "field": "current_project",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c038",
+      "type": "finding",
+      "kind": "professional",
+      "value": "A Collectivist, Economic Perspective on AI",
+      "field": "publication",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c039",
+      "type": "finding",
+      "kind": "professional",
+      "value": "economic ideas such as markets, incentives, information design, trade, prices, contracts, and externalities",
+      "field": "research_position",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c040",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "https://humansplus.ai/podcast/michael-i-jordan-collectivist-perspective-ai-humble-genius-design-social-welfare-missing-middle-kingdom-ac-ep15/",
+      "field": "podcast_appearance",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c041",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Advisor at Silicon Ventures",
+      "field": "advisory_role",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c042",
+      "type": "finding",
+      "kind": "professional",
+      "value": "leadership of the newly created “Markets and Machine Learning” research chair at the INRIA Foundation in Paris",
+      "field": "chair_leadership",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c043",
+      "type": "finding",
+      "kind": "professional",
+      "value": "$100,000 Rumelhart Prize",
+      "field": "award",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c044",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Berkeley Institute for Data Science (BIDS)",
+      "field": "affiliation",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c045",
+      "type": "finding",
+      "kind": "professional",
+      "value": "leading to the creation of the platform Ray",
+      "field": "contribution",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c047",
+      "type": "finding",
+      "kind": "personal",
+      "value": "childhood was divided between Louisiana and Kansas",
+      "field": "childhood",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c048",
+      "type": "finding",
+      "kind": "education",
+      "value": "Louisiana State University, where he majored in psychology",
+      "field": "undergraduate_major",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c049",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "https://medium.com/@mijordan3",
+      "field": "medium_profile",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c050",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "https://rise.cs.berkeley.edu/blog/author/jordan/",
+      "field": "blog_author_page",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c051",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Human Connection in the Era of Internet Technology",
+      "field": "speaking",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "synthesis.1",
+      "type": "inference",
+      "kind": "synthesis",
+      "value": "mijordan3",
+      "field": null,
+      "confidence": 70,
+      "based_on": [
+        "c020",
+        "c036"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "input.target",
+      "to": "candidate.cand1",
+      "confidence": 100,
+      "label": "resolved: markers ['name', 'employer', 'corroboration']"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c001",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c002",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c003",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c004",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c005",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c006",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c007",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c008",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c009",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c010",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c011",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c012",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c013",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c014",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c015",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c016",
+      "confidence": 70,
+      "label": "wayback",
+      "source_url": "https://web.archive.org/web/20160526131610id_/https://people.eecs.berkeley.edu/~jordan"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c017",
+      "confidence": 70,
+      "label": "wayback",
+      "source_url": "https://web.archive.org/web/20160526131610id_/https://people.eecs.berkeley.edu/~jordan"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c018",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c019",
+      "confidence": 70,
+      "label": "wayback",
+      "source_url": "https://web.archive.org/web/20160526131610id_/https://people.eecs.berkeley.edu/~jordan"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c020",
+      "confidence": 70,
+      "label": "github_commit_email",
+      "source_url": "https://github.com/mijordan3"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c021",
+      "confidence": 70,
+      "label": "github_commit_email",
+      "source_url": "https://github.com/mijordan3"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c022",
+      "confidence": 70,
+      "label": "github_commit_email",
+      "source_url": "https://github.com/mijordan3"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c023",
+      "confidence": 70,
+      "label": "github_commit_email",
+      "source_url": "https://github.com/mijordan3"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c025",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c026",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c027",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c028",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c029",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c030",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c031",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c032",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c033",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c034",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c035",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c036",
+      "confidence": 70,
+      "label": "whatsmyname",
+      "source_url": "https://whatsmyname.app/?q=mijordan3"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c037",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c038",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c039",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c040",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c041",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c042",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c043",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c044",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c045",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c047",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c048",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c049",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c050",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c051",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "synthesis.1",
+      "confidence": 70,
+      "label": "inference"
+    }
+  ],
+  "stats": {
+    "nodes": 52,
+    "edges": 51,
+    "findings": 49,
+    "candidates": 1,
+    "rejected": 0,
+    "inferences": 1
+  }
+}

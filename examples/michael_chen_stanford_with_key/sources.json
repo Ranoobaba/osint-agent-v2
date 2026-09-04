@@ -1,0 +1,228 @@
+[
+  {
+    "id": "s001",
+    "tool": "web_search",
+    "args": {
+      "query": "linkedin.com/in/mivchen Michael Chen",
+      "category": "linkedin profile"
+    },
+    "path": "sources/001_web_search_s001_category_linkedin_profile_query.md",
+    "url": null,
+    "content_hash": "c1bbd24d137bed61952d8db672237da8e3ef42aba0a45d0686f04cfc6ff1e2e5",
+    "step": 1,
+    "chars": 2113
+  },
+  {
+    "id": "s002",
+    "tool": "github_intel",
+    "args": {
+      "username": "mivchen"
+    },
+    "path": "sources/002_github_intel_s002_https_github_com_mivchen.md",
+    "url": "https://github.com/mivchen",
+    "content_hash": "4a2aa175af56f88485803bc0d0aeae0d709d604b141934b4f62761befcf6fa93",
+    "step": 1,
+    "chars": 561
+  },
+  {
+    "id": "s003",
+    "tool": "gravatar_lookup",
+    "args": {
+      "email": "redacted:74e4f066b29d"
+    },
+    "path": "sources/003_gravatar_lookup_s003_https_gravatar_com_74e4f066b29db526.md",
+    "url": "https://gravatar.com/74e4f066b29db5263b7121b3639e71120e4a354ef6f259e2a9c9c7ead2e95b20",
+    "content_hash": "3eea0a4b3d07d36a29d526db858f7239dc1e27023b162b8237fcef234403886b",
+    "step": 2,
+    "chars": 205
+  },
+  {
+    "id": "s004",
+    "tool": "whatsmyname",
+    "args": {
+      "username": "mivchen"
+    },
+    "path": "sources/004_whatsmyname_s004_https_whatsmyname_app_q_mivchen.md",
+    "url": "https://whatsmyname.app/?q=mivchen",
+    "content_hash": "4a45be098549068716219de14cde019da4d724de306ed6cf2e054e01843b43ac",
+    "step": 4,
+    "chars": 1560
+  },
+  {
+    "id": "s005",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Michael Chen\" Stanford Meta \"director of product\" mivchen"
+    },
+    "path": "sources/005_web_search_s005_query_michael_chen_stanford_met.md",
+    "url": null,
+    "content_hash": "35c0294d5c972f2550886132f3756daeafd8cbd4c82a601068f0b77fe587a979",
+    "step": 4,
+    "chars": 2201
+  },
+  {
+    "id": "s006",
+    "tool": "web_search",
+    "args": {
+      "query": "\"michaelivanchen\" OR \"Michael Ivan Chen\" Stanford"
+    },
+    "path": "sources/006_web_search_s006_query_michaelivanchen_or_mich.md",
+    "url": null,
+    "content_hash": "36aaf6d86a3afc6a4978e0ac82c9cdce757a31e546ae7509f0b96de7b33617d3",
+    "step": 5,
+    "chars": 2001
+  },
+  {
+    "id": "s007",
+    "tool": "github_intel",
+    "args": {
+      "email": "redacted:74e4f066b29d"
+    },
+    "path": "sources/007_github_intel_s007_https_api_github_com_search_commits.md",
+    "url": "https://api.github.com/search/commits?q=author-email:redacted:74e4f066b29d",
+    "content_hash": "d0c09f0c00b44c1075a062b4bc1caef49f229ace7d8f53a578ae98ba40131aaa",
+    "step": 5,
+    "chars": 305
+  },
+  {
+    "id": "s008",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "https://www.linkedin.com/in/mivchen",
+      "mode": "snapshots"
+    },
+    "path": "sources/008_wayback_lookup_s008_https_web_archive_org_web_www_linke.md",
+    "url": "https://web.archive.org/web/*/www.linkedin.com/in/mivchen",
+    "content_hash": "740bc482cd2495b92bba63dc8cdb71a29cf2059511f4f3c3cd8c7979c9088d75",
+    "step": 6,
+    "chars": 141
+  },
+  {
+    "id": "s009",
+    "tool": "web_search",
+    "args": {
+      "query": "Michael Chen Meta Director of Product Management Stanford education experience mivchen profile",
+      "category": "linkedin profile"
+    },
+    "path": "sources/009_web_search_s009_category_linkedin_profile_query.md",
+    "url": null,
+    "content_hash": "e2fc71e6e1ba3f78c839fbcaf89bfbccad6e55e8f1ea93ffd01fcc131cb32718",
+    "step": 6,
+    "chars": 2083
+  },
+  {
+    "id": "s010",
+    "tool": "web_search",
+    "args": {
+      "query": "\"mivchen\" Michael Chen twitter pinterest venmo profile"
+    },
+    "path": "sources/010_web_search_s010_query_mivchen_michael_chen_twit.md",
+    "url": null,
+    "content_hash": "8c0d6ec7327c4396a76f4e06ca6cce86c666eb1d31e35ca6e8e03fbe6bd98433",
+    "step": 8,
+    "chars": 2265
+  },
+  {
+    "id": "s011",
+    "tool": "web_search",
+    "args": {
+      "query": "Michael Chen mivchen previous experience before Meta product manager career history bachelor's",
+      "category": "linkedin profile"
+    },
+    "path": "sources/011_web_search_s011_category_linkedin_profile_query.md",
+    "url": null,
+    "content_hash": "a81d14e14f84412f44d7f626066fa8bc8341cb920ff5a84579940548f8d63ce1",
+    "step": 8,
+    "chars": 2018
+  },
+  {
+    "id": "s012",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "https://www.tableau.com/about/blog/contributors/michael-chen",
+      "mode": "read",
+      "max_chars": 3000
+    },
+    "path": "sources/012_wayback_lookup_s012_https_web_archive_org_web_201501300.md",
+    "url": "https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen",
+    "content_hash": "c0d5b5c9a8140a7b6748f46d97cb2b4ba0a87ea77575b2ab63f2fc44fcb2e7c4",
+    "step": 10,
+    "chars": 2131
+  },
+  {
+    "id": "s013",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Michael Chen\" Soundhawk product Tableau speaker bio undergraduate"
+    },
+    "path": "sources/013_web_search_s013_query_michael_chen_soundhawk_pr.md",
+    "url": null,
+    "content_hash": "518cffd3f530c69fd4b7fbba026183b03176501df6cedc66d83c6c5a2b97b47c",
+    "step": 10,
+    "chars": 2409
+  },
+  {
+    "id": "s014",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Michael Chen\" Meta director of product management interview quoted 2023 Facebook product Stanford MSEE"
+    },
+    "path": "sources/014_web_search_s014_query_michael_chen_meta_directo.md",
+    "url": null,
+    "content_hash": "dc946b42a96f790f54dce756276a4a9617825ff8636026218ee8e0db030eb139",
+    "step": 12,
+    "chars": 2504
+  },
+  {
+    "id": "s015",
+    "tool": "web_search",
+    "args": {
+      "query": "theorg.com Meta org chart Michael Chen Director Of Product Management reports team",
+      "domains": [
+        "theorg.com"
+      ]
+    },
+    "path": "sources/015_web_search_s015_domains_theorg_com_query_th.md",
+    "url": null,
+    "content_hash": "f2cffeb0ba7c556ec9ed01025806ae19d70ef4afa4e6d9812c8fdbcf2201742f",
+    "step": 13,
+    "chars": 2252
+  },
+  {
+    "id": "s016",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Michael Chen\" Tableau Conference speaker session product manager \"Tableau\" 2016 OR patent inventor Soundhawk"
+    },
+    "path": "sources/016_web_search_s016_query_michael_chen_tableau_conf.md",
+    "url": null,
+    "content_hash": "47c1350e26a24703b7bbd0516bc5c48ca1e4470ccc677655683f0eb7d1006e8c",
+    "step": 15,
+    "chars": 2354
+  },
+  {
+    "id": "s017",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Conversational analytics with data visualization snapshots\" patent Chen inventors assignee"
+    },
+    "path": "sources/017_web_search_s017_query_conversational_analytics_wi.md",
+    "url": null,
+    "content_hash": "1060368c59514b5c694fe4755d6c77c2f921fb9776e03aaa83aba112cc6881f3",
+    "step": 16,
+    "chars": 2252
+  },
+  {
+    "id": "s018",
+    "tool": "web_search",
+    "args": {
+      "query": "Michael Chen mivchen Meta about summary headline product area WhatsApp Instagram ads",
+      "category": "linkedin profile"
+    },
+    "path": "sources/018_web_search_s018_category_linkedin_profile_query.md",
+    "url": null,
+    "content_hash": "bd2acde048bdf08e251817237acf939a6e96b09aa55c876c53111eaea8100bd0",
+    "step": 18,
+    "chars": 2270
+  }
+]

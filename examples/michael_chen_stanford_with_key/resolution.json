@@ -1,0 +1,69 @@
+{
+  "status": "resolved",
+  "best_candidate_id": "cand1",
+  "score": 1.0,
+  "matched_markers": [
+    "url",
+    "name",
+    "employer",
+    "corroboration"
+  ],
+  "contradictions": [],
+  "runner_up": {
+    "id": "cand2",
+    "score": 0.5135
+  },
+  "judge": null,
+  "candidates_considered": 2,
+  "breakdowns": [
+    {
+      "candidate_id": "cand1",
+      "score": 1.0,
+      "fields": {
+        "url": 1.0,
+        "name": 1.0,
+        "employer": 1.0,
+        "corroboration": 3.0
+      },
+      "weights_used": {
+        "url": 0.9,
+        "name": 0.35,
+        "employer": 0.6
+      },
+      "matched_markers": [
+        "url",
+        "name",
+        "employer",
+        "corroboration"
+      ],
+      "contradictions": [],
+      "capped": false,
+      "gated": false,
+      "reason": null
+    },
+    {
+      "candidate_id": "cand2",
+      "score": 0.5135,
+      "fields": {
+        "url": 0.0,
+        "name": 1.0,
+        "employer": 1.0,
+        "corroboration": 2.0
+      },
+      "weights_used": {
+        "url": 0.9,
+        "name": 0.35,
+        "employer": 0.6
+      },
+      "matched_markers": [
+        "name",
+        "employer",
+        "corroboration"
+      ],
+      "contradictions": [],
+      "capped": false,
+      "gated": false,
+      "reason": null
+    }
+  ]
+}

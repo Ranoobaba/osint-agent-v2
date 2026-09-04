@@ -62,8 +62,8 @@ curl localhost:8000/jobs/<job_id>/sources/s003 # the stored page a claim cites
 Budgets can be raised per request (max_tool_calls, max_usd, max_seconds) but anonymous callers are
 clamped to the shipped defaults; an x-api-key matching AGENT_API_KEY lifts the clamp.
 
-Deployed endpoint: https://ranoobaba--osint-agent-v2-web.modal.run (configuration tracks the ladder; final after
-rung 9). Deploy with `uv run modal deploy deploy/modal_app.py`.
+Deployed endpoint: https://ranoobaba--osint-agent-v2-web.modal.run, running the shipped configuration. It spends
+from the OpenRouter key in the deployment secret, which is nearly exhausted; a live run needs credits on that key. Deploy with `uv run modal deploy deploy/modal_app.py`.
 
 ## The ladder
 
@@ -90,19 +90,47 @@ wrong claims, with identity as a gate (wrong person is 0). Rung score is the mea
 noise band is the largest spread between repeated runs of the same configuration on the baseline
 target, floored at 0.03.
 
-## Results so far
+## Results
 
-| rung | configuration | score | identity pass | provenance failures | decoy leaks | cost |
-|---|---|---|---|---|---|---|
-| v1 | the previous build, its own report re-scored | 0.534 recall | 1/1 | not checked | 0 | |
-| 1 | raw Opus, no tools | 0.286 | 2/9 | 0 | 0 | $0.38 |
-| 2 | plus GitHub, Gravatar, Wayback, whatsmyname | 0.541 | 5/9 | 0 | 0 | $4.31 |
-| 3 | plus input-shape hardening | 0.555 (+0.014, inside the band) | 6/7 | 0 | 0 | $3.45 |
-| 4 | plus Perplexity, on the 3-target subset | 0.788 (+0.294 on the same targets) | 3/3 | 0 | 0 | $2.12 |
+Full per-run table: evals/results/ladder.md. Reading of the evidence, with every inference labeled:
+evals/results/FINDINGS.md.
 
-Rung 1 scores 0.286 only because the two abstain targets reward an empty report; every claim the
-model proposed without tools was rejected for lack of a source. The full per-run table is in
-evals/results/ladder.md.
+| rung | configuration | targets | score | delta on the same targets | moved | identity pass | provenance failures | decoy leaks | cost |
+|---|---|---|---|---|---|---|---|---|---|
+| v1 | the previous build, its own report re-scored | 1 | 0.534 recall | | | 1/1 | not checked | 0 | |
+| 1 | raw Opus, no tools | 9 | 0.222 | | | 2/11 | 0 | 0 | $0.51 |
+| 2 | plus GitHub, Gravatar, Wayback, whatsmyname | 9 | 0.495 | +0.273 | yes | 6/11 | 0 | 0 | $5.16 |
+| 3 | plus input-shape hardening | 9 | 0.506 | +0.011 | no | 7/9 | 0 | 0 | $4.28 |
+| 4 | plus Perplexity | 4 | 0.841 | +0.429 | yes | 4/4 | 0 | 0 | $2.89 |
+| 5 | plus Exa (cut short by the key) | 4 | 0.816 | +0.404 | yes | 4/4 | 0 | 0 | $2.47 |
+| 6 | plus Firecrawl | 4 | 0.328 | −0.084 | no | 3/4 | 2 | 0 | $1.93 |
+| 7 | Perplexity plus Exa (cut short by the key) | 4 | 0.847 | +0.006 vs best single | no | 4/4 | 0 | 0 | $2.00 |
+
+Rungs 8 (all three services), 9 (deep-dive subagents) and the call-budget sweep did not run: the
+OpenRouter key reached its limit. The shipped configuration (free tools plus Perplexity plus Exa, no
+Firecrawl, no deep dive, 20 calls / $1.25 / 8 minutes) is the best measured point; FINDINGS.md says
+what is inferred beyond it and what about $33 more would settle.
+
+Across 51 scored runs no run resolved to the wrong person and no same-name decoy fact was ever
+attributed to a target.
+
+## Examples
+
+examples/ holds five runs at measured configurations, each with input.json, report.json, trace.jsonl,
+graph.json, claims.jsonl, candidates.json, resolution.json and the sources/ files every claim cites:
+
+- michael_jordan_uc_berkeley: resolved to the statistician, 49 findings, recall 0.88, the basketball
+  player never appears (rung 4).
+- michael_chen_stanford_with_key: a same-name pair at the same school; the LinkedIn slug in the input
+  is the hard key; resolved to the Meta product director with recall 1.0 and nothing from the Google
+  counsel namesake (rung 4).
+- cto_of_ariglad: a role with no name; resolved to Ali Avci at recall 0.71 on free tools only (rung 3).
+- michael_chen_stanford_no_key_ambiguous: the same pair without the key; the report says ambiguous,
+  lists the real candidates it found, attributes nothing (rung 3).
+- invented_person_abstain: a person who does not exist; zero findings, honest not_found entries (rung 4).
+
+Recovered private emails in those folders are replaced by "redacted:<sha256 prefix>" (see REDACTED.md
+in each folder); every other claim replays byte for byte.
 
 ## How a finding replays
 

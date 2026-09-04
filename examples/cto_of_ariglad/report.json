@@ -1,0 +1,924 @@
+{
+  "target": "the CTO of Ariglad",
+  "anchor": {
+    "target_type": "role_at_company",
+    "raw": "the CTO of Ariglad",
+    "names": [],
+    "emails": [],
+    "handles": [],
+    "companies": [
+      {
+        "name": "Ariglad",
+        "relation": "current"
+      }
+    ],
+    "roles": [
+      "CTO"
+    ],
+    "locations": [],
+    "urls": []
+  },
+  "identity": {
+    "status": "resolved",
+    "name": "Ali Avci",
+    "candidate_id": "cand1",
+    "score": 1.0,
+    "markers": [
+      "employer",
+      "role",
+      "corroboration"
+    ],
+    "runner_up": null,
+    "judge": null,
+    "candidates": [
+      {
+        "id": "cand1",
+        "label": "Ali Avci, Co-Founder & CTO of Ariglad",
+        "names": [
+          "Ali Avci"
+        ],
+        "score": 1.0,
+        "markers": [
+          "employer",
+          "role",
+          "corroboration"
+        ],
+        "status": "resolved",
+        "reason": "winner",
+        "profile_urls": [
+          "https://www.ariglad.com/team",
+          "https://github.com/aiavci"
+        ],
+        "handles": [
+          "aiavci"
+        ]
+      }
+    ],
+    "summary": "Resolved to Ali Avci, Co-Founder & CTO of Ariglad with markers ['employer', 'role', 'corroboration']"
+  },
+  "findings": [
+    {
+      "id": "c001",
+      "category": "professional",
+      "field": "current_title",
+      "value": "Co-Founder & CTO",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team",
+      "source_id": "s007",
+      "excerpt": "Ali Avci \n Co-Founder & CTO",
+      "content_hash": "37839453488af02a62395fb11b768c2864f3ccdb195746e170c8500821c298cd",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 10
+    },
+    {
+      "id": "c002",
+      "category": "professional",
+      "field": "current_employer",
+      "value": "ariglad",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team",
+      "source_id": "s007",
+      "excerpt": "Team | ariglad",
+      "content_hash": "37839453488af02a62395fb11b768c2864f3ccdb195746e170c8500821c298cd",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 10
+    },
+    {
+      "id": "c003",
+      "category": "connections",
+      "field": "colleague",
+      "value": "Sophie Wyne",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team",
+      "source_id": "s007",
+      "excerpt": "Sophie Wyne \n Co-Founder & CEO",
+      "content_hash": "37839453488af02a62395fb11b768c2864f3ccdb195746e170c8500821c298cd",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 10
+    },
+    {
+      "id": "c004",
+      "category": "connections",
+      "field": "colleague",
+      "value": "Zoey Li",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team",
+      "source_id": "s007",
+      "excerpt": "Zoey Li \n Senior Product Designer",
+      "content_hash": "37839453488af02a62395fb11b768c2864f3ccdb195746e170c8500821c298cd",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 10
+    },
+    {
+      "id": "c005",
+      "category": "professional",
+      "field": "employer_description",
+      "value": "Employees create HR cases anonymously through Slack or Teams",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20201103000000id_/https://www.ariglad.com",
+      "source_id": "s006",
+      "excerpt": "Employees create HR cases anonymously through Slack or Teams. Case management that provides external and internal support to solve every case.",
+      "content_hash": "5b9cb70a9ba0b5d683d35f2be1ea97ac42bd11b52657ba40605cd46560314497",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 10
+    },
+    {
+      "id": "c006",
+      "category": "personal",
+      "field": "nationality",
+      "value": "Turkish",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20201128214822id_/https://www.ariglad.com/about",
+      "source_id": "s009",
+      "excerpt": "Ali Avci (Co-Founder & CTO) is Turkish",
+      "content_hash": "5f58542e602790bd08ff43e79c78b5a3037483cb591d35b397e2bc48ba7ff8eb",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 12
+    },
+    {
+      "id": "c007",
+      "category": "professional",
+      "field": "founding_story",
+      "value": "met during a Techstars hackathon",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20201128214822id_/https://www.ariglad.com/about",
+      "source_id": "s009",
+      "excerpt": "Co-Founders Ali Avci and Sophie Wyne met during a Techstars hackathon that focused on creating tech solutions for issues caused by COVID-19.",
+      "content_hash": "5f58542e602790bd08ff43e79c78b5a3037483cb591d35b397e2bc48ba7ff8eb",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 12
+    },
+    {
+      "id": "c008",
+      "category": "professional",
+      "field": "award",
+      "value": "won 2nd place",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20201128214822id_/https://www.ariglad.com/about",
+      "source_id": "s009",
+      "excerpt": "Their team won 2nd place for their solution to address increased rates of domestic violence.",
+      "content_hash": "5f58542e602790bd08ff43e79c78b5a3037483cb591d35b397e2bc48ba7ff8eb",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 12
+    },
+    {
+      "id": "c009",
+      "category": "projects",
+      "field": "project",
+      "value": "Spotlight",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20201128214822id_/https://www.ariglad.com/about",
+      "source_id": "s009",
+      "excerpt": "Spotlight picked up momentum early and secured numerous customers within the first month of launching.",
+      "content_hash": "5f58542e602790bd08ff43e79c78b5a3037483cb591d35b397e2bc48ba7ff8eb",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 12
+    },
+    {
+      "id": "c011",
+      "category": "online_presence",
+      "field": "github_handle",
+      "value": "aiavci",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/search?q=Ali Avci&type=users",
+      "source_id": "s011",
+      "excerpt": "- aiavci: name='Ali Avci' company='Ariglad' location=None repos=40 created=2015-04-04 https://github.com/aiavci",
+      "content_hash": "0780f350ba600bad4ee8dcda6ca3ff02327f4ba128989ac0216b3bac1ef54411",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 15
+    },
+    {
+      "id": "c012",
+      "category": "professional",
+      "field": "github_bio",
+      "value": "CTO@Ariglad",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/search?q=Ali Avci&type=users",
+      "source_id": "s011",
+      "excerpt": "bio: CTO@Ariglad",
+      "content_hash": "0780f350ba600bad4ee8dcda6ca3ff02327f4ba128989ac0216b3bac1ef54411",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 15
+    },
+    {
+      "id": "c013",
+      "category": "contact",
+      "field": "personal_email",
+      "value": "redacted:c086046fe1d5",
+      "confidence": 0.7,
+      "sensitive": true,
+      "source_url": "https://github.com/aiavci",
+      "source_id": "s012",
+      "excerpt": "- redacted:c086046fe1d5  x3  names=['Ali Avci', 'Ali I. Avci']  evidence=['aiavci/workout_companion_app@e0db09a', 'aiavci/workout_companion_app@a1aa4f1', 'aiavci/generic_web_app@4c060e2']",
+      "content_hash": "632534707ab59d2ebee721895040f9b6e974693392a67bf14d2effbb9890f4c6",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 17
+    },
+    {
+      "id": "c014",
+      "category": "identity",
+      "field": "full_name",
+      "value": "Ali I. Avci",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/aiavci",
+      "source_id": "s012",
+      "excerpt": "- redacted:c086046fe1d5  x3  names=['Ali Avci', 'Ali I. Avci']  evidence=['aiavci/workout_companion_app@e0db09a', 'aiavci/workout_companion_app@a1aa4f1', 'aiavci/generic_web_app@4c060e2']",
+      "content_hash": "632534707ab59d2ebee721895040f9b6e974693392a67bf14d2effbb9890f4c6",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 17
+    },
+    {
+      "id": "c015",
+      "category": "online_presence",
+      "field": "personal_website",
+      "value": "avci.ca",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/aiavci",
+      "source_id": "s012",
+      "excerpt": "profile: name='Ali Avci' company='Ariglad' location=None blog='avci.ca' twitter=None created=2015-04-04 public_repos=40 followers=22",
+      "content_hash": "632534707ab59d2ebee721895040f9b6e974693392a67bf14d2effbb9890f4c6",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 17
+    },
+    {
+      "id": "c016",
+      "category": "projects",
+      "field": "project",
+      "value": "workout_companion_app",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/aiavci",
+      "source_id": "s012",
+      "excerpt": "- workout_companion_app [TypeScript] stars=0 pushed=2026-08-07 Workout companion app. Log your diet and workouts. Stay healthy",
+      "content_hash": "632534707ab59d2ebee721895040f9b6e974693392a67bf14d2effbb9890f4c6",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 17
+    },
+    {
+      "id": "c017",
+      "category": "projects",
+      "field": "project",
+      "value": "r-t-components",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/aiavci",
+      "source_id": "s012",
+      "excerpt": "- r-t-components [TypeScript] stars=0 pushed=2024-04-23 Opinionated components for quick website development",
+      "content_hash": "632534707ab59d2ebee721895040f9b6e974693392a67bf14d2effbb9890f4c6",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 17
+    },
+    {
+      "id": "c018",
+      "category": "projects",
+      "field": "project",
+      "value": "generic_web_app",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/aiavci",
+      "source_id": "s012",
+      "excerpt": "- generic_web_app [JavaScript] stars=0 pushed=2021-10-04 A generic NodeJS based web app template",
+      "content_hash": "632534707ab59d2ebee721895040f9b6e974693392a67bf14d2effbb9890f4c6",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 17
+    },
+    {
+      "id": "c019",
+      "category": "online_presence",
+      "field": "github_account_created",
+      "value": "2015-04-04",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/aiavci",
+      "source_id": "s012",
+      "excerpt": "profile: name='Ali Avci' company='Ariglad' location=None blog='avci.ca' twitter=None created=2015-04-04 public_repos=40 followers=22",
+      "content_hash": "632534707ab59d2ebee721895040f9b6e974693392a67bf14d2effbb9890f4c6",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 17
+    },
+    {
+      "id": "c020",
+      "category": "professional",
+      "field": "current_title",
+      "value": "CTO@Ariglad(YC W23)",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20240523030137id_/https://avci.ca",
+      "source_id": "s014",
+      "excerpt": "Ali Avci, CTO@Ariglad(YC W23)",
+      "content_hash": "4f88c424135e1dfab8d040e9490673a6b7707294acef7d3506702dd8278791a3",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 19
+    },
+    {
+      "id": "c021",
+      "category": "professional",
+      "field": "employer_accelerator",
+      "value": "YC W23",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20240523030137id_/https://avci.ca",
+      "source_id": "s014",
+      "excerpt": "Ali Avci, CTO@Ariglad(YC W23)",
+      "content_hash": "4f88c424135e1dfab8d040e9490673a6b7707294acef7d3506702dd8278791a3",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 19
+    }
+  ],
+  "excluded_findings": [],
+  "not_found": [
+    {
+      "field": "github_handle",
+      "note": null,
+      "searched": [
+        "s008",
+        "s002",
+        "s003"
+      ]
+    },
+    {
+      "field": "gravatar_profile",
+      "note": null,
+      "searched": [
+        "s013",
+        "s010"
+      ]
+    },
+    {
+      "field": "location_city",
+      "note": null,
+      "searched": [
+        "s012",
+        "s014",
+        "s007",
+        "s009"
+      ]
+    },
+    {
+      "field": "education",
+      "note": null,
+      "searched": [
+        "s012",
+        "s014",
+        "s007",
+        "s009"
+      ]
+    }
+  ],
+  "conflicts": [],
+  "synthesis": [],
+  "sources": [
+    {
+      "id": "s001",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/*/ariglad.com/*",
+      "path": "sources/001_wayback_lookup_s001_https_web_archive_org_web_ariglad_c.md",
+      "content_hash": "c260504d3b138e7549f6cca71310ded90152bc62a076bd3c0d98e42af33e8734"
+    },
+    {
+      "id": "s002",
+      "tool": "github_intel",
+      "url": "https://github.com/search?q=Ariglad&type=users",
+      "path": "sources/002_github_intel_s002_https_github_com_search_q_ariglad_t.md",
+      "content_hash": "a9439fe4d5e9c7290c3e22bbe5036506c4c61d52d53fc4c604665cf6b8dee1c3"
+    },
+    {
+      "id": "s003",
+      "tool": "github_intel",
+      "url": "https://github.com/Ariglad",
+      "path": "sources/003_github_intel_s003_https_github_com_ariglad.md",
+      "content_hash": "62521e3f7c25304596cefa5db9eb562ddb18d8935ee6be24d8572a795c00dc0e"
+    },
+    {
+      "id": "s004",
+      "tool": "whatsmyname",
+      "url": "https://whatsmyname.app/?q=ariglad",
+      "path": "sources/004_whatsmyname_s004_https_whatsmyname_app_q_ariglad.md",
+      "content_hash": "7676a674846118c43cd175ecf010aeec0f521b4ce9d5ca955286e57e13bb10f3"
+    },
+    {
+      "id": "s005",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/*/crunchbase.com/organization/ariglad/*",
+      "path": "sources/005_wayback_lookup_s005_https_web_archive_org_web_crunchbas.md",
+      "content_hash": "fa3bc7bb3866a7dcbbbf58dc1c4823d35e6a540beac941a8c355b9b693d0b41b"
+    },
+    {
+      "id": "s006",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/20201103000000id_/https://www.ariglad.com",
+      "path": "sources/006_wayback_lookup_s006_https_web_archive_org_web_202011030.md",
+      "content_hash": "5b9cb70a9ba0b5d683d35f2be1ea97ac42bd11b52657ba40605cd46560314497"
+    },
+    {
+      "id": "s007",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team",
+      "path": "sources/007_wayback_lookup_s007_https_web_archive_org_web_202012030.md",
+      "content_hash": "37839453488af02a62395fb11b768c2864f3ccdb195746e170c8500821c298cd"
+    },
+    {
+      "id": "s008",
+      "tool": "github_intel",
+      "url": "https://github.com/search?q=Ali Avci&type=users",
+      "path": "sources/008_github_intel_s008_https_github_com_search_q_ali_avci_.md",
+      "content_hash": "8b8ce981eebe18816aa92684e6888c74eff0aa4a1e6b5bf44d5792b1f9fae40d"
+    },
+    {
+      "id": "s009",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/20201128214822id_/https://www.ariglad.com/about",
+      "path": "sources/009_wayback_lookup_s009_https_web_archive_org_web_202011282.md",
+      "content_hash": "5f58542e602790bd08ff43e79c78b5a3037483cb591d35b397e2bc48ba7ff8eb"
+    },
+    {
+      "id": "s010",
+      "tool": "gravatar_lookup",
+      "url": "https://gravatar.com/54bed270a40c8aab99b6fb2ee76fbe2fe83bcaff763f17f6693a887354067c02",
+      "path": "sources/010_gravatar_lookup_s010_https_gravatar_com_54bed270a40c8aab.md",
+      "content_hash": "26356fc0ee6ed0c36ff60be224d5e257e043ae607697730c01942905d79ee708"
+    },
+    {
+      "id": "s011",
+      "tool": "github_intel",
+      "url": "https://github.com/search?q=Ali Avci&type=users",
+      "path": "sources/011_github_intel_s011_https_github_com_search_q_ali_avci_.md",
+      "content_hash": "0780f350ba600bad4ee8dcda6ca3ff02327f4ba128989ac0216b3bac1ef54411"
+    },
+    {
+      "id": "s012",
+      "tool": "github_intel",
+      "url": "https://github.com/aiavci",
+      "path": "sources/012_github_intel_s012_https_github_com_aiavci.md",
+      "content_hash": "632534707ab59d2ebee721895040f9b6e974693392a67bf14d2effbb9890f4c6"
+    },
+    {
+      "id": "s013",
+      "tool": "gravatar_lookup",
+      "url": "https://gravatar.com/c086046fe1d5d89c234a0a210ecc78c188fa2833c12a7c697cf525d67ef11583",
+      "path": "sources/013_gravatar_lookup_s013_https_gravatar_com_c086046fe1d5d89c.md",
+      "content_hash": "1bb96045a987f3765c26b8cf85fdcc496f10b4d4816d5235d6f122278fdf9d4c"
+    },
+    {
+      "id": "s014",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/20240523030137id_/https://avci.ca",
+      "path": "sources/014_wayback_lookup_s014_https_web_archive_org_web_202405230.md",
+      "content_hash": "4f88c424135e1dfab8d040e9490673a6b7707294acef7d3506702dd8278791a3"
+    },
+    {
+      "id": "s015",
+      "tool": "whatsmyname",
+      "url": "https://whatsmyname.app/?q=aiavci",
+      "path": "sources/015_whatsmyname_s015_https_whatsmyname_app_q_aiavci.md",
+      "content_hash": "347b68966749b6d91ee9f5726edd5fd149d356226d701c29cd0ee1e49be71ee9"
+    }
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "input.target",
+        "type": "ground_truth",
+        "kind": "target",
+        "value": "the CTO of Ariglad",
+        "field": null,
+        "confidence": 100
+      },
+      {
+        "id": "candidate.cand1",
+        "type": "candidate",
+        "kind": "person",
+        "value": "Ali Avci, Co-Founder & CTO of Ariglad",
+        "field": null,
+        "confidence": 100
+      },
+      {
+        "id": "c001",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Co-Founder & CTO",
+        "field": "current_title",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c002",
+        "type": "finding",
+        "kind": "professional",
+        "value": "ariglad",
+        "field": "current_employer",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c003",
+        "type": "finding",
+        "kind": "connections",
+        "value": "Sophie Wyne",
+        "field": "colleague",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c004",
+        "type": "finding",
+        "kind": "connections",
+        "value": "Zoey Li",
+        "field": "colleague",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c005",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Employees create HR cases anonymously through Slack or Teams",
+        "field": "employer_description",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c006",
+        "type": "finding",
+        "kind": "personal",
+        "value": "Turkish",
+        "field": "nationality",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c007",
+        "type": "finding",
+        "kind": "professional",
+        "value": "met during a Techstars hackathon",
+        "field": "founding_story",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c008",
+        "type": "finding",
+        "kind": "professional",
+        "value": "won 2nd place",
+        "field": "award",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c009",
+        "type": "finding",
+        "kind": "projects",
+        "value": "Spotlight",
+        "field": "project",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c011",
+        "type": "finding",
+        "kind": "online_presence",
+        "value": "aiavci",
+        "field": "github_handle",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c012",
+        "type": "finding",
+        "kind": "professional",
+        "value": "CTO@Ariglad",
+        "field": "github_bio",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c013",
+        "type": "finding",
+        "kind": "contact",
+        "value": "redacted:c086046fe1d5",
+        "field": "personal_email",
+        "confidence": 70,
+        "sensitive": true
+      },
+      {
+        "id": "c014",
+        "type": "finding",
+        "kind": "identity",
+        "value": "Ali I. Avci",
+        "field": "full_name",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c015",
+        "type": "finding",
+        "kind": "online_presence",
+        "value": "avci.ca",
+        "field": "personal_website",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c016",
+        "type": "finding",
+        "kind": "projects",
+        "value": "workout_companion_app",
+        "field": "project",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c017",
+        "type": "finding",
+        "kind": "projects",
+        "value": "r-t-components",
+        "field": "project",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c018",
+        "type": "finding",
+        "kind": "projects",
+        "value": "generic_web_app",
+        "field": "project",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c019",
+        "type": "finding",
+        "kind": "online_presence",
+        "value": "2015-04-04",
+        "field": "github_account_created",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c020",
+        "type": "finding",
+        "kind": "professional",
+        "value": "CTO@Ariglad(YC W23)",
+        "field": "current_title",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c021",
+        "type": "finding",
+        "kind": "professional",
+        "value": "YC W23",
+        "field": "employer_accelerator",
+        "confidence": 70,
+        "sensitive": false
+      }
+    ],
+    "edges": [
+      {
+        "from": "input.target",
+        "to": "candidate.cand1",
+        "confidence": 100,
+        "label": "resolved: markers ['employer', 'role', 'corroboration']"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c001",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c002",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c003",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c004",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c005",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20201103000000id_/https://www.ariglad.com"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c006",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20201128214822id_/https://www.ariglad.com/about"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c007",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20201128214822id_/https://www.ariglad.com/about"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c008",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20201128214822id_/https://www.ariglad.com/about"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c009",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20201128214822id_/https://www.ariglad.com/about"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c011",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/search?q=Ali Avci&type=users"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c012",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/search?q=Ali Avci&type=users"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c013",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/aiavci"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c014",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/aiavci"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c015",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/aiavci"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c016",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/aiavci"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c017",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/aiavci"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c018",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/aiavci"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c019",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/aiavci"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c020",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20240523030137id_/https://avci.ca"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c021",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20240523030137id_/https://avci.ca"
+      }
+    ],
+    "stats": {
+      "nodes": 22,
+      "edges": 21,
+      "findings": 20,
+      "candidates": 1,
+      "rejected": 0,
+      "inferences": 0
+    }
+  },
+  "run": {
+    "llm_calls": 21,
+    "tool_calls": 27,
+    "tool_errors": 5,
+    "tokens": {
+      "input": 286470,
+      "output": 7564,
+      "reasoning": 2286,
+      "cached_input": 263880
+    },
+    "cost_usd": 0.462175,
+    "llm_latency_ms": 171242,
+    "tool_latency_ms": 181880,
+    "duration_s": 353.2,
+    "stop_reason": "budget:calls",
+    "steps": 21,
+    "error": null,
+    "budget": {
+      "calls": 20,
+      "max_calls": 20,
+      "usd": 0.46,
+      "max_usd": 1.25,
+      "llm_usd": 0.46,
+      "tool_usd": 0.0,
+      "elapsed_s": 353.2,
+      "max_seconds": 480
+    },
+    "flags": {
+      "tools": [
+        "github",
+        "gravatar",
+        "wayback",
+        "whatsmyname"
+      ],
+      "deep_dive": false,
+      "nudges": [
+        "NUDGE_INPUT_SHAPE"
+      ],
+      "max_tool_calls": 20,
+      "max_usd": 1.25,
+      "max_seconds": 480,
+      "saturation_dry_steps": 3,
+      "prune_steps": 0,
+      "lead_model": "anthropic/claude-opus-5",
+      "judge_model": "openai/gpt-5.6-luna"
+    },
+    "model": "anthropic/claude-opus-5",
+    "git_sha": "865682f",
+    "run_id": "20260904-002640-9ed2f3",
+    "trace_path": "/Users/rayyanscomputer/osint-agent-v2/runs/rung3/ariglad_cto/20260904-002640-9ed2f3/trace.jsonl",
+    "unsupported_candidates": 0,
+    "deep_dive": [],
+    "sources": 15,
+    "proposed": 25,
+    "admitted": 24,
+    "rejected": 1,
+    "findings": 20
+  }
+}

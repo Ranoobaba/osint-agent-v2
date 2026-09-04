@@ -1,0 +1,38 @@
+{
+  "status": "resolved",
+  "best_candidate_id": "cand1",
+  "score": 1.0,
+  "matched_markers": [
+    "employer",
+    "role",
+    "corroboration"
+  ],
+  "contradictions": [],
+  "runner_up": null,
+  "judge": null,
+  "candidates_considered": 1,
+  "breakdowns": [
+    {
+      "candidate_id": "cand1",
+      "score": 1.0,
+      "fields": {
+        "employer": 1.0,
+        "role": 1.0,
+        "corroboration": 2.0
+      },
+      "weights_used": {
+        "employer": 0.6,
+        "role": 0.4
+      },
+      "matched_markers": [
+        "employer",
+        "role",
+        "corroboration"
+      ],
+      "contradictions": [],
+      "capped": false,
+      "gated": false,
+      "reason": null
+    }
+  ]
+}

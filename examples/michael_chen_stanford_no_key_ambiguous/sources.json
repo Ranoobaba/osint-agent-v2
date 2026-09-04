@@ -1,0 +1,233 @@
+[
+  {
+    "id": "s001",
+    "tool": "github_intel",
+    "args": {
+      "name": "Michael Chen",
+      "hint": "Stanford"
+    },
+    "path": "sources/001_github_intel_s001_https_github_com_search_q_michael_c.md",
+    "url": "https://github.com/search?q=Michael Chen&type=users",
+    "content_hash": "725b667050773695c7e3f22b153667da1b51e6fafc090a1590411a4a6f0797ea",
+    "step": 1,
+    "chars": 299
+  },
+  {
+    "id": "s002",
+    "tool": "github_intel",
+    "args": {
+      "name": "Michael Chen",
+      "hint": "Stanford University"
+    },
+    "path": "sources/002_github_intel_s002_https_github_com_search_q_michael_c.md",
+    "url": "https://github.com/search?q=Michael Chen&type=users",
+    "content_hash": "a6b4ed29d33f608a1166ccda35326b8d9340b100cb06ee13b9cfad7aef3b8d35",
+    "step": 1,
+    "chars": 310
+  },
+  {
+    "id": "s003",
+    "tool": "github_intel",
+    "args": {
+      "name": "Michael Chen"
+    },
+    "path": "sources/003_github_intel_s003_https_github_com_search_q_michael_c.md",
+    "url": "https://github.com/search?q=Michael Chen&type=users",
+    "content_hash": "17c05e82c0c4b477bb4624e1686bccf458e25fcbc2ca2f94e340b73a587e16df",
+    "step": 2,
+    "chars": 1581
+  },
+  {
+    "id": "s004",
+    "tool": "whatsmyname",
+    "args": {
+      "username": "michaelchen",
+      "categories": [
+        "coding",
+        "social"
+      ]
+    },
+    "path": "sources/004_whatsmyname_s004_https_whatsmyname_app_q_michaelchen.md",
+    "url": "https://whatsmyname.app/?q=michaelchen",
+    "content_hash": "823b8e2f3112326040d45d064ec05582ef051fee9869899def0414a2245c226f",
+    "step": 2,
+    "chars": 3648
+  },
+  {
+    "id": "s005",
+    "tool": "gravatar_lookup",
+    "args": {
+      "email": "michaelchen@stanford.edu"
+    },
+    "path": "sources/005_gravatar_lookup_s005_https_gravatar_com_60cae6147dcd639a.md",
+    "url": "https://gravatar.com/60cae6147dcd639a6ce5e9c36f01e673e907bb4679df7aa9eaee836305653e14",
+    "content_hash": "256ea4da5a986410060aae6fe0a4f95d3b841c367fe614b6d63733a2903aa779",
+    "step": 3,
+    "chars": 204
+  },
+  {
+    "id": "s006",
+    "tool": "gravatar_lookup",
+    "args": {
+      "email": "mchen@stanford.edu"
+    },
+    "path": "sources/006_gravatar_lookup_s006_https_gravatar_com_17dbaa3cae0b7452.md",
+    "url": "https://gravatar.com/17dbaa3cae0b7452b4a6f81453159ee9828f04e976a8d960aa29b301a912f13a",
+    "content_hash": "c8afd8c5fb7de9299dee27b6738a8b204c9b827039d64dbfbf5db66eac1e49a4",
+    "step": 3,
+    "chars": 198
+  },
+  {
+    "id": "s007",
+    "tool": "gravatar_lookup",
+    "args": {
+      "email": "michael.chen@stanford.edu"
+    },
+    "path": "sources/007_gravatar_lookup_s007_https_gravatar_com_028e1d11da8d6116.md",
+    "url": "https://gravatar.com/028e1d11da8d6116f21ebf2841ddfecb62f2b0d31b3ccb78f6b40db44078b5e3",
+    "content_hash": "8f26dfb8e79f616c578918cd0016804c87d1831e84baa12c0a9f69bd99978bdd",
+    "step": 3,
+    "chars": 205
+  },
+  {
+    "id": "s008",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "stanford.edu/~mchen",
+      "mode": "list"
+    },
+    "path": "sources/008_wayback_lookup_s008_https_web_archive_org_web_stanford_.md",
+    "url": "https://web.archive.org/web/*/stanford.edu/~mchen/*",
+    "content_hash": "19864465fc41b75cd615f32cc37c52708fbb18ef7f705783074801ce94c35ef5",
+    "step": 4,
+    "chars": 167
+  },
+  {
+    "id": "s009",
+    "tool": "github_intel",
+    "args": {
+      "email": "mchen@stanford.edu"
+    },
+    "path": "sources/009_github_intel_s009_https_api_github_com_search_commits.md",
+    "url": "https://api.github.com/search/commits?q=author-email:mchen@stanford.edu",
+    "content_hash": "22fa68df141b4495a9af93d9f4909eac07aedf70581ef60d016021ba16aba736",
+    "step": 4,
+    "chars": 123
+  },
+  {
+    "id": "s010",
+    "tool": "github_intel",
+    "args": {
+      "username": "michaelchen"
+    },
+    "path": "sources/010_github_intel_s010_https_github_com_michaelchen.md",
+    "url": "https://github.com/michaelchen",
+    "content_hash": "b042eaf2cf15be1854ab3c3ed59c6581559e3831d432eb4d53065673f7974f44",
+    "step": 5,
+    "chars": 960
+  },
+  {
+    "id": "s011",
+    "tool": "github_intel",
+    "args": {
+      "username": "Sticksword"
+    },
+    "path": "sources/011_github_intel_s011_https_github_com_sticksword.md",
+    "url": "https://github.com/Sticksword",
+    "content_hash": "f8a04e3d4199e9779f9b22564724cc0b92d01312840156dc6ee05d3669efc152",
+    "step": 6,
+    "chars": 1088
+  },
+  {
+    "id": "s012",
+    "tool": "github_intel",
+    "args": {
+      "name": "Michael Chen",
+      "hint": "Palo Alto"
+    },
+    "path": "sources/012_github_intel_s012_https_github_com_search_q_michael_c.md",
+    "url": "https://github.com/search?q=Michael Chen&type=users",
+    "content_hash": "6d2d3d17e65dc51b5b0bf493d7177d5419920825349aee4c1c53c3817b8ebebc",
+    "step": 7,
+    "chars": 300
+  },
+  {
+    "id": "s013",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "michaelchen.me",
+      "mode": "list",
+      "limit": 20
+    },
+    "path": "sources/013_wayback_lookup_s013_https_web_archive_org_web_michaelch.md",
+    "url": "https://web.archive.org/web/*/michaelchen.me/*",
+    "content_hash": "831d2eeb115e685ef2de93184e3d5e12dbfa2b52b9aeff3939a8be8b16cd5cd3",
+    "step": 8,
+    "chars": 226
+  },
+  {
+    "id": "s014",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "stanford.edu/~michaelchen",
+      "mode": "list",
+      "limit": 20
+    },
+    "path": "sources/014_wayback_lookup_s014_https_web_archive_org_web_stanford_.md",
+    "url": "https://web.archive.org/web/*/stanford.edu/~michaelchen/*",
+    "content_hash": "c299969fd0add003a1039c2c58dd9734187b23f848174322baa97c514ae0b54b",
+    "step": 8,
+    "chars": 173
+  },
+  {
+    "id": "s015",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "http://michaelchen.me",
+      "mode": "read",
+      "timestamp": "20130329"
+    },
+    "path": "sources/015_wayback_lookup_s015_https_web_archive_org_web_201303290.md",
+    "url": "https://web.archive.org/web/20130329000000id_/https://michaelchen.me",
+    "content_hash": "36a10e98162e8a3c53e051124759afa35050e34e059d9369c76f0d7558e11f4c",
+    "step": 9,
+    "chars": 261
+  },
+  {
+    "id": "s016",
+    "tool": "gravatar_lookup",
+    "args": {
+      "email": "michaelchen@gmail.com"
+    },
+    "path": "sources/016_gravatar_lookup_s016_https_gravatar_com_612a421bfc7f6372.md",
+    "url": "https://gravatar.com/612a421bfc7f6372e753a0f3a012031560976ecdd112ec20b863c4403aa1bf6b",
+    "content_hash": "338ddcd351f775b77412286492f17193e3d350a0fdff942ed03d5eabece7b74b",
+    "step": 10,
+    "chars": 201
+  },
+  {
+    "id": "s017",
+    "tool": "gravatar_lookup",
+    "args": {
+      "email": "michael.chen@gmail.com"
+    },
+    "path": "sources/017_gravatar_lookup_s017_https_gravatar_com_mikequity.md",
+    "url": "https://gravatar.com/mikequity",
+    "content_hash": "0dd85bbebf1ac45ea52c1763cfb25533f4b4df33128f9e809bcb7963971db507",
+    "step": 10,
+    "chars": 722
+  },
+  {
+    "id": "s018",
+    "tool": "github_intel",
+    "args": {
+      "name": "Mike Chen",
+      "hint": "Stanford"
+    },
+    "path": "sources/018_github_intel_s018_https_github_com_search_q_mike_chen.md",
+    "url": "https://github.com/search?q=Mike Chen&type=users",
+    "content_hash": "e408a29f20991d8be4f2287a6b3a150d89304f84792a8a81b57b76af7ae58efa",
+    "step": 11,
+    "chars": 296
+  }
+]

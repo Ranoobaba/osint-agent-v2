@@ -1,0 +1,18 @@
+{
+  "target_type": "role_at_company",
+  "raw": "the CTO of Ariglad",
+  "names": [],
+  "emails": [],
+  "handles": [],
+  "companies": [
+    {
+      "name": "Ariglad",
+      "relation": "current"
+    }
+  ],
+  "roles": [
+    "CTO"
+  ],
+  "locations": [],
+  "urls": []
+}

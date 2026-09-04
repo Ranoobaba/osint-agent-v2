@@ -1,0 +1,589 @@
+{
+  "nodes": [
+    {
+      "id": "input.target",
+      "type": "ground_truth",
+      "kind": "target",
+      "value": "Michael Chen, Stanford, linkedin.com/in/mivchen",
+      "field": null,
+      "confidence": 100
+    },
+    {
+      "id": "candidate.cand1",
+      "type": "candidate",
+      "kind": "person",
+      "value": "Michael Chen, LinkedIn mivchen / GitHub mivchen, Director of Product at Meta",
+      "field": null,
+      "confidence": 100
+    },
+    {
+      "id": "candidate.cand2",
+      "type": "candidate",
+      "kind": "same_name_other",
+      "value": "Michael Chen, LinkedIn mvchen, Engineering Manager at Meta (namesake)",
+      "field": null,
+      "confidence": 51
+    },
+    {
+      "id": "c001",
+      "type": "finding",
+      "kind": "identity",
+      "value": "Michael Chen",
+      "field": "full_name",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c002",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Meta",
+      "field": "current_employer",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c003",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Director Of Product Management",
+      "field": "current_title",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c004",
+      "type": "finding",
+      "kind": "personal",
+      "value": "San Francisco Bay Area",
+      "field": "location_city",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c005",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "https://www.linkedin.com/in/mivchen",
+      "field": "linkedin_url",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c006",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "mivchen",
+      "field": "github_handle",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c007",
+      "type": "finding",
+      "kind": "contact",
+      "value": "redacted:74e4f066b29d",
+      "field": "personal_email",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c008",
+      "type": "finding",
+      "kind": "projects",
+      "value": "traffic",
+      "field": "project",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c009",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "2016-11-18",
+      "field": "github_account_created",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c011",
+      "type": "finding",
+      "kind": "education",
+      "value": "Stanford University",
+      "field": "education",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c012",
+      "type": "finding",
+      "kind": "education",
+      "value": "Master of Science (MS), Electrical and Electronics Engineering",
+      "field": "degree",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c013",
+      "type": "finding",
+      "kind": "professional",
+      "value": "January 2018",
+      "field": "employer_start_date",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c014",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Tableau Software",
+      "field": "past_employer",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c015",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Group Product Manager",
+      "field": "past_title",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c016",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Lead Product Manager - New Products",
+      "field": "past_title",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c017",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Soundhawk",
+      "field": "past_employer",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c018",
+      "type": "finding",
+      "kind": "professional",
+      "value": "joined Tableau’s product management after earning his MSEE at Stanford",
+      "field": "tableau_blog_bio",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c020",
+      "type": "finding",
+      "kind": "personal",
+      "value": "accepting challenges, playing sports, and liking bands before they were cool",
+      "field": "interests",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c021",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "https://www.tableau.com/about/blog/contributors/michael-chen",
+      "field": "author_page",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c022",
+      "type": "finding",
+      "kind": "professional",
+      "value": "New Views for Tableau Server Administrators — BI on BI",
+      "field": "publication",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c023",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Foxconn backed wearable device startup",
+      "field": "employer_description",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c024",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Cupertino, CA",
+      "field": "past_employer_location",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c025",
+      "type": "finding",
+      "kind": "professional",
+      "value": "https://theorg.com/org/meta/org-chart/michael-chen",
+      "field": "org_chart_profile",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c026",
+      "type": "finding",
+      "kind": "education",
+      "value": "Master of Science in Electrical and Electronics Engineering from Stanford University",
+      "field": "education_corroboration",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c028",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Product Management and Marketing",
+      "field": "team",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c029",
+      "type": "finding",
+      "kind": "professional",
+      "value": "No direct reports",
+      "field": "direct_reports",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c032",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Head of Product - Growth",
+      "field": "past_title",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c033",
+      "type": "finding",
+      "kind": "projects",
+      "value": "Conversational analytics with data visualization snapshots",
+      "field": "patent",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c036",
+      "type": "finding",
+      "kind": "professional",
+      "value": "Director of Product at Meta",
+      "field": "headline",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "c037",
+      "type": "finding",
+      "kind": "online_presence",
+      "value": "248 followers",
+      "field": "linkedin_followers",
+      "confidence": 70,
+      "sensitive": false
+    },
+    {
+      "id": "synthesis.1",
+      "type": "inference",
+      "kind": "synthesis",
+      "value": "Stanford MSEE graduate who moved from Soundhawk to Tableau product management and then to Meta as Director of Product Management",
+      "field": null,
+      "confidence": 70,
+      "based_on": [
+        "c002",
+        "c011",
+        "c012"
+      ]
+    },
+    {
+      "id": "synthesis.2",
+      "type": "inference",
+      "kind": "synthesis",
+      "value": "LinkedIn mivchen, GitHub mivchen and theorg.com all describe the same Michael Chen: Meta Director of Product Management with a Stanford MSEE",
+      "field": null,
+      "confidence": 70,
+      "based_on": [
+        "c002",
+        "c005",
+        "c006",
+        "c011"
+      ]
+    },
+    {
+      "id": "synthesis.3",
+      "type": "inference",
+      "kind": "synthesis",
+      "value": "About six years at Tableau Software (2012-2018), rising from Lead Product Manager to Head of Product - Growth, then Meta from January 2018",
+      "field": null,
+      "confidence": 70,
+      "based_on": [
+        "c013",
+        "c014",
+        "c016",
+        "c032"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "input.target",
+      "to": "candidate.cand1",
+      "confidence": 100,
+      "label": "resolved: markers ['url', 'name', 'employer', 'corroboration']"
+    },
+    {
+      "from": "input.target",
+      "to": "candidate.cand2",
+      "confidence": 51,
+      "label": "rejected: lower score"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c001",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c002",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c003",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c004",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c005",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c006",
+      "confidence": 70,
+      "label": "github_commit_email",
+      "source_url": "https://github.com/mivchen"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c007",
+      "confidence": 70,
+      "label": "github_commit_email",
+      "source_url": "https://github.com/mivchen"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c008",
+      "confidence": 70,
+      "label": "github_commit_email",
+      "source_url": "https://github.com/mivchen"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c009",
+      "confidence": 70,
+      "label": "github_commit_email",
+      "source_url": "https://github.com/mivchen"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c011",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c012",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c013",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c014",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c015",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c016",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c017",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c018",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c020",
+      "confidence": 70,
+      "label": "wayback",
+      "source_url": "https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c021",
+      "confidence": 70,
+      "label": "wayback",
+      "source_url": "https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c022",
+      "confidence": 70,
+      "label": "wayback",
+      "source_url": "https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c023",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c024",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c025",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c026",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c028",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c029",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c032",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c033",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c036",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "c037",
+      "confidence": 70,
+      "label": "web_search",
+      "source_url": null
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "synthesis.1",
+      "confidence": 70,
+      "label": "inference"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "synthesis.2",
+      "confidence": 70,
+      "label": "inference"
+    },
+    {
+      "from": "candidate.cand1",
+      "to": "synthesis.3",
+      "confidence": 70,
+      "label": "inference"
+    }
+  ],
+  "stats": {
+    "nodes": 36,
+    "edges": 35,
+    "findings": 30,
+    "candidates": 2,
+    "rejected": 1,
+    "inferences": 3
+  }
+}

@@ -1,0 +1,193 @@
+[
+  {
+    "id": "s001",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Marisol Vantreight\""
+    },
+    "path": "sources/001_web_search_s001_query_marisol_vantreight.md",
+    "url": null,
+    "content_hash": "e3a57f0eaad7409a9aeb68a8e9292e97546a9f2b4b2afb377422a40779b362b0",
+    "step": 1,
+    "chars": 2208
+  },
+  {
+    "id": "s002",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Corvid Freight Systems\" Boise"
+    },
+    "path": "sources/002_web_search_s002_query_corvid_freight_systems_bo.md",
+    "url": null,
+    "content_hash": "9913380e9c26255dc4f88c47e00918be74d5463ed146adaf15b80829598b58c8",
+    "step": 1,
+    "chars": 2356
+  },
+  {
+    "id": "s003",
+    "tool": "web_search",
+    "args": {
+      "query": "Marisol Vantreight supply chain analyst",
+      "category": "linkedin profile"
+    },
+    "path": "sources/003_web_search_s003_category_linkedin_profile_query.md",
+    "url": null,
+    "content_hash": "ee1bcd24fec9864166eeb8d213e580f682228f20ad339ac5d35972a43e0f6bad",
+    "step": 2,
+    "chars": 2084
+  },
+  {
+    "id": "s004",
+    "tool": "github_intel",
+    "args": {
+      "name": "Marisol Vantreight"
+    },
+    "path": "sources/004_github_intel_s004_https_github_com_search_q_marisol_v.md",
+    "url": "https://github.com/search?q=Marisol Vantreight&type=users",
+    "content_hash": "1ad34e20aa7813726608a4b95a248f171f08f3c2ed102eb89ef1330fa0adefaa",
+    "step": 2,
+    "chars": 296
+  },
+  {
+    "id": "s005",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Vantreight\" Boise Idaho"
+    },
+    "path": "sources/005_web_search_s005_query_vantreight_boise_idaho.md",
+    "url": null,
+    "content_hash": "e02c7336f90665edcf5c08ebcafba178a104fbad87b073a81974eec4c150f40a",
+    "step": 3,
+    "chars": 2261
+  },
+  {
+    "id": "s006",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "corvidfreight.com",
+      "mode": "list"
+    },
+    "path": "sources/006_wayback_lookup_s006_https_web_archive_org_web_corvidfre.md",
+    "url": "https://web.archive.org/web/*/corvidfreight.com/*",
+    "content_hash": "82fae9a24381879f1a4ae4d954486824e1ad7f615239b50e4e5c16eb5e7a70f4",
+    "step": 3,
+    "chars": 165
+  },
+  {
+    "id": "s007",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Corvid Freight\" Marisol supply chain analyst"
+    },
+    "path": "sources/007_web_search_s007_query_corvid_freight_marisol_su.md",
+    "url": null,
+    "content_hash": "403620480d0a78b7768dd95bd3d9dd9bf28bbce9975149fb0bc5c92d47a0055d",
+    "step": 4,
+    "chars": 2355
+  },
+  {
+    "id": "s008",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Vantreight\" supply chain OR logistics OR freight analyst"
+    },
+    "path": "sources/008_web_search_s008_query_vantreight_supply_chain_o.md",
+    "url": null,
+    "content_hash": "4e6664ef2add1dee0a86c5c60a9217747549e6a0b9958828ce25a789820ba1e3",
+    "step": 4,
+    "chars": 3091
+  },
+  {
+    "id": "s009",
+    "tool": "whatsmyname",
+    "args": {
+      "username": "vantreight"
+    },
+    "path": "sources/009_whatsmyname_s009_https_whatsmyname_app_q_vantreight.md",
+    "url": "https://whatsmyname.app/?q=vantreight",
+    "content_hash": "c7212126b2b8cd14c8d57a6f106845298a379b955e4a950e8760b9dd397288da",
+    "step": 5,
+    "chars": 862
+  },
+  {
+    "id": "s010",
+    "tool": "gravatar_lookup",
+    "args": {
+      "email": "marisol.vantreight@gmail.com"
+    },
+    "path": "sources/010_gravatar_lookup_s010_https_gravatar_com_dfacdab366ab301a.md",
+    "url": "https://gravatar.com/dfacdab366ab301a811821ec930712abf8fd4360564a05511f3ff6d9145ee0dd",
+    "content_hash": "fa1e7828c2a9d7d9ad83899cf76f7442475734678ff1f0bd545d69a6e1a25599",
+    "step": 5,
+    "chars": 208
+  },
+  {
+    "id": "s011",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Corvid Freight Systems\""
+    },
+    "path": "sources/011_web_search_s011_query_corvid_freight_systems.md",
+    "url": null,
+    "content_hash": "7408f70ca69325fb59380b4e18d4d13d4ea99290a799459296aabf65de679761",
+    "step": 6,
+    "chars": 2388
+  },
+  {
+    "id": "s012",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Corvid Freight\" account record VP Fleet Operations",
+      "domains": [
+        "expertise.ai"
+      ]
+    },
+    "path": "sources/012_web_search_s012_domains_expertise_ai_query.md",
+    "url": null,
+    "content_hash": "8fbcb51edb7fdc6189dc269b390f6060ded2ea92b39b3966a15c7a431b26dbab",
+    "step": 6,
+    "chars": 1173
+  },
+  {
+    "id": "s013",
+    "tool": "web_search",
+    "args": {
+      "query": "\"Marisol Vantreight\" OR \"M. Vantreight\" profile",
+      "domains": [
+        "linkedin.com",
+        "facebook.com",
+        "x.com",
+        "instagram.com"
+      ]
+    },
+    "path": "sources/013_web_search_s013_domains_linkedin_com_facebook_c.md",
+    "url": null,
+    "content_hash": "19bc933735ad0825f4f434482454b0de6967f3f50b96ebef023baabcc407164e",
+    "step": 7,
+    "chars": 2639
+  },
+  {
+    "id": "s014",
+    "tool": "whatsmyname",
+    "args": {
+      "username": "mvantreight"
+    },
+    "path": "sources/014_whatsmyname_s014_https_whatsmyname_app_q_mvantreight.md",
+    "url": "https://whatsmyname.app/?q=mvantreight",
+    "content_hash": "7a1797a0e578f555b9bfba8a1eccc704559c6a3271a926e467811033ba5a5ad7",
+    "step": 7,
+    "chars": 364
+  },
+  {
+    "id": "s015",
+    "tool": "gravatar_lookup",
+    "args": {
+      "email": "mvantreight@corvidfreight.com"
+    },
+    "path": "sources/015_gravatar_lookup_s015_https_gravatar_com_7177100b1b4f9be8.md",
+    "url": "https://gravatar.com/7177100b1b4f9be829bc162df3ae0a589805d66141f9113913676b4c9cbf5cfa",
+    "content_hash": "13dc73e0563ceb86a9c71b7dded4fff56e9486b5ec47cca10cf094ef76089e16",
+    "step": 8,
+    "chars": 209
+  }
+]

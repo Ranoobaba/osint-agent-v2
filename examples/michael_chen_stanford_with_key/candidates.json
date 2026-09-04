@@ -1,0 +1,111 @@
+[
+  {
+    "id": "cand1",
+    "label": "Michael Chen, LinkedIn mivchen / GitHub mivchen, Director of Product at Meta",
+    "names": [
+      "Michael Chen",
+      "Michael Ivan Chen"
+    ],
+    "emails": [
+      "redacted:74e4f066b29d"
+    ],
+    "handles": [
+      "mivchen"
+    ],
+    "profile_urls": [
+      "https://www.linkedin.com/in/mivchen",
+      "https://github.com/mivchen"
+    ],
+    "avatar_hash": "74e4f066b29db5263b7121b3639e71120e4a354ef6f259e2a9c9c7ead2e95b20",
+    "employers": [
+      {
+        "name": "Meta",
+        "role": "Director of Product Management",
+        "start": "January 2018",
+        "end": null
+      }
+    ],
+    "education": [
+      {
+        "name": "Stanford University",
+        "role": "Master of Science (MS), Electrical and Electronics Engineering",
+        "start": null,
+        "end": null
+      }
+    ],
+    "locations": [
+      "San Francisco Bay Area"
+    ],
+    "bio": null,
+    "disclaims_identity": false,
+    "evidence": [
+      {
+        "claim": "LinkedIn slug mivchen belongs to Michael Chen, Director of Product at Meta, San Francisco Bay Area",
+        "source_url": "https://www.linkedin.com/in/mivchen"
+      },
+      {
+        "claim": "GitHub account mivchen has commit email redacted:74e4f066b29d (mivchen/traffic@dc17d81)",
+        "source_url": "https://github.com/mivchen"
+      },
+      {
+        "claim": "LinkedIn profile mivchen lists Stanford University, Master of Science (MS), Electrical and Electronics Engineering and Director of Product Management at Meta since January 2018",
+        "source_url": "https://www.linkedin.com/in/mivchen"
+      },
+      {
+        "claim": "GitHub mivchen commit email redacted:74e4f066b29d",
+        "source_url": "https://github.com/mivchen"
+      },
+      {
+        "claim": "Email reverse pivot: only mivchen authored commits with redacted:74e4f066b29d",
+        "source_url": "https://api.github.com/search/commits?q=author-email:redacted:74e4f066b29d"
+      }
+    ],
+    "first_seen_step": 2
+  },
+  {
+    "id": "cand2",
+    "label": "Michael Chen, LinkedIn mvchen, Engineering Manager at Meta (namesake)",
+    "names": [
+      "Michael Chen"
+    ],
+    "emails": [],
+    "handles": [
+      "mvchen"
+    ],
+    "profile_urls": [
+      "https://www.linkedin.com/in/mvchen",
+      "https://www.noon.ai/pi/mvchen"
+    ],
+    "avatar_hash": null,
+    "employers": [
+      {
+        "name": "Meta",
+        "role": "Engineering Manager",
+        "start": "Jun 2021",
+        "end": null
+      }
+    ],
+    "education": [
+      {
+        "name": "Stanford University",
+        "role": "Master's degree, Computer Science: Artificial Intelligence & Computational Biology",
+        "start": null,
+        "end": null
+      }
+    ],
+    "locations": [],
+    "bio": null,
+    "disclaims_identity": false,
+    "evidence": [
+      {
+        "claim": "Michael Chen, Engineering Manager at Meta since Jun 2021, Stanford Master's in Computer Science",
+        "source_url": "https://www.noon.ai/pi/mvchen"
+      },
+      {
+        "claim": "LinkedIn mvchen: Facebook April 2018 - June 2021, BS Electrical Engineering and Computer Sciences 2012-2016",
+        "source_url": "https://www.linkedin.com/in/mvchen"
+      }
+    ],
+    "first_seen_step": 9
+  }
+]

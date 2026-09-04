@@ -1,0 +1,83 @@
+[
+  {
+    "id": "cand1",
+    "label": "Michael I. Jordan, UC Berkeley professor",
+    "names": [
+      "Michael I. Jordan",
+      "Michael Jordan"
+    ],
+    "emails": [
+      "jordan@cs.berkeley.edu",
+      "jordan@stat.berkeley.edu"
+    ],
+    "handles": [
+      "mijordan3"
+    ],
+    "profile_urls": [
+      "https://people.eecs.berkeley.edu/~jordan/",
+      "https://vcresearch.berkeley.edu/faculty/michael-jordan",
+      "https://scholar.google.com/citations?user=yxUduqMAAAAJ&hl=en",
+      "https://en.wikipedia.org/wiki/Michael_I._Jordan",
+      "https://github.com/mijordan3",
+      "https://www.linkedin.com/in/michael-jordan-767032125",
+      "https://www.stat.berkeley.edu/~jordan/"
+    ],
+    "avatar_hash": null,
+    "employers": [
+      {
+        "name": "University of California, Berkeley",
+        "role": "Pehong Chen Distinguished Professor Emeritus, EECS & Statistics",
+        "start": null,
+        "end": null
+      },
+      {
+        "name": "Inria / Ecole Normale Superieure, Paris",
+        "role": "Directeur de Recherche",
+        "start": null,
+        "end": null
+      },
+      {
+        "name": "Inria Paris",
+        "role": "Researcher",
+        "start": null,
+        "end": null
+      },
+      {
+        "name": "UC Berkeley",
+        "role": "Professor Emeritus",
+        "start": null,
+        "end": null
+      }
+    ],
+    "education": [],
+    "locations": [
+      "Berkeley, CA",
+      "Paris, France"
+    ],
+    "bio": "Pehong Chen Distinguished Professor Emeritus, EECS and Statistics, UC Berkeley; Directeur de Recherche at Inria/ENS Paris",
+    "disclaims_identity": false,
+    "evidence": [
+      {
+        "claim": "Michael I. Jordan, Pehong Chen Distinguished Professor Emeritus, Dept of EECS and Dept of Statistics, UC Berkeley; Email jordan@cs.berkeley.edu; Address 387 Soda Hall",
+        "source_url": "https://people.eecs.berkeley.edu/~jordan/"
+      },
+      {
+        "claim": "Directeur de Recherche, Inria and l'Ecole Normale Superieure, Paris, France",
+        "source_url": "https://people.eecs.berkeley.edu/~jordan/"
+      },
+      {
+        "claim": "GitHub user mijordan3 has commits authored with email jordan@cs.berkeley.edu, name 'Michael Jordan' (mijordan3/dsten.github.io@6654dc8)",
+        "source_url": "https://github.com/mijordan3"
+      },
+      {
+        "claim": "LinkedIn: 'Researcher at Inria Paris, and Professor Emeritus at UC Berkeley'",
+        "source_url": "https://www.linkedin.com/in/michael-jordan-767032125"
+      },
+      {
+        "claim": "Statistics email jordan@stat.berkeley.edu, 401 Evans Hall #3860",
+        "source_url": "https://www.stat.berkeley.edu/~jordan/"
+      }
+    ],
+    "first_seen_step": 2
+  }
+]

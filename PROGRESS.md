@@ -59,8 +59,16 @@
   be rerun once credits exist. Requests now send max_tokens=6000 so a low balance cannot reject calls
   on affordability alone.
 
+- Closed out 2026-09-04 with no money left: Ariglad CTO confirmed by Rayyan (Ali Avci). Shipped
+  configuration set from the measured rungs (free tools + Perplexity + Exa, no Firecrawl, DEEP_DIVE=0)
+  and deployed. Five examples packaged from clean runs with private emails hashed; offline replay check
+  passes 49/49 on michael_jordan. evals/results/FINDINGS.md separates what was measured from what is
+  inferred; rungs 8, 9 and the sweep are unmeasured.
+
 ## In progress
-- Waiting on EXA_API_KEY and FIRECRAWL_API_KEY for rungs 5 to 9 and the collision targets.
+- Nothing. Remaining ladder work needs about 33 dollars of OpenRouter credit.
+
+## Was: waiting on EXA_API_KEY and FIRECRAWL_API_KEY for rungs 5 to 9 and the collision targets.
 
 ## Next
 - Stages 2 to 10 per the plan file.

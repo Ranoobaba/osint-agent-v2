@@ -1,0 +1,571 @@
+{
+  "target": "Michael Chen, Stanford",
+  "anchor": {
+    "target_type": "name",
+    "raw": "Michael Chen, Stanford",
+    "names": [
+      "Michael Chen"
+    ],
+    "emails": [],
+    "handles": [],
+    "companies": [
+      {
+        "name": "Stanford",
+        "relation": "current"
+      }
+    ],
+    "roles": [],
+    "locations": [],
+    "urls": []
+  },
+  "identity": {
+    "status": "ambiguous",
+    "name": "Michael Dongxu Chen",
+    "candidate_id": "cand1",
+    "score": 0.368,
+    "markers": [
+      "name"
+    ],
+    "runner_up": {
+      "id": "cand2",
+      "score": 0.3684
+    },
+    "judge": {
+      "verdict": "unsure",
+      "candidate_id": null,
+      "same_person_ids": [],
+      "reasons": [
+        "The only evidence shared with the target is the common name “Michael Chen”; no candidate is linked to Stanford.",
+        "Candidate 1 is identified with Fadada in Shenzhen, China, at https://github.com/michaelchen, which does not establish a Stanford connection.",
+        "Candidate 2 is identified with Square in the Bay Area at https://github.com/Sticksword, which does not establish a Stanford connection.",
+        "Candidate 3 is identified with Emergence Capital and MIT Sloan at https://gravatar.com/mikequity, which does not establish a Stanford connection."
+      ],
+      "confidence": 0.94,
+      "model": "openai/gpt-5.6-luna"
+    },
+    "candidates": [
+      {
+        "id": "cand1",
+        "label": "Michael Dongxu Chen, GitHub michaelchen (Shenzhen) — likely namesake",
+        "names": [
+          "Michael Dongxu Chen",
+          "Michael Chen"
+        ],
+        "score": 0.368,
+        "markers": [
+          "name"
+        ],
+        "status": "rejected",
+        "reason": "lower score",
+        "profile_urls": [
+          "https://github.com/michaelchen"
+        ],
+        "handles": [
+          "michaelchen"
+        ]
+      },
+      {
+        "id": "cand2",
+        "label": "Michael Chen, GitHub Sticksword (Bay Area, Square)",
+        "names": [
+          "Michael Chen"
+        ],
+        "score": 0.368,
+        "markers": [
+          "name"
+        ],
+        "status": "rejected",
+        "reason": "lower score",
+        "profile_urls": [
+          "https://github.com/Sticksword",
+          "https://medium.com/@Stoic.Sleeper"
+        ],
+        "handles": [
+          "Sticksword",
+          "Stoic.Sleeper"
+        ]
+      },
+      {
+        "id": "cand3",
+        "label": "Michael Chen 'mikequity', michael.chen@gmail.com (Emergence VC, MIT Sloan) — namesake",
+        "names": [
+          "Michael Chen",
+          "mikequity"
+        ],
+        "score": 0.368,
+        "markers": [
+          "name"
+        ],
+        "status": "rejected",
+        "reason": "lower score",
+        "profile_urls": [
+          "https://gravatar.com/mikequity"
+        ],
+        "handles": [
+          "mikequity"
+        ]
+      }
+    ],
+    "summary": "Identity ambiguous: 3 candidate(s) considered, none met the bar"
+  },
+  "findings": [],
+  "excluded_findings": [
+    {
+      "id": "c001",
+      "category": "online_presence",
+      "field": "github_handle",
+      "value": "michaelchen",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/michaelchen",
+      "source_id": "s010",
+      "excerpt": "url: https://github.com/michaelchen  avatar: https://avatars.githubusercontent.com/u/888174?v=4",
+      "content_hash": "b042eaf2cf15be1854ab3c3ed59c6581559e3831d432eb4d53065673f7974f44",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 12,
+      "excluded_reason": "identity not resolved"
+    },
+    {
+      "id": "c002",
+      "category": "contact",
+      "field": "personal_email",
+      "value": "redacted:b81a6c8a9442",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/michaelchen",
+      "source_id": "s010",
+      "excerpt": "- redacted:b81a6c8a9442  x16  names=['Michael Dongxu Chen', 'cdx', 'Michael Chen']  evidence=['profile public email field', 'michaelchen/bday@f1c4ad5', 'michaelchen/bday@d16f6f1']",
+      "content_hash": "b042eaf2cf15be1854ab3c3ed59c6581559e3831d432eb4d53065673f7974f44",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 12,
+      "excluded_reason": "identity not resolved"
+    },
+    {
+      "id": "c003",
+      "category": "professional",
+      "field": "current_employer",
+      "value": "Fadada",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/michaelchen",
+      "source_id": "s010",
+      "excerpt": "profile: name='Michael Dongxu Chen' company='Fadada' location='Shenzhen China' blog='' twitter=None created=2011-07-01 public_repos=14 followers=4",
+      "content_hash": "b042eaf2cf15be1854ab3c3ed59c6581559e3831d432eb4d53065673f7974f44",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 12,
+      "excluded_reason": "identity not resolved"
+    },
+    {
+      "id": "c004",
+      "category": "personal",
+      "field": "location_city",
+      "value": "Shenzhen China",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/michaelchen",
+      "source_id": "s010",
+      "excerpt": "profile: name='Michael Dongxu Chen' company='Fadada' location='Shenzhen China' blog='' twitter=None created=2011-07-01 public_repos=14 followers=4",
+      "content_hash": "b042eaf2cf15be1854ab3c3ed59c6581559e3831d432eb4d53065673f7974f44",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 12,
+      "excluded_reason": "identity not resolved"
+    },
+    {
+      "id": "c005",
+      "category": "online_presence",
+      "field": "github_handle",
+      "value": "Sticksword",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/Sticksword",
+      "source_id": "s011",
+      "excerpt": "url: https://github.com/Sticksword  avatar: https://avatars.githubusercontent.com/u/3814531?v=4",
+      "content_hash": "f8a04e3d4199e9779f9b22564724cc0b92d01312840156dc6ee05d3669efc152",
+      "method": "github_commit_email",
+      "candidate_id": "cand2",
+      "step": 12,
+      "excluded_reason": "identity not resolved"
+    },
+    {
+      "id": "c006",
+      "category": "professional",
+      "field": "current_employer",
+      "value": "@Square",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/Sticksword",
+      "source_id": "s011",
+      "excerpt": "profile: name='Michael Chen' company='@Square' location='Bay Area, CA' blog='https://medium.com/@Stoic.Sleeper' twitter=None created=2013-03-09 public_repos=105 followers=19",
+      "content_hash": "f8a04e3d4199e9779f9b22564724cc0b92d01312840156dc6ee05d3669efc152",
+      "method": "github_commit_email",
+      "candidate_id": "cand2",
+      "step": 12,
+      "excluded_reason": "identity not resolved"
+    },
+    {
+      "id": "c007",
+      "category": "online_presence",
+      "field": "blog_url",
+      "value": "https://medium.com/@Stoic.Sleeper",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/Sticksword",
+      "source_id": "s011",
+      "excerpt": "profile: name='Michael Chen' company='@Square' location='Bay Area, CA' blog='https://medium.com/@Stoic.Sleeper' twitter=None created=2013-03-09 public_repos=105 followers=19",
+      "content_hash": "f8a04e3d4199e9779f9b22564724cc0b92d01312840156dc6ee05d3669efc152",
+      "method": "github_commit_email",
+      "candidate_id": "cand2",
+      "step": 12,
+      "excluded_reason": "identity not resolved"
+    },
+    {
+      "id": "c008",
+      "category": "personal",
+      "field": "location_city",
+      "value": "Bay Area, CA",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/Sticksword",
+      "source_id": "s011",
+      "excerpt": "profile: name='Michael Chen' company='@Square' location='Bay Area, CA' blog='https://medium.com/@Stoic.Sleeper' twitter=None created=2013-03-09 public_repos=105 followers=19",
+      "content_hash": "f8a04e3d4199e9779f9b22564724cc0b92d01312840156dc6ee05d3669efc152",
+      "method": "github_commit_email",
+      "candidate_id": "cand2",
+      "step": 12,
+      "excluded_reason": "identity not resolved"
+    },
+    {
+      "id": "c009",
+      "category": "professional",
+      "field": "current_title",
+      "value": "associate vc@emergence",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://gravatar.com/mikequity",
+      "source_id": "s017",
+      "excerpt": "profile (api_v3): display_name='mikequity', description='associate vc@emergence, internets guy, slow triathlete, foodie, cajun, asian, indie films, gamer,lover,fighter, football fan, Penn Quaker, MIT Sloan 2012', profile_url='https://gravatar.com/mikequity', avatar_url='https://2.gravatar.com/avatar/39a6c63845831b9f2b45bbc2da3e4dcaf25aff1d4cc55f8bac47af39df011035'",
+      "content_hash": "0dd85bbebf1ac45ea52c1763cfb25533f4b4df33128f9e809bcb7963971db507",
+      "method": "gravatar",
+      "candidate_id": "cand3",
+      "step": 12,
+      "excluded_reason": "identity not resolved"
+    },
+    {
+      "id": "c010",
+      "category": "education",
+      "field": "education",
+      "value": "MIT Sloan 2012",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://gravatar.com/mikequity",
+      "source_id": "s017",
+      "excerpt": "profile (api_v3): display_name='mikequity', description='associate vc@emergence, internets guy, slow triathlete, foodie, cajun, asian, indie films, gamer,lover,fighter, football fan, Penn Quaker, MIT Sloan 2012', profile_url='https://gravatar.com/mikequity', avatar_url='https://2.gravatar.com/avatar/39a6c63845831b9f2b45bbc2da3e4dcaf25aff1d4cc55f8bac47af39df011035'",
+      "content_hash": "0dd85bbebf1ac45ea52c1763cfb25533f4b4df33128f9e809bcb7963971db507",
+      "method": "gravatar",
+      "candidate_id": "cand3",
+      "step": 12,
+      "excluded_reason": "identity not resolved"
+    }
+  ],
+  "not_found": [
+    {
+      "field": "identity",
+      "note": "ambiguous: would raise the score: an email (github_intel on their handle, then gravatar_lookup)",
+      "searched": [
+        "github_intel",
+        "github_intel",
+        "github_intel",
+        "whatsmyname",
+        "gravatar_lookup",
+        "gravatar_lookup",
+        "gravatar_lookup",
+        "wayback_lookup"
+      ]
+    },
+    {
+      "field": "stanford_affiliation",
+      "note": "No GitHub profile named Michael/Mike Chen mentions Stanford; no Gravatar on michaelchen@/mchen@/michael.chen@stanford.edu; nothing archived at stanford.edu/~mchen or ~michaelchen. A Stanford directory/lab page URL or a stanford.edu commit email would settle it.",
+      "searched": [
+        "s001",
+        "s002",
+        "s003",
+        "s005",
+        "s006",
+        "s007",
+        "s008",
+        "s009",
+        "s012",
+        "s014",
+        "s018"
+      ]
+    },
+    {
+      "field": "target_identity_resolution",
+      "note": "Three same-name candidates found (Shenzhen/Fadada, Bay Area/Square, Emergence VC), none tied to Stanford; a hard key (stanford.edu email or Stanford profile URL) is needed to pick one.",
+      "searched": [
+        "s003",
+        "s004",
+        "s010",
+        "s011",
+        "s013",
+        "s017"
+      ]
+    }
+  ],
+  "conflicts": [],
+  "synthesis": [],
+  "sources": [
+    {
+      "id": "s001",
+      "tool": "github_intel",
+      "url": "https://github.com/search?q=Michael Chen&type=users",
+      "path": "sources/001_github_intel_s001_https_github_com_search_q_michael_c.md",
+      "content_hash": "725b667050773695c7e3f22b153667da1b51e6fafc090a1590411a4a6f0797ea"
+    },
+    {
+      "id": "s002",
+      "tool": "github_intel",
+      "url": "https://github.com/search?q=Michael Chen&type=users",
+      "path": "sources/002_github_intel_s002_https_github_com_search_q_michael_c.md",
+      "content_hash": "a6b4ed29d33f608a1166ccda35326b8d9340b100cb06ee13b9cfad7aef3b8d35"
+    },
+    {
+      "id": "s003",
+      "tool": "github_intel",
+      "url": "https://github.com/search?q=Michael Chen&type=users",
+      "path": "sources/003_github_intel_s003_https_github_com_search_q_michael_c.md",
+      "content_hash": "17c05e82c0c4b477bb4624e1686bccf458e25fcbc2ca2f94e340b73a587e16df"
+    },
+    {
+      "id": "s004",
+      "tool": "whatsmyname",
+      "url": "https://whatsmyname.app/?q=michaelchen",
+      "path": "sources/004_whatsmyname_s004_https_whatsmyname_app_q_michaelchen.md",
+      "content_hash": "823b8e2f3112326040d45d064ec05582ef051fee9869899def0414a2245c226f"
+    },
+    {
+      "id": "s005",
+      "tool": "gravatar_lookup",
+      "url": "https://gravatar.com/60cae6147dcd639a6ce5e9c36f01e673e907bb4679df7aa9eaee836305653e14",
+      "path": "sources/005_gravatar_lookup_s005_https_gravatar_com_60cae6147dcd639a.md",
+      "content_hash": "256ea4da5a986410060aae6fe0a4f95d3b841c367fe614b6d63733a2903aa779"
+    },
+    {
+      "id": "s006",
+      "tool": "gravatar_lookup",
+      "url": "https://gravatar.com/17dbaa3cae0b7452b4a6f81453159ee9828f04e976a8d960aa29b301a912f13a",
+      "path": "sources/006_gravatar_lookup_s006_https_gravatar_com_17dbaa3cae0b7452.md",
+      "content_hash": "c8afd8c5fb7de9299dee27b6738a8b204c9b827039d64dbfbf5db66eac1e49a4"
+    },
+    {
+      "id": "s007",
+      "tool": "gravatar_lookup",
+      "url": "https://gravatar.com/028e1d11da8d6116f21ebf2841ddfecb62f2b0d31b3ccb78f6b40db44078b5e3",
+      "path": "sources/007_gravatar_lookup_s007_https_gravatar_com_028e1d11da8d6116.md",
+      "content_hash": "8f26dfb8e79f616c578918cd0016804c87d1831e84baa12c0a9f69bd99978bdd"
+    },
+    {
+      "id": "s008",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/*/stanford.edu/~mchen/*",
+      "path": "sources/008_wayback_lookup_s008_https_web_archive_org_web_stanford_.md",
+      "content_hash": "19864465fc41b75cd615f32cc37c52708fbb18ef7f705783074801ce94c35ef5"
+    },
+    {
+      "id": "s009",
+      "tool": "github_intel",
+      "url": "https://api.github.com/search/commits?q=author-email:mchen@stanford.edu",
+      "path": "sources/009_github_intel_s009_https_api_github_com_search_commits.md",
+      "content_hash": "22fa68df141b4495a9af93d9f4909eac07aedf70581ef60d016021ba16aba736"
+    },
+    {
+      "id": "s010",
+      "tool": "github_intel",
+      "url": "https://github.com/michaelchen",
+      "path": "sources/010_github_intel_s010_https_github_com_michaelchen.md",
+      "content_hash": "b042eaf2cf15be1854ab3c3ed59c6581559e3831d432eb4d53065673f7974f44"
+    },
+    {
+      "id": "s011",
+      "tool": "github_intel",
+      "url": "https://github.com/Sticksword",
+      "path": "sources/011_github_intel_s011_https_github_com_sticksword.md",
+      "content_hash": "f8a04e3d4199e9779f9b22564724cc0b92d01312840156dc6ee05d3669efc152"
+    },
+    {
+      "id": "s012",
+      "tool": "github_intel",
+      "url": "https://github.com/search?q=Michael Chen&type=users",
+      "path": "sources/012_github_intel_s012_https_github_com_search_q_michael_c.md",
+      "content_hash": "6d2d3d17e65dc51b5b0bf493d7177d5419920825349aee4c1c53c3817b8ebebc"
+    },
+    {
+      "id": "s013",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/*/michaelchen.me/*",
+      "path": "sources/013_wayback_lookup_s013_https_web_archive_org_web_michaelch.md",
+      "content_hash": "831d2eeb115e685ef2de93184e3d5e12dbfa2b52b9aeff3939a8be8b16cd5cd3"
+    },
+    {
+      "id": "s014",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/*/stanford.edu/~michaelchen/*",
+      "path": "sources/014_wayback_lookup_s014_https_web_archive_org_web_stanford_.md",
+      "content_hash": "c299969fd0add003a1039c2c58dd9734187b23f848174322baa97c514ae0b54b"
+    },
+    {
+      "id": "s015",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/20130329000000id_/https://michaelchen.me",
+      "path": "sources/015_wayback_lookup_s015_https_web_archive_org_web_201303290.md",
+      "content_hash": "36a10e98162e8a3c53e051124759afa35050e34e059d9369c76f0d7558e11f4c"
+    },
+    {
+      "id": "s016",
+      "tool": "gravatar_lookup",
+      "url": "https://gravatar.com/612a421bfc7f6372e753a0f3a012031560976ecdd112ec20b863c4403aa1bf6b",
+      "path": "sources/016_gravatar_lookup_s016_https_gravatar_com_612a421bfc7f6372.md",
+      "content_hash": "338ddcd351f775b77412286492f17193e3d350a0fdff942ed03d5eabece7b74b"
+    },
+    {
+      "id": "s017",
+      "tool": "gravatar_lookup",
+      "url": "https://gravatar.com/mikequity",
+      "path": "sources/017_gravatar_lookup_s017_https_gravatar_com_mikequity.md",
+      "content_hash": "0dd85bbebf1ac45ea52c1763cfb25533f4b4df33128f9e809bcb7963971db507"
+    },
+    {
+      "id": "s018",
+      "tool": "github_intel",
+      "url": "https://github.com/search?q=Mike Chen&type=users",
+      "path": "sources/018_github_intel_s018_https_github_com_search_q_mike_chen.md",
+      "content_hash": "e408a29f20991d8be4f2287a6b3a150d89304f84792a8a81b57b76af7ae58efa"
+    }
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "input.target",
+        "type": "ground_truth",
+        "kind": "target",
+        "value": "Michael Chen, Stanford",
+        "field": null,
+        "confidence": 100
+      },
+      {
+        "id": "candidate.cand1",
+        "type": "candidate",
+        "kind": "person",
+        "value": "Michael Dongxu Chen, GitHub michaelchen (Shenzhen) — likely namesake",
+        "field": null,
+        "confidence": 37
+      },
+      {
+        "id": "candidate.cand2",
+        "type": "candidate",
+        "kind": "same_name_other",
+        "value": "Michael Chen, GitHub Sticksword (Bay Area, Square)",
+        "field": null,
+        "confidence": 37
+      },
+      {
+        "id": "candidate.cand3",
+        "type": "candidate",
+        "kind": "same_name_other",
+        "value": "Michael Chen 'mikequity', michael.chen@gmail.com (Emergence VC, MIT Sloan) — namesake",
+        "field": null,
+        "confidence": 37
+      }
+    ],
+    "edges": [
+      {
+        "from": "input.target",
+        "to": "candidate.cand1",
+        "confidence": 37,
+        "label": "resolved: markers ['name']"
+      },
+      {
+        "from": "input.target",
+        "to": "candidate.cand2",
+        "confidence": 37,
+        "label": "rejected: lower score"
+      },
+      {
+        "from": "input.target",
+        "to": "candidate.cand3",
+        "confidence": 37,
+        "label": "rejected: lower score"
+      }
+    ],
+    "stats": {
+      "nodes": 4,
+      "edges": 3,
+      "findings": 0,
+      "candidates": 3,
+      "rejected": 2,
+      "inferences": 0
+    }
+  },
+  "run": {
+    "llm_calls": 16,
+    "tool_calls": 25,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 196402,
+      "output": 7469,
+      "reasoning": 2306,
+      "cached_input": 173045
+    },
+    "cost_usd": 0.399513,
+    "llm_latency_ms": 158698,
+    "tool_latency_ms": 74719,
+    "duration_s": 233.5,
+    "stop_reason": "finish",
+    "steps": 14,
+    "error": null,
+    "budget": {
+      "calls": 18,
+      "max_calls": 20,
+      "usd": 0.392,
+      "max_usd": 1.25,
+      "llm_usd": 0.392,
+      "tool_usd": 0.0,
+      "elapsed_s": 233.5,
+      "max_seconds": 480
+    },
+    "flags": {
+      "tools": [
+        "github",
+        "gravatar",
+        "wayback",
+        "whatsmyname"
+      ],
+      "deep_dive": false,
+      "nudges": [
+        "NUDGE_INPUT_SHAPE"
+      ],
+      "max_tool_calls": 20,
+      "max_usd": 1.25,
+      "max_seconds": 480,
+      "saturation_dry_steps": 3,
+      "prune_steps": 0,
+      "lead_model": "anthropic/claude-opus-5",
+      "judge_model": "openai/gpt-5.6-luna"
+    },
+    "model": "anthropic/claude-opus-5",
+    "git_sha": "53780f2",
+    "run_id": "20260904-010411-b5a139",
+    "trace_path": "/Users/rayyanscomputer/osint-agent-v2/runs/rung3/collision_nokey/20260904-010411-b5a139/trace.jsonl",
+    "unsupported_candidates": 0,
+    "deep_dive": [],
+    "sources": 18,
+    "proposed": 12,
+    "admitted": 12,
+    "rejected": 0,
+    "findings": 10
+  }
+}

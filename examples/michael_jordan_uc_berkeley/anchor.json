@@ -1,0 +1,18 @@
+{
+  "target_type": "name",
+  "raw": "Michael Jordan, UC Berkeley",
+  "names": [
+    "Michael Jordan"
+  ],
+  "emails": [],
+  "handles": [],
+  "companies": [
+    {
+      "name": "UC Berkeley",
+      "relation": "current"
+    }
+  ],
+  "roles": [],
+  "locations": [],
+  "urls": []
+}

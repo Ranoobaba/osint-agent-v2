@@ -1,0 +1,137 @@
+[
+  {
+    "id": "cand1",
+    "label": "Michael Dongxu Chen, GitHub michaelchen (Shenzhen) — likely namesake",
+    "names": [
+      "Michael Dongxu Chen",
+      "Michael Chen"
+    ],
+    "emails": [
+      "redacted:b81a6c8a9442"
+    ],
+    "handles": [
+      "michaelchen"
+    ],
+    "profile_urls": [
+      "https://github.com/michaelchen"
+    ],
+    "avatar_hash": null,
+    "employers": [
+      {
+        "name": "Fadada",
+        "role": null,
+        "start": null,
+        "end": null
+      }
+    ],
+    "education": [],
+    "locations": [
+      "Shenzhen China"
+    ],
+    "bio": null,
+    "disclaims_identity": false,
+    "evidence": [
+      {
+        "claim": "GitHub user michaelchen: name='Michael Dongxu Chen' company='Fadada' location='Shenzhen China'",
+        "source_url": "https://github.com/michaelchen"
+      },
+      {
+        "claim": "commit email redacted:b81a6c8a9442 recovered from michaelchen/bday",
+        "source_url": "https://github.com/michaelchen"
+      }
+    ],
+    "first_seen_step": 6
+  },
+  {
+    "id": "cand2",
+    "label": "Michael Chen, GitHub Sticksword (Bay Area, Square)",
+    "names": [
+      "Michael Chen"
+    ],
+    "emails": [],
+    "handles": [
+      "Sticksword",
+      "Stoic.Sleeper"
+    ],
+    "profile_urls": [
+      "https://github.com/Sticksword",
+      "https://medium.com/@Stoic.Sleeper"
+    ],
+    "avatar_hash": null,
+    "employers": [
+      {
+        "name": "Square",
+        "role": null,
+        "start": null,
+        "end": null
+      }
+    ],
+    "education": [],
+    "locations": [
+      "Bay Area, CA"
+    ],
+    "bio": null,
+    "disclaims_identity": false,
+    "evidence": [
+      {
+        "claim": "profile: name='Michael Chen' company='@Square' location='Bay Area, CA' blog='https://medium.com/@Stoic.Sleeper'",
+        "source_url": "https://github.com/Sticksword"
+      },
+      {
+        "claim": "bio: Change your thoughts and you change your world. ML & product guy.",
+        "source_url": "https://github.com/Sticksword"
+      }
+    ],
+    "first_seen_step": 7
+  },
+  {
+    "id": "cand3",
+    "label": "Michael Chen 'mikequity', michael.chen@gmail.com (Emergence VC, MIT Sloan) — namesake",
+    "names": [
+      "Michael Chen",
+      "mikequity"
+    ],
+    "emails": [
+      "michael.chen@gmail.com"
+    ],
+    "handles": [
+      "mikequity"
+    ],
+    "profile_urls": [
+      "https://gravatar.com/mikequity"
+    ],
+    "avatar_hash": "39a6c63845831b9f2b45bbc2da3e4dcaf25aff1d4cc55f8bac47af39df011035",
+    "employers": [
+      {
+        "name": "Emergence Capital",
+        "role": "associate VC",
+        "start": null,
+        "end": null
+      }
+    ],
+    "education": [
+      {
+        "name": "MIT Sloan",
+        "role": null,
+        "start": null,
+        "end": "2012"
+      },
+      {
+        "name": "University of Pennsylvania",
+        "role": null,
+        "start": null,
+        "end": null
+      }
+    ],
+    "locations": [],
+    "bio": null,
+    "disclaims_identity": false,
+    "evidence": [
+      {
+        "claim": "Gravatar for michael.chen@gmail.com: display_name='mikequity', description='associate vc@emergence, internets guy, slow triathlete, foodie, cajun, asian, indie films, gamer,lover,fighter, football fan, Penn Quaker, MIT Sloan 2012'",
+        "source_url": "https://gravatar.com/mikequity"
+      }
+    ],
+    "first_seen_step": 11
+  }
+]

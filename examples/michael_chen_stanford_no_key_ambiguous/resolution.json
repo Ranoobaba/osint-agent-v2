@@ -1,0 +1,86 @@
+{
+  "status": "ambiguous",
+  "best_candidate_id": "cand1",
+  "score": 0.3684,
+  "matched_markers": [
+    "name"
+  ],
+  "contradictions": [],
+  "runner_up": {
+    "id": "cand2",
+    "score": 0.3684
+  },
+  "judge": {
+    "verdict": "unsure",
+    "candidate_id": null,
+    "same_person_ids": [],
+    "reasons": [
+      "The only evidence shared with the target is the common name “Michael Chen”; no candidate is linked to Stanford.",
+      "Candidate 1 is identified with Fadada in Shenzhen, China, at https://github.com/michaelchen, which does not establish a Stanford connection.",
+      "Candidate 2 is identified with Square in the Bay Area at https://github.com/Sticksword, which does not establish a Stanford connection.",
+      "Candidate 3 is identified with Emergence Capital and MIT Sloan at https://gravatar.com/mikequity, which does not establish a Stanford connection."
+    ],
+    "confidence": 0.94,
+    "model": "openai/gpt-5.6-luna"
+  },
+  "candidates_considered": 3,
+  "breakdowns": [
+    {
+      "candidate_id": "cand1",
+      "score": 0.3684,
+      "fields": {
+        "name": 1.0,
+        "employer": 0.0
+      },
+      "weights_used": {
+        "name": 0.35,
+        "employer": 0.6
+      },
+      "matched_markers": [
+        "name"
+      ],
+      "contradictions": [],
+      "capped": false,
+      "gated": false,
+      "reason": null
+    },
+    {
+      "candidate_id": "cand2",
+      "score": 0.3684,
+      "fields": {
+        "name": 1.0,
+        "employer": 0.0
+      },
+      "weights_used": {
+        "name": 0.35,
+        "employer": 0.6
+      },
+      "matched_markers": [
+        "name"
+      ],
+      "contradictions": [],
+      "capped": false,
+      "gated": false,
+      "reason": null
+    },
+    {
+      "candidate_id": "cand3",
+      "score": 0.3684,
+      "fields": {
+        "name": 1.0,
+        "employer": 0.0
+      },
+      "weights_used": {
+        "name": 0.35,
+        "employer": 0.6
+      },
+      "matched_markers": [
+        "name"
+      ],
+      "contradictions": [],
+      "capped": false,
+      "gated": false,
+      "reason": null
+    }
+  ]
+}

@@ -1,0 +1,1397 @@
+{
+  "target": "Michael Chen, Stanford, linkedin.com/in/mivchen",
+  "anchor": {
+    "target_type": "name",
+    "raw": "Michael Chen, Stanford, linkedin.com/in/mivchen",
+    "names": [
+      "Michael Chen"
+    ],
+    "emails": [],
+    "handles": [],
+    "companies": [
+      {
+        "name": "Stanford",
+        "relation": "current"
+      }
+    ],
+    "roles": [],
+    "locations": [],
+    "urls": [
+      "linkedin.com/in/mivchen"
+    ]
+  },
+  "identity": {
+    "status": "resolved",
+    "name": "Michael Chen",
+    "candidate_id": "cand1",
+    "score": 1.0,
+    "markers": [
+      "url",
+      "name",
+      "employer",
+      "corroboration"
+    ],
+    "runner_up": {
+      "id": "cand2",
+      "score": 0.5135
+    },
+    "judge": null,
+    "candidates": [
+      {
+        "id": "cand1",
+        "label": "Michael Chen, LinkedIn mivchen / GitHub mivchen, Director of Product at Meta",
+        "names": [
+          "Michael Chen",
+          "Michael Ivan Chen"
+        ],
+        "score": 1.0,
+        "markers": [
+          "url",
+          "name",
+          "employer",
+          "corroboration"
+        ],
+        "status": "resolved",
+        "reason": "winner",
+        "profile_urls": [
+          "https://www.linkedin.com/in/mivchen",
+          "https://github.com/mivchen"
+        ],
+        "handles": [
+          "mivchen"
+        ]
+      },
+      {
+        "id": "cand2",
+        "label": "Michael Chen, LinkedIn mvchen, Engineering Manager at Meta (namesake)",
+        "names": [
+          "Michael Chen"
+        ],
+        "score": 0.513,
+        "markers": [
+          "name",
+          "employer",
+          "corroboration"
+        ],
+        "status": "rejected",
+        "reason": "lower score",
+        "profile_urls": [
+          "https://www.linkedin.com/in/mvchen",
+          "https://www.noon.ai/pi/mvchen"
+        ],
+        "handles": [
+          "mvchen"
+        ]
+      }
+    ],
+    "summary": "Resolved to Michael Chen, LinkedIn mivchen / GitHub mivchen, Director of Product at Meta with markers ['url', 'name', 'employer', 'corroboration']"
+  },
+  "findings": [
+    {
+      "id": "c001",
+      "category": "identity",
+      "field": "full_name",
+      "value": "Michael Chen",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s001",
+      "excerpt": "Michael Chen - Director of Product at Meta",
+      "content_hash": "c1bbd24d137bed61952d8db672237da8e3ef42aba0a45d0686f04cfc6ff1e2e5",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 3
+    },
+    {
+      "id": "c002",
+      "category": "professional",
+      "field": "current_employer",
+      "value": "Meta",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s001",
+      "excerpt": "Michael Chen** **Director Of Product Management** **Director of Product at Meta** San Francisco Bay Area United States 248 followers · 228 connections ### Experience ... **Meta** January 2018 - Present",
+      "content_hash": "c1bbd24d137bed61952d8db672237da8e3ef42aba0a45d0686f04cfc6ff1e2e5",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 3
+    },
+    {
+      "id": "c003",
+      "category": "professional",
+      "field": "current_title",
+      "value": "Director Of Product Management",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s001",
+      "excerpt": "Michael Chen** **Director Of Product Management** **Director of Product at Meta** San Francisco Bay Area United States 248 followers · 228 connections",
+      "content_hash": "c1bbd24d137bed61952d8db672237da8e3ef42aba0a45d0686f04cfc6ff1e2e5",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 3
+    },
+    {
+      "id": "c004",
+      "category": "personal",
+      "field": "location_city",
+      "value": "San Francisco Bay Area",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s001",
+      "excerpt": "Director of Product at Meta** San Francisco Bay Area United States 248 followers · 228 connections",
+      "content_hash": "c1bbd24d137bed61952d8db672237da8e3ef42aba0a45d0686f04cfc6ff1e2e5",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 3
+    },
+    {
+      "id": "c005",
+      "category": "online_presence",
+      "field": "linkedin_url",
+      "value": "https://www.linkedin.com/in/mivchen",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s001",
+      "excerpt": "url: https://www.linkedin.com/in/mivchen",
+      "content_hash": "c1bbd24d137bed61952d8db672237da8e3ef42aba0a45d0686f04cfc6ff1e2e5",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 3
+    },
+    {
+      "id": "c006",
+      "category": "online_presence",
+      "field": "github_handle",
+      "value": "mivchen",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/mivchen",
+      "source_id": "s002",
+      "excerpt": "url: https://github.com/mivchen  avatar: https://avatars.githubusercontent.com/u/23548744?v=4",
+      "content_hash": "4a2aa175af56f88485803bc0d0aeae0d709d604b141934b4f62761befcf6fa93",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 3
+    },
+    {
+      "id": "c007",
+      "category": "contact",
+      "field": "personal_email",
+      "value": "redacted:74e4f066b29d",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/mivchen",
+      "source_id": "s002",
+      "excerpt": "- redacted:74e4f066b29d  x1  names=['mivchen']  evidence=['mivchen/traffic@dc17d81']",
+      "content_hash": "4a2aa175af56f88485803bc0d0aeae0d709d604b141934b4f62761befcf6fa93",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 3
+    },
+    {
+      "id": "c008",
+      "category": "projects",
+      "field": "project",
+      "value": "traffic",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/mivchen",
+      "source_id": "s002",
+      "excerpt": "- traffic [None] stars=0 pushed=2016-11-18 When to get home",
+      "content_hash": "4a2aa175af56f88485803bc0d0aeae0d709d604b141934b4f62761befcf6fa93",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 3
+    },
+    {
+      "id": "c009",
+      "category": "online_presence",
+      "field": "github_account_created",
+      "value": "2016-11-18",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://github.com/mivchen",
+      "source_id": "s002",
+      "excerpt": "profile: name=None company=None location=None blog='' twitter=None created=2016-11-18 public_repos=1 followers=0",
+      "content_hash": "4a2aa175af56f88485803bc0d0aeae0d709d604b141934b4f62761befcf6fa93",
+      "method": "github_commit_email",
+      "candidate_id": "cand1",
+      "step": 3
+    },
+    {
+      "id": "c011",
+      "category": "education",
+      "field": "education",
+      "value": "Stanford University",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s009",
+      "excerpt": "- **Director of Product Management** **Meta** January 2018 - Present San Francisco Bay Area ... - **Stanford University** **Master of Science (MS), Electrical and Electronics Engineering",
+      "content_hash": "e2fc71e6e1ba3f78c839fbcaf89bfbccad6e55e8f1ea93ffd01fcc131cb32718",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 7
+    },
+    {
+      "id": "c012",
+      "category": "education",
+      "field": "degree",
+      "value": "Master of Science (MS), Electrical and Electronics Engineering",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s009",
+      "excerpt": "- **Stanford University** **Master of Science (MS), Electrical and Electronics Engineering",
+      "content_hash": "e2fc71e6e1ba3f78c839fbcaf89bfbccad6e55e8f1ea93ffd01fcc131cb32718",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 7
+    },
+    {
+      "id": "c013",
+      "category": "professional",
+      "field": "employer_start_date",
+      "value": "January 2018",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s005",
+      "excerpt": "- **Director of Product Management** **Meta** January 2018 - Present San Francisco Bay Area",
+      "content_hash": "35c0294d5c972f2550886132f3756daeafd8cbd4c82a601068f0b77fe587a979",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 7
+    },
+    {
+      "id": "c014",
+      "category": "professional",
+      "field": "past_employer",
+      "value": "Tableau Software",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s011",
+      "excerpt": "Tableau Software** February 2017 - January 2018 · 1 year Palo Alto ... - **Group Product Manager** **Tableau Software** January 2015 - January 2017 · 2 years ... - **Lead Product Manager - New Products** **Tableau Software** January 2012 - January 2015 · 3 years",
+      "content_hash": "a81d14e14f84412f44d7f626066fa8bc8341cb920ff5a84579940548f8d63ce1",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 9
+    },
+    {
+      "id": "c015",
+      "category": "professional",
+      "field": "past_title",
+      "value": "Group Product Manager",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s011",
+      "excerpt": "- **Group Product Manager** **Tableau Software** January 2015 - January 2017 · 2 years",
+      "content_hash": "a81d14e14f84412f44d7f626066fa8bc8341cb920ff5a84579940548f8d63ce1",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 9
+    },
+    {
+      "id": "c016",
+      "category": "professional",
+      "field": "past_title",
+      "value": "Lead Product Manager - New Products",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s011",
+      "excerpt": "- **Lead Product Manager - New Products** **Tableau Software** January 2012 - January 2015 · 3 years",
+      "content_hash": "a81d14e14f84412f44d7f626066fa8bc8341cb920ff5a84579940548f8d63ce1",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 9
+    },
+    {
+      "id": "c017",
+      "category": "professional",
+      "field": "past_employer",
+      "value": "Soundhawk",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s011",
+      "excerpt": "- **Product** **Soundhawk** January 2010 - January 2013 · 3 years Cupertino, CA",
+      "content_hash": "a81d14e14f84412f44d7f626066fa8bc8341cb920ff5a84579940548f8d63ce1",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 9
+    },
+    {
+      "id": "c018",
+      "category": "professional",
+      "field": "tableau_blog_bio",
+      "value": "joined Tableau’s product management after earning his MSEE at Stanford",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s005",
+      "excerpt": "Michael, who describes his job to family and friends as “making smart data beautiful”, joined Tableau’s product management after earning his MSEE at Stanford.",
+      "content_hash": "35c0294d5c972f2550886132f3756daeafd8cbd4c82a601068f0b77fe587a979",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 9
+    },
+    {
+      "id": "c020",
+      "category": "personal",
+      "field": "interests",
+      "value": "accepting challenges, playing sports, and liking bands before they were cool",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen",
+      "source_id": "s012",
+      "excerpt": "When not talking with customers in person or via the community forums, Michael enjoys accepting challenges, playing sports, and liking bands before they were cool.",
+      "content_hash": "c0d5b5c9a8140a7b6748f46d97cb2b4ba0a87ea77575b2ab63f2fc44fcb2e7c4",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 11
+    },
+    {
+      "id": "c021",
+      "category": "online_presence",
+      "field": "author_page",
+      "value": "https://www.tableau.com/about/blog/contributors/michael-chen",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen",
+      "source_id": "s012",
+      "excerpt": "wayback_lookup read: www.tableau.com/about/blog/contributors/michael-chen @ 2015-01-30  (https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen)",
+      "content_hash": "c0d5b5c9a8140a7b6748f46d97cb2b4ba0a87ea77575b2ab63f2fc44fcb2e7c4",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 11
+    },
+    {
+      "id": "c022",
+      "category": "professional",
+      "field": "publication",
+      "value": "New Views for Tableau Server Administrators — BI on BI",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": "https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen",
+      "source_id": "s012",
+      "excerpt": "New Views for Tableau Server Administrators — BI on BI \n By Michael Chen \n Jan 27, 2015",
+      "content_hash": "c0d5b5c9a8140a7b6748f46d97cb2b4ba0a87ea77575b2ab63f2fc44fcb2e7c4",
+      "method": "wayback",
+      "candidate_id": "cand1",
+      "step": 12
+    },
+    {
+      "id": "c023",
+      "category": "professional",
+      "field": "employer_description",
+      "value": "Foxconn backed wearable device startup",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s013",
+      "excerpt": "- **Product** **Soundhawk** January 2010 - January 2013 · 3 years Cupertino, CA Foxconn backed wearable device startup ... - **Stanford University** **Master of Science (MS), Electrical and Electronics Engineering",
+      "content_hash": "518cffd3f530c69fd4b7fbba026183b03176501df6cedc66d83c6c5a2b97b47c",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 12
+    },
+    {
+      "id": "c024",
+      "category": "professional",
+      "field": "past_employer_location",
+      "value": "Cupertino, CA",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s013",
+      "excerpt": "- **Product** **Soundhawk** January 2010 - January 2013 · 3 years Cupertino, CA Foxconn backed wearable device startup",
+      "content_hash": "518cffd3f530c69fd4b7fbba026183b03176501df6cedc66d83c6c5a2b97b47c",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 12
+    },
+    {
+      "id": "c025",
+      "category": "professional",
+      "field": "org_chart_profile",
+      "value": "https://theorg.com/org/meta/org-chart/michael-chen",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s014",
+      "excerpt": "url: https://theorg.com/org/meta/org-chart/michael-chen",
+      "content_hash": "dc946b42a96f790f54dce756276a4a9617825ff8636026218ee8e0db030eb139",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 13
+    },
+    {
+      "id": "c026",
+      "category": "education",
+      "field": "education_corroboration",
+      "value": "Master of Science in Electrical and Electronics Engineering from Stanford University",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s014",
+      "excerpt": "Michael holds a Master of Science in Electrical and Electronics Engineering from Stanford University.",
+      "content_hash": "dc946b42a96f790f54dce756276a4a9617825ff8636026218ee8e0db030eb139",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 13
+    },
+    {
+      "id": "c028",
+      "category": "professional",
+      "field": "team",
+      "value": "Product Management and Marketing",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s015",
+      "excerpt": "Org chart No direct reports ## Teams ### Product Management and Marketing 1466 people, 0 jobs",
+      "content_hash": "f2cffeb0ba7c556ec9ed01025806ae19d70ef4afa4e6d9812c8fdbcf2201742f",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 14
+    },
+    {
+      "id": "c029",
+      "category": "professional",
+      "field": "direct_reports",
+      "value": "No direct reports",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s015",
+      "excerpt": "Org chart No direct reports ## Teams ### Product Management and Marketing 1466 people, 0 jobs",
+      "content_hash": "f2cffeb0ba7c556ec9ed01025806ae19d70ef4afa4e6d9812c8fdbcf2201742f",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 14
+    },
+    {
+      "id": "c032",
+      "category": "professional",
+      "field": "past_title",
+      "value": "Head of Product - Growth",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s016",
+      "excerpt": "- **Head of Product - Growth** **Tableau Software** February 2017 - January 2018 · 1 year",
+      "content_hash": "47c1350e26a24703b7bbd0516bc5c48ca1e4470ccc677655683f0eb7d1006e8c",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 16
+    },
+    {
+      "id": "c033",
+      "category": "projects",
+      "field": "patent",
+      "value": "Conversational analytics with data visualization snapshots",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s016",
+      "excerpt": "- **Conversational analytics with data visualization snapshots** Issued 2021-01-01",
+      "content_hash": "47c1350e26a24703b7bbd0516bc5c48ca1e4470ccc677655683f0eb7d1006e8c",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 16
+    },
+    {
+      "id": "c036",
+      "category": "professional",
+      "field": "headline",
+      "value": "Director of Product at Meta",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s018",
+      "excerpt": "Director Of Product Management** **Director of Product at Meta** ... - **Director of Product Management** **Meta** January 2018 - Present San Francisco Bay Area",
+      "content_hash": "bd2acde048bdf08e251817237acf939a6e96b09aa55c876c53111eaea8100bd0",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 19
+    },
+    {
+      "id": "c037",
+      "category": "online_presence",
+      "field": "linkedin_followers",
+      "value": "248 followers",
+      "confidence": 0.7,
+      "sensitive": false,
+      "source_url": null,
+      "source_id": "s001",
+      "excerpt": "Director of Product at Meta** San Francisco Bay Area United States 248 followers · 228 connections",
+      "content_hash": "c1bbd24d137bed61952d8db672237da8e3ef42aba0a45d0686f04cfc6ff1e2e5",
+      "method": "web_search",
+      "candidate_id": "cand1",
+      "step": 19
+    }
+  ],
+  "excluded_findings": [],
+  "not_found": [
+    {
+      "field": "gravatar_profile",
+      "note": "none",
+      "searched": [
+        "s003"
+      ]
+    },
+    {
+      "field": "undergraduate_institution",
+      "note": "LinkedIn mivchen snippets list only Stanford MS EE; a full LinkedIn education section or a resume would settle the bachelor's degree.",
+      "searched": [
+        "s009",
+        "s011",
+        "s013",
+        "s014"
+      ]
+    },
+    {
+      "field": "twitter_handle",
+      "note": "whatsmyname shows a 'mivchen' existence hit on X/archived Twitter, but no bio or avatar confirming it belongs to this Michael Chen.",
+      "searched": [
+        "s004",
+        "s010"
+      ]
+    },
+    {
+      "field": "patent_number_and_assignee",
+      "note": "Patent title appears only on his LinkedIn; a Google Patents / Justia record naming Michael Chen as inventor (likely assignee Tableau or Salesforce) would confirm the number.",
+      "searched": [
+        "s016",
+        "s017"
+      ]
+    },
+    {
+      "field": "meta_product_area",
+      "note": "His Meta role is listed only as 'Director of Product Management' with no product area; the LinkedIn About/role description or a press mention would specify it.",
+      "searched": [
+        "s018",
+        "s015",
+        "s009"
+      ]
+    }
+  ],
+  "conflicts": [],
+  "synthesis": [
+    {
+      "id": "c019",
+      "claim": "Stanford MSEE graduate who moved from Soundhawk to Tableau product management and then to Meta as Director of Product Management",
+      "based_on": [
+        "c002",
+        "c011",
+        "c012"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "id": "c027",
+      "claim": "LinkedIn mivchen, GitHub mivchen and theorg.com all describe the same Michael Chen: Meta Director of Product Management with a Stanford MSEE",
+      "based_on": [
+        "c002",
+        "c005",
+        "c006",
+        "c011"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "id": "c035",
+      "claim": "About six years at Tableau Software (2012-2018), rising from Lead Product Manager to Head of Product - Growth, then Meta from January 2018",
+      "based_on": [
+        "c013",
+        "c014",
+        "c016",
+        "c032"
+      ],
+      "confidence": 0.7
+    }
+  ],
+  "sources": [
+    {
+      "id": "s001",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/001_web_search_s001_category_linkedin_profile_query.md",
+      "content_hash": "c1bbd24d137bed61952d8db672237da8e3ef42aba0a45d0686f04cfc6ff1e2e5"
+    },
+    {
+      "id": "s002",
+      "tool": "github_intel",
+      "url": "https://github.com/mivchen",
+      "path": "sources/002_github_intel_s002_https_github_com_mivchen.md",
+      "content_hash": "4a2aa175af56f88485803bc0d0aeae0d709d604b141934b4f62761befcf6fa93"
+    },
+    {
+      "id": "s003",
+      "tool": "gravatar_lookup",
+      "url": "https://gravatar.com/74e4f066b29db5263b7121b3639e71120e4a354ef6f259e2a9c9c7ead2e95b20",
+      "path": "sources/003_gravatar_lookup_s003_https_gravatar_com_74e4f066b29db526.md",
+      "content_hash": "3eea0a4b3d07d36a29d526db858f7239dc1e27023b162b8237fcef234403886b"
+    },
+    {
+      "id": "s004",
+      "tool": "whatsmyname",
+      "url": "https://whatsmyname.app/?q=mivchen",
+      "path": "sources/004_whatsmyname_s004_https_whatsmyname_app_q_mivchen.md",
+      "content_hash": "4a45be098549068716219de14cde019da4d724de306ed6cf2e054e01843b43ac"
+    },
+    {
+      "id": "s005",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/005_web_search_s005_query_michael_chen_stanford_met.md",
+      "content_hash": "35c0294d5c972f2550886132f3756daeafd8cbd4c82a601068f0b77fe587a979"
+    },
+    {
+      "id": "s006",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/006_web_search_s006_query_michaelivanchen_or_mich.md",
+      "content_hash": "36aaf6d86a3afc6a4978e0ac82c9cdce757a31e546ae7509f0b96de7b33617d3"
+    },
+    {
+      "id": "s007",
+      "tool": "github_intel",
+      "url": "https://api.github.com/search/commits?q=author-email:redacted:74e4f066b29d",
+      "path": "sources/007_github_intel_s007_https_api_github_com_search_commits.md",
+      "content_hash": "d0c09f0c00b44c1075a062b4bc1caef49f229ace7d8f53a578ae98ba40131aaa"
+    },
+    {
+      "id": "s008",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/*/www.linkedin.com/in/mivchen",
+      "path": "sources/008_wayback_lookup_s008_https_web_archive_org_web_www_linke.md",
+      "content_hash": "740bc482cd2495b92bba63dc8cdb71a29cf2059511f4f3c3cd8c7979c9088d75"
+    },
+    {
+      "id": "s009",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/009_web_search_s009_category_linkedin_profile_query.md",
+      "content_hash": "e2fc71e6e1ba3f78c839fbcaf89bfbccad6e55e8f1ea93ffd01fcc131cb32718"
+    },
+    {
+      "id": "s010",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/010_web_search_s010_query_mivchen_michael_chen_twit.md",
+      "content_hash": "8c0d6ec7327c4396a76f4e06ca6cce86c666eb1d31e35ca6e8e03fbe6bd98433"
+    },
+    {
+      "id": "s011",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/011_web_search_s011_category_linkedin_profile_query.md",
+      "content_hash": "a81d14e14f84412f44d7f626066fa8bc8341cb920ff5a84579940548f8d63ce1"
+    },
+    {
+      "id": "s012",
+      "tool": "wayback_lookup",
+      "url": "https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen",
+      "path": "sources/012_wayback_lookup_s012_https_web_archive_org_web_201501300.md",
+      "content_hash": "c0d5b5c9a8140a7b6748f46d97cb2b4ba0a87ea77575b2ab63f2fc44fcb2e7c4"
+    },
+    {
+      "id": "s013",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/013_web_search_s013_query_michael_chen_soundhawk_pr.md",
+      "content_hash": "518cffd3f530c69fd4b7fbba026183b03176501df6cedc66d83c6c5a2b97b47c"
+    },
+    {
+      "id": "s014",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/014_web_search_s014_query_michael_chen_meta_directo.md",
+      "content_hash": "dc946b42a96f790f54dce756276a4a9617825ff8636026218ee8e0db030eb139"
+    },
+    {
+      "id": "s015",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/015_web_search_s015_domains_theorg_com_query_th.md",
+      "content_hash": "f2cffeb0ba7c556ec9ed01025806ae19d70ef4afa4e6d9812c8fdbcf2201742f"
+    },
+    {
+      "id": "s016",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/016_web_search_s016_query_michael_chen_tableau_conf.md",
+      "content_hash": "47c1350e26a24703b7bbd0516bc5c48ca1e4470ccc677655683f0eb7d1006e8c"
+    },
+    {
+      "id": "s017",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/017_web_search_s017_query_conversational_analytics_wi.md",
+      "content_hash": "1060368c59514b5c694fe4755d6c77c2f921fb9776e03aaa83aba112cc6881f3"
+    },
+    {
+      "id": "s018",
+      "tool": "web_search",
+      "url": null,
+      "path": "sources/018_web_search_s018_category_linkedin_profile_query.md",
+      "content_hash": "bd2acde048bdf08e251817237acf939a6e96b09aa55c876c53111eaea8100bd0"
+    }
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "input.target",
+        "type": "ground_truth",
+        "kind": "target",
+        "value": "Michael Chen, Stanford, linkedin.com/in/mivchen",
+        "field": null,
+        "confidence": 100
+      },
+      {
+        "id": "candidate.cand1",
+        "type": "candidate",
+        "kind": "person",
+        "value": "Michael Chen, LinkedIn mivchen / GitHub mivchen, Director of Product at Meta",
+        "field": null,
+        "confidence": 100
+      },
+      {
+        "id": "candidate.cand2",
+        "type": "candidate",
+        "kind": "same_name_other",
+        "value": "Michael Chen, LinkedIn mvchen, Engineering Manager at Meta (namesake)",
+        "field": null,
+        "confidence": 51
+      },
+      {
+        "id": "c001",
+        "type": "finding",
+        "kind": "identity",
+        "value": "Michael Chen",
+        "field": "full_name",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c002",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Meta",
+        "field": "current_employer",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c003",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Director Of Product Management",
+        "field": "current_title",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c004",
+        "type": "finding",
+        "kind": "personal",
+        "value": "San Francisco Bay Area",
+        "field": "location_city",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c005",
+        "type": "finding",
+        "kind": "online_presence",
+        "value": "https://www.linkedin.com/in/mivchen",
+        "field": "linkedin_url",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c006",
+        "type": "finding",
+        "kind": "online_presence",
+        "value": "mivchen",
+        "field": "github_handle",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c007",
+        "type": "finding",
+        "kind": "contact",
+        "value": "redacted:74e4f066b29d",
+        "field": "personal_email",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c008",
+        "type": "finding",
+        "kind": "projects",
+        "value": "traffic",
+        "field": "project",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c009",
+        "type": "finding",
+        "kind": "online_presence",
+        "value": "2016-11-18",
+        "field": "github_account_created",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c011",
+        "type": "finding",
+        "kind": "education",
+        "value": "Stanford University",
+        "field": "education",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c012",
+        "type": "finding",
+        "kind": "education",
+        "value": "Master of Science (MS), Electrical and Electronics Engineering",
+        "field": "degree",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c013",
+        "type": "finding",
+        "kind": "professional",
+        "value": "January 2018",
+        "field": "employer_start_date",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c014",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Tableau Software",
+        "field": "past_employer",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c015",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Group Product Manager",
+        "field": "past_title",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c016",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Lead Product Manager - New Products",
+        "field": "past_title",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c017",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Soundhawk",
+        "field": "past_employer",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c018",
+        "type": "finding",
+        "kind": "professional",
+        "value": "joined Tableau’s product management after earning his MSEE at Stanford",
+        "field": "tableau_blog_bio",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c020",
+        "type": "finding",
+        "kind": "personal",
+        "value": "accepting challenges, playing sports, and liking bands before they were cool",
+        "field": "interests",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c021",
+        "type": "finding",
+        "kind": "online_presence",
+        "value": "https://www.tableau.com/about/blog/contributors/michael-chen",
+        "field": "author_page",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c022",
+        "type": "finding",
+        "kind": "professional",
+        "value": "New Views for Tableau Server Administrators — BI on BI",
+        "field": "publication",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c023",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Foxconn backed wearable device startup",
+        "field": "employer_description",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c024",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Cupertino, CA",
+        "field": "past_employer_location",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c025",
+        "type": "finding",
+        "kind": "professional",
+        "value": "https://theorg.com/org/meta/org-chart/michael-chen",
+        "field": "org_chart_profile",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c026",
+        "type": "finding",
+        "kind": "education",
+        "value": "Master of Science in Electrical and Electronics Engineering from Stanford University",
+        "field": "education_corroboration",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c028",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Product Management and Marketing",
+        "field": "team",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c029",
+        "type": "finding",
+        "kind": "professional",
+        "value": "No direct reports",
+        "field": "direct_reports",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c032",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Head of Product - Growth",
+        "field": "past_title",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c033",
+        "type": "finding",
+        "kind": "projects",
+        "value": "Conversational analytics with data visualization snapshots",
+        "field": "patent",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c036",
+        "type": "finding",
+        "kind": "professional",
+        "value": "Director of Product at Meta",
+        "field": "headline",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "c037",
+        "type": "finding",
+        "kind": "online_presence",
+        "value": "248 followers",
+        "field": "linkedin_followers",
+        "confidence": 70,
+        "sensitive": false
+      },
+      {
+        "id": "synthesis.1",
+        "type": "inference",
+        "kind": "synthesis",
+        "value": "Stanford MSEE graduate who moved from Soundhawk to Tableau product management and then to Meta as Director of Product Management",
+        "field": null,
+        "confidence": 70,
+        "based_on": [
+          "c002",
+          "c011",
+          "c012"
+        ]
+      },
+      {
+        "id": "synthesis.2",
+        "type": "inference",
+        "kind": "synthesis",
+        "value": "LinkedIn mivchen, GitHub mivchen and theorg.com all describe the same Michael Chen: Meta Director of Product Management with a Stanford MSEE",
+        "field": null,
+        "confidence": 70,
+        "based_on": [
+          "c002",
+          "c005",
+          "c006",
+          "c011"
+        ]
+      },
+      {
+        "id": "synthesis.3",
+        "type": "inference",
+        "kind": "synthesis",
+        "value": "About six years at Tableau Software (2012-2018), rising from Lead Product Manager to Head of Product - Growth, then Meta from January 2018",
+        "field": null,
+        "confidence": 70,
+        "based_on": [
+          "c013",
+          "c014",
+          "c016",
+          "c032"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "from": "input.target",
+        "to": "candidate.cand1",
+        "confidence": 100,
+        "label": "resolved: markers ['url', 'name', 'employer', 'corroboration']"
+      },
+      {
+        "from": "input.target",
+        "to": "candidate.cand2",
+        "confidence": 51,
+        "label": "rejected: lower score"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c001",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c002",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c003",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c004",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c005",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c006",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/mivchen"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c007",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/mivchen"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c008",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/mivchen"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c009",
+        "confidence": 70,
+        "label": "github_commit_email",
+        "source_url": "https://github.com/mivchen"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c011",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c012",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c013",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c014",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c015",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c016",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c017",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c018",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c020",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c021",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c022",
+        "confidence": 70,
+        "label": "wayback",
+        "source_url": "https://web.archive.org/web/20150130022321id_/https://www.tableau.com/about/blog/contributors/michael-chen"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c023",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c024",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c025",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c026",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c028",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c029",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c032",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c033",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c036",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "c037",
+        "confidence": 70,
+        "label": "web_search",
+        "source_url": null
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "synthesis.1",
+        "confidence": 70,
+        "label": "inference"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "synthesis.2",
+        "confidence": 70,
+        "label": "inference"
+      },
+      {
+        "from": "candidate.cand1",
+        "to": "synthesis.3",
+        "confidence": 70,
+        "label": "inference"
+      }
+    ],
+    "stats": {
+      "nodes": 36,
+      "edges": 35,
+      "findings": 30,
+      "candidates": 2,
+      "rejected": 1,
+      "inferences": 3
+    }
+  },
+  "run": {
+    "llm_calls": 21,
+    "tool_calls": 36,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 475047,
+      "output": 11360,
+      "reasoning": 2085,
+      "cached_input": 432081
+    },
+    "cost_usd": 0.768525,
+    "llm_latency_ms": 222607,
+    "tool_latency_ms": 78110,
+    "duration_s": 300.8,
+    "stop_reason": "finish",
+    "steps": 20,
+    "error": null,
+    "budget": {
+      "calls": 18,
+      "max_calls": 20,
+      "usd": 0.8202,
+      "max_usd": 1.25,
+      "llm_usd": 0.7602,
+      "tool_usd": 0.06,
+      "elapsed_s": 301.0,
+      "max_seconds": 480
+    },
+    "flags": {
+      "tools": [
+        "github",
+        "gravatar",
+        "wayback",
+        "whatsmyname",
+        "perplexity"
+      ],
+      "deep_dive": false,
+      "nudges": [
+        "NUDGE_INPUT_SHAPE"
+      ],
+      "max_tool_calls": 20,
+      "max_usd": 1.25,
+      "max_seconds": 480,
+      "saturation_dry_steps": 3,
+      "prune_steps": 0,
+      "lead_model": "anthropic/claude-opus-5",
+      "judge_model": "openai/gpt-5.6-luna"
+    },
+    "model": "anthropic/claude-opus-5",
+    "git_sha": "53780f2",
+    "run_id": "20260904-011013-e16f48",
+    "trace_path": "/Users/rayyanscomputer/osint-agent-v2/runs/rung4/collision_key/20260904-011013-e16f48/trace.jsonl",
+    "unsupported_candidates": 0,
+    "deep_dive": [],
+    "sources": 18,
+    "proposed": 40,
+    "admitted": 38,
+    "rejected": 2,
+    "findings": 30
+  }
+}

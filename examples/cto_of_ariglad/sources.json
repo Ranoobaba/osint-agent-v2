@@ -1,0 +1,193 @@
+[
+  {
+    "id": "s001",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "ariglad.com",
+      "mode": "list",
+      "limit": 60
+    },
+    "path": "sources/001_wayback_lookup_s001_https_web_archive_org_web_ariglad_c.md",
+    "url": "https://web.archive.org/web/*/ariglad.com/*",
+    "content_hash": "c260504d3b138e7549f6cca71310ded90152bc62a076bd3c0d98e42af33e8734",
+    "step": 1,
+    "chars": 226
+  },
+  {
+    "id": "s002",
+    "tool": "github_intel",
+    "args": {
+      "name": "Ariglad"
+    },
+    "path": "sources/002_github_intel_s002_https_github_com_search_q_ariglad_t.md",
+    "url": "https://github.com/search?q=Ariglad&type=users",
+    "content_hash": "a9439fe4d5e9c7290c3e22bbe5036506c4c61d52d53fc4c604665cf6b8dee1c3",
+    "step": 1,
+    "chars": 285
+  },
+  {
+    "id": "s003",
+    "tool": "github_intel",
+    "args": {
+      "username": "ariglad"
+    },
+    "path": "sources/003_github_intel_s003_https_github_com_ariglad.md",
+    "url": "https://github.com/Ariglad",
+    "content_hash": "62521e3f7c25304596cefa5db9eb562ddb18d8935ee6be24d8572a795c00dc0e",
+    "step": 4,
+    "chars": 541
+  },
+  {
+    "id": "s004",
+    "tool": "whatsmyname",
+    "args": {
+      "username": "ariglad"
+    },
+    "path": "sources/004_whatsmyname_s004_https_whatsmyname_app_q_ariglad.md",
+    "url": "https://whatsmyname.app/?q=ariglad",
+    "content_hash": "7676a674846118c43cd175ecf010aeec0f521b4ce9d5ca955286e57e13bb10f3",
+    "step": 5,
+    "chars": 1246
+  },
+  {
+    "id": "s005",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "crunchbase.com/organization/ariglad",
+      "mode": "list",
+      "limit": 20
+    },
+    "path": "sources/005_wayback_lookup_s005_https_web_archive_org_web_crunchbas.md",
+    "url": "https://web.archive.org/web/*/crunchbase.com/organization/ariglad/*",
+    "content_hash": "fa3bc7bb3866a7dcbbbf58dc1c4823d35e6a540beac941a8c355b9b693d0b41b",
+    "step": 7,
+    "chars": 183
+  },
+  {
+    "id": "s006",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "https://www.ariglad.com/",
+      "mode": "read",
+      "timestamp": "20201103000000"
+    },
+    "path": "sources/006_wayback_lookup_s006_https_web_archive_org_web_202011030.md",
+    "url": "https://web.archive.org/web/20201103000000id_/https://www.ariglad.com",
+    "content_hash": "5b9cb70a9ba0b5d683d35f2be1ea97ac42bd11b52657ba40605cd46560314497",
+    "step": 7,
+    "chars": 3277
+  },
+  {
+    "id": "s007",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "https://www.ariglad.com/team",
+      "mode": "read"
+    },
+    "path": "sources/007_wayback_lookup_s007_https_web_archive_org_web_202012030.md",
+    "url": "https://web.archive.org/web/20201203081303id_/https://www.ariglad.com/team",
+    "content_hash": "37839453488af02a62395fb11b768c2864f3ccdb195746e170c8500821c298cd",
+    "step": 8,
+    "chars": 1287
+  },
+  {
+    "id": "s008",
+    "tool": "github_intel",
+    "args": {
+      "name": "Ali Avci",
+      "hint": "Toronto"
+    },
+    "path": "sources/008_github_intel_s008_https_github_com_search_q_ali_avci_.md",
+    "url": "https://github.com/search?q=Ali Avci&type=users",
+    "content_hash": "8b8ce981eebe18816aa92684e6888c74eff0aa4a1e6b5bf44d5792b1f9fae40d",
+    "step": 11,
+    "chars": 294
+  },
+  {
+    "id": "s009",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "https://www.ariglad.com/about",
+      "mode": "read"
+    },
+    "path": "sources/009_wayback_lookup_s009_https_web_archive_org_web_202011282.md",
+    "url": "https://web.archive.org/web/20201128214822id_/https://www.ariglad.com/about",
+    "content_hash": "5f58542e602790bd08ff43e79c78b5a3037483cb591d35b397e2bc48ba7ff8eb",
+    "step": 11,
+    "chars": 1993
+  },
+  {
+    "id": "s010",
+    "tool": "gravatar_lookup",
+    "args": {
+      "email": "ali@ariglad.com"
+    },
+    "path": "sources/010_gravatar_lookup_s010_https_gravatar_com_54bed270a40c8aab.md",
+    "url": "https://gravatar.com/54bed270a40c8aab99b6fb2ee76fbe2fe83bcaff763f17f6693a887354067c02",
+    "content_hash": "26356fc0ee6ed0c36ff60be224d5e257e043ae607697730c01942905d79ee708",
+    "step": 13,
+    "chars": 195
+  },
+  {
+    "id": "s011",
+    "tool": "github_intel",
+    "args": {
+      "name": "Ali Avci"
+    },
+    "path": "sources/011_github_intel_s011_https_github_com_search_q_ali_avci_.md",
+    "url": "https://github.com/search?q=Ali Avci&type=users",
+    "content_hash": "0780f350ba600bad4ee8dcda6ca3ff02327f4ba128989ac0216b3bac1ef54411",
+    "step": 13,
+    "chars": 1371
+  },
+  {
+    "id": "s012",
+    "tool": "github_intel",
+    "args": {
+      "username": "aiavci",
+      "max_repos": 6
+    },
+    "path": "sources/012_github_intel_s012_https_github_com_aiavci.md",
+    "url": "https://github.com/aiavci",
+    "content_hash": "632534707ab59d2ebee721895040f9b6e974693392a67bf14d2effbb9890f4c6",
+    "step": 16,
+    "chars": 1191
+  },
+  {
+    "id": "s013",
+    "tool": "gravatar_lookup",
+    "args": {
+      "email": "redacted:c086046fe1d5"
+    },
+    "path": "sources/013_gravatar_lookup_s013_https_gravatar_com_c086046fe1d5d89c.md",
+    "url": "https://gravatar.com/c086046fe1d5d89c234a0a210ecc78c188fa2833c12a7c697cf525d67ef11583",
+    "content_hash": "1bb96045a987f3765c26b8cf85fdcc496f10b4d4816d5235d6f122278fdf9d4c",
+    "step": 18,
+    "chars": 201
+  },
+  {
+    "id": "s014",
+    "tool": "wayback_lookup",
+    "args": {
+      "url": "avci.ca",
+      "mode": "read"
+    },
+    "path": "sources/014_wayback_lookup_s014_https_web_archive_org_web_202405230.md",
+    "url": "https://web.archive.org/web/20240523030137id_/https://avci.ca",
+    "content_hash": "4f88c424135e1dfab8d040e9490673a6b7707294acef7d3506702dd8278791a3",
+    "step": 18,
+    "chars": 186
+  },
+  {
+    "id": "s015",
+    "tool": "whatsmyname",
+    "args": {
+      "username": "aiavci"
+    },
+    "path": "sources/015_whatsmyname_s015_https_whatsmyname_app_q_aiavci.md",
+    "url": "https://whatsmyname.app/?q=aiavci",
+    "content_hash": "347b68966749b6d91ee9f5726edd5fd149d356226d701c29cd0ee1e49be71ee9",
+    "step": 20,
+    "chars": 1861
+  }
+]

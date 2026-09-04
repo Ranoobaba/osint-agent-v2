@@ -1,0 +1,20 @@
+{
+  "target_type": "name",
+  "raw": "Michael Chen, Stanford, linkedin.com/in/mivchen",
+  "names": [
+    "Michael Chen"
+  ],
+  "emails": [],
+  "handles": [],
+  "companies": [
+    {
+      "name": "Stanford",
+      "relation": "current"
+    }
+  ],
+  "roles": [],
+  "locations": [],
+  "urls": [
+    "linkedin.com/in/mivchen"
+  ]
+}

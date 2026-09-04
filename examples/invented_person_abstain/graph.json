@@ -1,0 +1,21 @@
+{
+  "nodes": [
+    {
+      "id": "input.target",
+      "type": "ground_truth",
+      "kind": "target",
+      "value": "Marisol Vantreight, supply chain analyst at Corvid Freight Systems, Boise",
+      "field": null,
+      "confidence": 100
+    }
+  ],
+  "edges": [],
+  "stats": {
+    "nodes": 1,
+    "edges": 0,
+    "findings": 0,
+    "candidates": 0,
+    "rejected": 0,
+    "inferences": 0
+  }
+}

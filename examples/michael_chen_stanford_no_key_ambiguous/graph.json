@@ -1,0 +1,64 @@
+{
+  "nodes": [
+    {
+      "id": "input.target",
+      "type": "ground_truth",
+      "kind": "target",
+      "value": "Michael Chen, Stanford",
+      "field": null,
+      "confidence": 100
+    },
+    {
+      "id": "candidate.cand1",
+      "type": "candidate",
+      "kind": "person",
+      "value": "Michael Dongxu Chen, GitHub michaelchen (Shenzhen) — likely namesake",
+      "field": null,
+      "confidence": 37
+    },
+    {
+      "id": "candidate.cand2",
+      "type": "candidate",
+      "kind": "same_name_other",
+      "value": "Michael Chen, GitHub Sticksword (Bay Area, Square)",
+      "field": null,
+      "confidence": 37
+    },
+    {
+      "id": "candidate.cand3",
+      "type": "candidate",
+      "kind": "same_name_other",
+      "value": "Michael Chen 'mikequity', michael.chen@gmail.com (Emergence VC, MIT Sloan) — namesake",
+      "field": null,
+      "confidence": 37
+    }
+  ],
+  "edges": [
+    {
+      "from": "input.target",
+      "to": "candidate.cand1",
+      "confidence": 37,
+      "label": "resolved: markers ['name']"
+    },
+    {
+      "from": "input.target",
+      "to": "candidate.cand2",
+      "confidence": 37,
+      "label": "rejected: lower score"
+    },
+    {
+      "from": "input.target",
+      "to": "candidate.cand3",
+      "confidence": 37,
+      "label": "rejected: lower score"
+    }
+  ],
+  "stats": {
+    "nodes": 4,
+    "edges": 3,
+    "findings": 0,
+    "candidates": 3,
+    "rejected": 2,
+    "inferences": 0
+  }
+}
