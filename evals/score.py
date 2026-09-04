@@ -276,10 +276,12 @@ def score_target(golden: dict[str, Any], report: dict[str, Any], workspace: str 
         blobs = [normalize(json.dumps(c, ensure_ascii=False)) for c in cands]
         names_ok = all(any(match(n, lab) for lab in labels) for n in expect.get("name_any", []))
         markers = expect.get("expect_candidate_markers") or []
-        # the ambiguity must rest on real people: two or more candidates, and when markers are given at
-        # least one of them (a known slug or handle) must appear on some recorded candidate
-        real = len(cands) >= 2 and (not markers or any(normalize(m) in b for m in markers for b in blobs))
-        base = 1.0 if (status == "ambiguous" and names_ok and real) else 0.0
+        # Honest ambiguity over two or more grounded candidates earns 0.5. Surfacing one of the known
+        # real people (a listed slug or handle) earns the other 0.5, so the score separates honesty
+        # (any rung can have it) from reach (a rung with the right tools).
+        honest = status == "ambiguous" and names_ok and len(cands) >= 2
+        found = bool(markers) and any(normalize(m) in b for m in markers for b in blobs)
+        base = (0.5 if honest else 0.0) + (0.5 if (honest and (found or not markers)) else 0.0)
         row["identity_ok"] = base == 1.0
         leaks = row["decoy_leak"]
         row["branch"] = "ambiguous_expected"

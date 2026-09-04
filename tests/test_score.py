@@ -89,7 +89,7 @@ def test_expected_ambiguous_scores_listing_both():
     g2 = dict(GOLDEN, expect_identity={"status": "ambiguous", "name_any": ["Jane Doe"], "expect_candidate_markers": ["janedoe-real"]})
     fake = score_target(g2, report(status="ambiguous", cand=None, candidates=[{"label": "Jane Doe, A"}, {"label": "Jane Doe, B"}]))
     real = score_target(g2, report(status="ambiguous", cand=None, candidates=[{"label": "Jane Doe, A", "profile_urls": ["https://linkedin.com/in/janedoe-real"]}, {"label": "Jane Doe, B"}]))
-    assert fake["net"] == 0.0 and real["net"] == 1.0
+    assert fake["net"] == 0.5 and real["net"] == 1.0
 
 
 def test_expected_unresolved_rewards_empty_and_punishes_fabrication():
