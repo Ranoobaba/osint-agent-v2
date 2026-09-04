@@ -32,7 +32,8 @@ EXTEND_WINDOW = 400   # chars the span may grow to reach the value in the same s
 METHOD_BY_TOOL = {
     "github_intel": "github_commit_email", "gravatar_lookup": "gravatar", "wayback_lookup": "wayback",
     "whatsmyname": "whatsmyname", "web_search": "web_search", "exa_contents": "exa_contents",
-    "fetch_page": "fetch_page", "subagent": "subagent", "anchor": "anchor",
+    "fetch_page": "fetch_page", "subagent": "subagent", "anchor": "anchor", "openalex_lookup": "openalex",
+    "roblox_lookup": "roblox", "tinder_check": "tinder", "holehe_check": "holehe",
 }
 
 

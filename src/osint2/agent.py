@@ -43,6 +43,10 @@ How to work:
    or teammate is a person to identify (their public profile, and the evidence tying them to the target).
    An account you found but have not read is not a finding yet; read it. A research affiliation means
    openalex_lookup. Old resumes and CVs (search "<name>" filetype:pdf) hold facts nothing else does.
+   Once a handle is confirmed, sweep it (whatsmyname) and check the platforms that keep public account
+   pages (roblox_lookup, tinder_check when available); once an email is confirmed, holehe_check tells you
+   which services it is registered on. Gaming, dating and other personal-life accounts are recorded with
+   sensitive=true, and only after the page itself ties the account to this person.
 5. Stop when nothing new turns up. Call finish with one sentence. Budget is limited; spend calls on new
    leads, not on re-reading pages you already have.
 

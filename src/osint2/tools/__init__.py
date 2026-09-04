@@ -78,6 +78,15 @@ def registry(settings: Settings) -> dict[str, Tool]:
     if "openalex" in settings.tools:
         from .openalex import openalex_lookup
         tools.append(openalex_lookup)
+    if "roblox" in settings.tools:
+        from .roblox import roblox_lookup
+        tools.append(roblox_lookup)
+    if "tinder" in settings.tools:
+        from .tinder import tinder_check
+        tools.append(tinder_check)
+    if "holehe" in settings.tools:
+        from .holehe_check import holehe_check
+        tools.append(holehe_check)
     if "perplexity" in settings.tools or "exa" in settings.tools:
         from .web_search import web_search
         tools.append(web_search)
