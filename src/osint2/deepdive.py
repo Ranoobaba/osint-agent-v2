@@ -6,6 +6,7 @@ so rung 9 versus rung 8 is a test of parallel search at equal money, not of extr
 from __future__ import annotations
 
 import asyncio
+import json
 from typing import Any
 from urllib.parse import urlparse
 
@@ -25,6 +26,8 @@ the same name, do not record from it. Record not_found for what the lead did not
 exhausted or nothing new turns up."""
 
 SKIP_HOSTS = ("github.com", "linkedin.com", "x.com", "twitter.com", "gravatar.com", "facebook.com", "instagram.com")
+# Hosts no fetcher in the stack can read (login walls, or never in Exa's index): not worth a lead.
+UNREADABLE_HOSTS = ("instagram.com", "x.com", "twitter.com", "facebook.com", "threads.net", "open.spotify.com", "tiktok.com")
 
 
 def collect_leads(cand: Candidate, entities: Any = None) -> list[dict[str, str]]:
@@ -41,7 +44,10 @@ def collect_leads(cand: Candidate, entities: Any = None) -> list[dict[str, str]]
                     f"fields (connection_name, connection_profile, connection_role, connection_tie) and the evidence tying them to the target. "
                     f"Someone with the same name is not the same person: require the shared context to appear in the page you cite.")})
             elif n.type == "account" and n.url and not any(ld["kind"] == "account" for ld in leads):
-                leads.append({"kind": "account", "value": n.label, "task": f"Account {n.label} at {n.url}: read the page (exa_contents) and record what it states about this person: bio, activity, projects, dates."})
+                host = urlparse(n.url).netloc.lower().removeprefix("www.")
+                if any(host == h or host.endswith("." + h) for h in UNREADABLE_HOSTS):
+                    continue
+                leads.append({"kind": "account", "value": n.label, "task": f"Account {n.label} at {n.url}: read the page (fetch_page if available, else exa_contents) and record what it states about this person: bio, activity, projects, dates. If neither can read it, record_not_found and finish."})
         leads = leads[:2]
     for h in cand.handles[:1]:
         leads.append({"kind": "handle", "value": h, "task": f"Handle '{h}': run whatsmyname on it and read the most informative profiles that clearly belong to this person."})
@@ -55,24 +61,35 @@ def collect_leads(cand: Candidate, entities: Any = None) -> list[dict[str, str]]
     return leads[:MAX_SUBAGENTS]
 
 
-def identity_context(cand: Candidate) -> str:
-    return (f"Confirmed person: {cand.label}. Names {cand.names}; handles {cand.handles}; emails {cand.emails}; "
+def identity_context(cand: Candidate, ctx: RunContext | None = None, share: int = 0) -> str:
+    text = (f"Confirmed person: {cand.label}. Names {cand.names}; handles {cand.handles}; emails {cand.emails}; "
             f"profile URLs {cand.profile_urls}; employers {[e.name for e in cand.employers]}; education {[e.name for e in cand.education]}; "
             f"locations {cand.locations}.")
+    if ctx is not None:
+        done = [f"{s.tool}({json.dumps(s.args, sort_keys=True)[:60]})" for s in ctx.store.sources.values()]
+        fields = sorted({c.field for c in ctx.store.findings()})
+        text += (f"\n\nAlready done by the lead (do NOT repeat these; their results are recorded): {'; '.join(done[-24:])}."
+                 f"\nFields already recorded: {', '.join(fields[:40])}."
+                 f"\nYou have {share} data calls. Spend them only on your lead; record what you read; finish when done.")
+    return text
 
 
-async def run_subagent(ctx: RunContext, llm: OpenRouterClient, tools: dict[str, Tool], cand: Candidate, lead: dict[str, str]) -> dict[str, Any]:
+async def run_subagent(ctx: RunContext, llm: OpenRouterClient, tools: dict[str, Tool], cand: Candidate, lead: dict[str, str], share: int = 3) -> dict[str, Any]:
     thread = f"sub:{lead['kind']}"
     sub_tools = {k: v for k, v in tools.items() if k != "record_candidate"}
     specs = [t.spec() for t in sub_tools.values()]
     messages: list[dict[str, Any]] = [{"role": "system", "content": SUB_PROMPT},
-                                      {"role": "user", "content": identity_context(cand) + "\n\nYour lead: " + lead["task"]}]
+                                      {"role": "user", "content": identity_context(cand, ctx, share) + "\n\nYour lead: " + lead["task"]}]
     admitted_before = len(ctx.store.claims)
     stop = "max_steps"
     for step in range(1, SUB_MAX_STEPS + 1):
         if ctx.budget.exhausted():
             stop = "budget"
             break
+        if ctx.state.get("thread_calls", {}).get(thread, 0) >= share:
+            # own share spent: one last turn with no data tools so it can record what it read
+            specs = [t.spec() for t in sub_tools.values() if t.name in ("record_claim", "record_not_found", "finish")]
+            stop = "share"
         result = await llm.chat(messages, specs, thread=thread, step=step)
         await ctx.budget.charge_llm(result.usage.get("cost_usd"))
         messages.append(result.message)
@@ -99,10 +116,15 @@ async def run_subagent(ctx: RunContext, llm: OpenRouterClient, tools: dict[str, 
 
 async def deep_dive(ctx: RunContext, llm: OpenRouterClient, tools: dict[str, Tool], cand: Candidate) -> list[dict[str, Any]]:
     leads = collect_leads(cand, ctx.state.get("entities"))
-    ctx.trace.write("deep_dive", event="start", candidate=cand.id, leads=[ld["value"] for ld in leads], budget=ctx.budget.snapshot())
-    if not leads:
+    remaining = ctx.budget.remaining()["calls"]
+    # at least 3 calls per subagent; drop leads until that holds
+    while leads and remaining // len(leads) < 3 and len(leads) > 1:
+        leads.pop()
+    share = max(1, int(remaining // max(1, len(leads))))
+    ctx.trace.write("deep_dive", event="start", candidate=cand.id, leads=[ld["value"] for ld in leads], share=share, budget=ctx.budget.snapshot())
+    if not leads or remaining < 2:
         return []
-    results = await asyncio.gather(*[run_subagent(ctx, llm, tools, cand, ld) for ld in leads], return_exceptions=True)
+    results = await asyncio.gather(*[run_subagent(ctx, llm, tools, cand, ld, share) for ld in leads], return_exceptions=True)
     out = []
     for ld, r in zip(leads, results):
         if isinstance(r, Exception):

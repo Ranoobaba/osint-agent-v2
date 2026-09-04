@@ -17,7 +17,19 @@ from .workspace import Workspace
 NodeType = str  # person | org | account | email | domain | document | project
 
 PERSON_FIELDS = ("collaborator", "coauthor", "co_author", "connection", "manager", "supervisor", "mentor", "advisor",
-                 "teammate", "cofounder", "co_founder", "partner_person", "colleague", "relative", "family", "spouse", "sibling")
+                 "teammate", "cofounder", "co_founder", "partner_person", "colleague", "relative", "family", "spouse", "sibling",
+                 "director", "lead", "professor", "pi", "boss", "chair", "head", "officer", "president", "ceo", "cto", "founder",
+                 "friend", "contact", "reference", "recommender", "author")
+ROLE_FIELDS = ("role", "title", "position")   # a role field holds a title, not a person
+NAME_SHAPE = re.compile(r"^(?:[A-Z][a-zA-Z'\-.]+\s){1,3}[A-Z][a-zA-Z'\-.]+$")
+TITLE_WORDS = {"president", "director", "manager", "intern", "engineer", "officer", "co", "vice", "chief", "head", "lead", "professor", "student", "founder", "ceo", "cto", "analyst", "fellow", "research", "researcher", "assistant", "associate", "university", "lab", "club", "college", "school", "company", "inc", "llc"}
+
+
+def looks_like_person_name(v: str) -> bool:
+    v = (v or "").strip()
+    if not NAME_SHAPE.match(v) or any(ch.isdigit() for ch in v):
+        return False
+    return not any(w.lower().strip(".,") in TITLE_WORDS for w in v.split())
 ORG_FIELDS = ("employer", "company", "organization", "school", "education", "university", "lab", "club", "startup", "affiliation")
 PROJECT_FIELDS = ("project", "repo", "repository", "paper", "publication", "talk", "product")
 ACCOUNT_FIELDS = ("handle", "username", "profile", "account", "_url")
@@ -158,7 +170,8 @@ class EntityGraph:
             self.link(pid, nid, "has_email", claim.id)
         for u in URL_RE.findall(v):
             self._account_from_url(pid, u, claim.id, about=about)
-        if any(k in f for k in PERSON_FIELDS):
+        person_field = any(k in f for k in PERSON_FIELDS) and not any(k in f for k in ROLE_FIELDS)
+        if person_field or (looks_like_person_name(v) and not any(k in f for k in ORG_FIELDS + PROJECT_FIELDS + ROLE_FIELDS) and about == "target" and f not in ("name", "full_name", "legal_name", "alias", "headline")):
             m = GITHUB_REPO_RE.match(v)
             if m:
                 owner, repo = m.groups()
@@ -170,7 +183,7 @@ class EntityGraph:
                 proj = f"project:{_slug(v)}"
                 self.upsert(Node(id=proj, type="project", label=v, claims=[claim.id], url=f"https://github.com/{v}", about=about, explored=True))
                 self.link(pid, proj, "contributes_to", claim.id); self.link(other, proj, "contributes_to", claim.id)
-            elif v and not URL_RE.search(v):
+            elif v and not URL_RE.search(v) and (looks_like_person_name(v) or person_field):
                 other = f"person:{_slug(v)}"
                 self.upsert(Node(id=other, type="person", label=v, claims=[claim.id], about="connection", hints={"relation": f}))
                 self.link(pid, other, f, claim.id)

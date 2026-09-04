@@ -141,6 +141,8 @@ async def run_tool(tools: dict[str, Tool], name: str, args: dict[str, Any], ctx:
             result = ToolResult(content=f"{name} failed: {type(exc).__name__}: {str(exc)[:300]}", error=type(exc).__name__, store_source=False)
         if ticket is not None:
             await ctx.budget.settle(ticket, result.cost_usd)
+            tc = ctx.state.setdefault("thread_calls", {})
+            tc[thread] = tc.get(thread, 0) + 1
 
     if len(result.content) > MAX_TOOL_OUTPUT_CHARS:
         result.content = result.content[:MAX_TOOL_OUTPUT_CHARS] + f"\n\n[truncated to {MAX_TOOL_OUTPUT_CHARS} chars]"
