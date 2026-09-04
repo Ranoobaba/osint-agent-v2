@@ -28,9 +28,22 @@
   stays ambiguous (its LinkedIn key is unreachable without a paid fetch). Michael Jordan's one penalty
   was a golden gap (Inria's title rendered as Senior Researcher); golden widened, rows rescored.
 
+- Stage 3 (2026-09-04): input-shape hardening. Two code fixes (a bare token is a handle; a target that
+  is itself an email or handle resolves on a candidate matching that key) and one flag
+  (NUDGE_INPUT_SHAPE: a first-move line per target type in the recitation). Rung 3 recorded: 7 runs,
+  score 0.555 vs rung 2 0.541, +0.014, band 0.030, did NOT move as a group. handle_only went 0.147 to
+  0.362 (the resolver rule); michael_jordan dipped 0.471 to 0.353 (noise, same tools). Verdict: the
+  resolver rule is a correctness fix and stays; the nudge flag did not prove itself. It stays on in
+  rungs 4 to 9 because rung 4 already ran with it, and it can be ablated at the end for about 3.5
+  dollars if money remains. 3.45 dollars.
+
+- Stage 4 (2026-09-04): Perplexity search behind TOOLS=perplexity, charged 0.005 per call. Rung 4
+  recorded on the 3 available subset targets: score 0.788 vs rung 3 on the same targets, +0.233, moved.
+  The baseline now RESOLVES (net 0.483, recall 0.48) because search corroborates employer and location
+  across domains; michael_jordan 0.882; invented 1.0. 0 provenance failures, 0 decoy leaks. 2.12 dollars.
+
 ## In progress
-- Stage 3: input-shape hardening (bare token = handle, hard-key targets resolve on their key,
-  NUDGE_INPUT_SHAPE first moves), rung 3.
+- Waiting on EXA_API_KEY and FIRECRAWL_API_KEY for rungs 5 to 9 and the collision targets.
 
 ## Next
 - Stages 2 to 10 per the plan file.
