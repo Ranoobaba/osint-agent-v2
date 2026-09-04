@@ -190,6 +190,8 @@ class EvidenceStore:
                 # quoted span in the same source, grow the span to include it: the stored excerpt is
                 # still verbatim source text. Otherwise reject and show the line to quote.
                 grown = self._extend_to_value(text, start, end, nv)
+                if grown is None and len(nv) > len(norm_text(text[start:end])) + 8:
+                    return self._reject(proposal, "the value says more than the quoted line does; record only what the source states, in its words")
                 if grown is None:
                     hint = self._line_with_value(text, nv)
                     if hint:
@@ -232,10 +234,16 @@ class EvidenceStore:
 
     @staticmethod
     def _contains(span: str, nv: str) -> bool:
+        """The value must be inside the span. A value longer than the span cannot be inside it: that
+        is the model adding words the source does not state, and it is rejected outright."""
         nspan = norm_text(span)
         if "@" in nv or "/" in nv:
             return nv in nspan
-        return nv in nspan or fuzz.partial_ratio(nv, nspan) >= REANCHOR_SCORE
+        if nv in nspan:
+            return True
+        if len(nv) > len(nspan) + 8:
+            return False
+        return fuzz.partial_ratio(nv, nspan) >= REANCHOR_SCORE
 
     def _extend_to_value(self, text: str, start: int, end: int, nv: str) -> Optional[tuple[int, int]]:
         ns, offsets = normalize(text)

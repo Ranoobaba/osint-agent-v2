@@ -46,6 +46,14 @@
   Volume-backed workspaces, GET /jobs/{id}/trace and /sources/{id}). Shipped configuration is not final
   until rungs 8 and 9 run.
 
+- Stage 6 (2026-09-04): Firecrawl fetch behind TOOLS=firecrawl (FIRECRAWL_API_KEY was present on a
+  line with a leading space; normalized). Rung 6 recorded on the 3 available subset targets: score 0.382
+  vs rung 3 on the same targets 0.494, did NOT move (Firecrawl alone adds nothing the free tools and
+  the walled hosts do not already limit; LinkedIn is still unreadable without Exa). One provenance
+  failure caught by the scorer: the model recorded a department that the archived page never states.
+  Admission now rejects a value that says more than its quoted line (same rule in the scorer). 1.62
+  dollars. Rung 6 ran out of order (before 5) because the Exa key is still empty.
+
 ## In progress
 - Waiting on EXA_API_KEY and FIRECRAWL_API_KEY for rungs 5 to 9 and the collision targets.
 

@@ -1,6 +1,6 @@
 # Ladder results
 
-Generated 2026-09-04T00:51:04+00:00. Noise band 0.030 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $11.89, dev spend $2.25.
+Generated 2026-09-04T00:51:57+00:00. Noise band 0.030 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $11.89, dev spend $2.25.
 
 | rung | score | min | vs | delta | moved | targets | runs | identity pass | prov fail | decoy leak | cost | time |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -11,7 +11,7 @@ Generated 2026-09-04T00:51:04+00:00. Noise band 0.030 (largest within-rung sprea
 | 2 | 0.541 | 0.129 | 1 | +0.256 on 7 | yes | 7 | 9 | 5/9 | 0 | 0 | $4.31 | 2726s |
 | 3 | 0.555 | 0.129 | 2 | +0.014 on 7 | no | 7 | 7 | 6/7 | 0 | 0 | $3.45 | 2193s |
 | 4 | 0.788 | 0.483 | 3 | +0.294 on 3 | yes | 3 | 3 | 3/3 | 0 | 0 | $2.12 | 737s |
-| 6 | 0.382 | 0.000 | 3 | -0.112 on 3 | no | 3 | 3 | 2/3 | 1 | 0 | $1.62 | 896s |
+| 6 | 0.382 | 0.000 | 3 | -0.112 on 3 | no | 3 | 3 | 2/3 | 2 | 0 | $1.62 | 896s |
 
 ## Per run
 
@@ -52,4 +52,4 @@ Generated 2026-09-04T00:51:04+00:00. Noise band 0.030 (largest within-rung sprea
 | 3 | ariglad_cto | 1 | 0.714 | resolved ok | 0.714 | 0.0 | 0 | 0 | 24 | 1 | 20 | $0.46 | 353s | budget:calls | 865682f | stage 3: input-shape hardening |
 | 6 | invented | 1 | 1.000 | unresolved ok | 0.000 | 0.0 | 0 | 0 | 5 | 0 | 17 | $0.23 | 254s | finish | 9929933 | stage 6: plus Firecrawl |
 | 6 | baseline | 1 | 0.147 | ambiguous | 0.293 | 0.0 | 0 | 0 | 21 | 1 | 19 | $0.56 | 280s | finish | 9929933 | stage 6: plus Firecrawl |
-| 6 | michael_jordan | 1 | 0.000 | resolved ok | 0.353 | 2.0 | 1 | 0 | 47 | 1 | 17 | $0.83 | 361s | finish | 9929933 | stage 6: plus Firecrawl |
+| 6 | michael_jordan | 1 | 0.000 | resolved ok | 0.353 | 4.0 | 2 | 0 | 47 | 1 | 17 | $0.83 | 361s | finish | 9929933 | stage 6: plus Firecrawl |

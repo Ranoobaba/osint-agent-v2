@@ -165,7 +165,9 @@ def provenance_failure(f: dict[str, Any], workspace: Path | None, source_paths: 
     if "@" in nv or "/" in nv:
         if nv not in ne:
             return "value not in excerpt"
-    elif nv not in ne and not (fuzz.partial_ratio(nv, ne) >= 95):
+    elif nv not in ne and (len(nv) > len(ne) + 8 or fuzz.partial_ratio(nv, ne) < 92):
+        # same rule as admission (evidence.EvidenceStore._contains): a value longer than its excerpt
+        # adds words the source never stated
         return "value not in excerpt"
     if workspace is not None and f.get("source_id") and f.get("content_hash"):
         src = _source_path(f, workspace, source_paths or {})

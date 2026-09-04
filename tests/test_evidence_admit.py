@@ -121,3 +121,14 @@ def test_value_absent_from_source_is_rejected_with_reason(tmp_path):
     claim, reason = store.admit({"field": "phone", "value": "555-0100", "source_id": "s001",
                                 "excerpt": "Contact: jane.doe@example.com"}, step=1)
     assert claim is None and "does not appear in that source" in reason
+
+
+def test_value_that_says_more_than_the_line_is_rejected(tmp_path):
+    ws = Workspace(tmp_path, "run3")
+    store = EvidenceStore(ws)
+    store.add_source("wayback_lookup", {"url": "x"}, "Professor, MIT, 1988-1998\nOther line.", "https://x", step=1)
+    claim, reason = store.admit({"field": "past_employer", "value": "Department of Brain and Cognitive Sciences at MIT from 1988 to 1998",
+                                "source_id": "s001", "excerpt": "Professor, MIT, 1988-1998"}, step=1)
+    assert claim is None and "says more" in reason
+    ok, _ = store.admit({"field": "past_employer", "value": "MIT, 1988-1998", "source_id": "s001", "excerpt": "Professor, MIT, 1988-1998"}, step=1)
+    assert ok is not None
