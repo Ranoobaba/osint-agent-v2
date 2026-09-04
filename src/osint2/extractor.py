@@ -23,11 +23,14 @@ Each claim: {"field": snake_case, "value": the fact as stated, "excerpt": the ex
 "category": one of identity, contact, professional, education, online_presence, projects, connections, personal, sensitive, other}.
 Rules: only facts the page states about the named person; one value per claim; the excerpt is copied verbatim and contains
 the value; a relationship to another person gets a field starting with connection_ or collaborator; skip navigation,
-boilerplate, and anything inferred rather than read. At most 20 claims."""
+boilerplate, and anything inferred rather than read. Do not restate the person's own name, handle or affiliation given to you;
+do not repeat facts listed under ALREADY RECORDED. sensitive=true for dating, gaming, family, health, address, or anything the
+person would not put on a resume. At most 20 claims."""
 
 SCHEMA = {"type": "object", "properties": {"claims": {"type": "array", "items": {"type": "object", "properties": {
-    "field": {"type": "string"}, "value": {"type": "string"}, "excerpt": {"type": "string"}, "category": {"type": "string"}},
-    "required": ["field", "value", "excerpt", "category"], "additionalProperties": False}}}, "required": ["claims"], "additionalProperties": False}
+    "field": {"type": "string"}, "value": {"type": "string"}, "excerpt": {"type": "string"}, "category": {"type": "string"}, "sensitive": {"type": "boolean"}},
+    "required": ["field", "value", "excerpt", "category", "sensitive"], "additionalProperties": False}}}, "required": ["claims"], "additionalProperties": False}
+SENSITIVE_TOOLS = {"tinder_check", "people_search"}
 
 
 async def extract_source(ctx: RunContext, llm: OpenRouterClient, source_id: str, step: int) -> dict[str, Any]:
@@ -41,8 +44,12 @@ async def extract_source(ctx: RunContext, llm: OpenRouterClient, source_id: str,
     person = next((c for c in cands if c.id == res.best_candidate_id), None)
     who = f"{person.label} (names {person.names}, handles {person.handles}, emails {person.emails})" if person else ctx.state["anchor"].raw
     text = ctx.store.source_text(source_id)[: ctx.settings.extractor_chars]
+    from .evidence import norm_text
+    existing = {(norm_text(c.field), norm_text(c.value)) for c in ctx.store.findings()}
+    recorded = "; ".join(f"{c.field}={c.value[:40]}" for c in ctx.store.findings()[-40:])
     try:
-        r = await llm.chat([{"role": "system", "content": PROMPT}, {"role": "user", "content": f"Person: {who}\n\nPage (source {source_id}):\n{text}"}],
+        r = await llm.chat([{"role": "system", "content": PROMPT},
+                            {"role": "user", "content": f"Person: {who}\nALREADY RECORDED: {recorded[:2000]}\n\nPage (source {source_id}):\n{text}"}],
                            tools=None, model=ctx.settings.extractor_model, thread="extractor", step=step, reasoning=False,
                            response_format={"type": "json_schema", "json_schema": {"name": "claims", "strict": True, "schema": SCHEMA}})
     except Exception as exc:  # noqa: BLE001
@@ -57,6 +64,11 @@ async def extract_source(ctx: RunContext, llm: OpenRouterClient, source_id: str,
     for c in claims[:20]:
         if not isinstance(c, dict):
             continue
+        if (norm_text(str(c.get("field"))), norm_text(str(c.get("value")))) in existing:
+            continue
+        if any(norm_text(str(c.get("value"))) == norm_text(x) for x in ([person.label] + person.names + person.handles + person.emails if person else [])):
+            continue
+        c = {**c, "sensitive": bool(c.get("sensitive")) or src.tool in SENSITIVE_TOOLS}
         claim, reason = ctx.store.admit({**c, "source_id": source_id, "candidate_id": res.best_candidate_id}, step=step, thread="extractor",
                                         default_candidate=res.best_candidate_id)
         if claim:

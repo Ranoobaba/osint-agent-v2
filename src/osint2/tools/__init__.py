@@ -87,6 +87,9 @@ def registry(settings: Settings) -> dict[str, Tool]:
     if "holehe" in settings.tools:
         from .holehe_check import holehe_check
         tools.append(holehe_check)
+    if "profiles" in settings.tools:
+        from .profile_read import profile_read
+        tools.append(profile_read)
     if "peoplesearch" in settings.tools:
         from .people_search import people_search
         tools.append(people_search)
@@ -113,24 +116,48 @@ def parse_tool_args(raw: str | None) -> dict[str, Any]:
 
 
 def _memo_key(name: str, args: dict[str, Any]) -> Optional[str]:
+    """Identical lookups reuse the first result. Page reads key on the URL (the largest read is kept and
+    sliced); GitHub lookups key on the identifier only, so a different max_repos does not refetch."""
     if name in BOOKKEEPING_TOOLS:
         return None
     try:
         if name in ("fetch_page", "exa_contents") and args.get("url"):
             return name + "|" + str(args["url"]).strip().rstrip("/").lower()
+        if name == "github_intel":
+            ident = args.get("username") or args.get("email") or args.get("name") or ""
+            return name + "|" + str(ident).strip().lower() + "|" + str(args.get("hint") or "").lower()
         return name + "|" + json.dumps(args, sort_keys=True, default=str)
     except Exception:  # noqa: BLE001
         return None
 
 
+DEAD_ERRORS = {"MissingKey", "ModuleNotFoundError", "Unavailable"}
+
+
+def _mark_dead(ctx: RunContext, name: str, result: "ToolResult") -> None:
+    """A tool that cannot work this run (no key, 401/403, missing module) is removed from the model's
+    tool list so no further calls are wasted on it."""
+    err = result.error or ""
+    dead = err in DEAD_ERRORS or (err == "HTTPError" and any(code in result.content for code in ("HTTP 401", "HTTP 403")))
+    if dead:
+        ctx.state.setdefault("disabled_tools", set()).add(name)
+
+
 async def run_tool(tools: dict[str, Tool], name: str, args: dict[str, Any], ctx: RunContext, *,
-                   step: int, thread: str = "lead", tool_call_id: str | None = None) -> ToolResult:
+                   step: int, thread: str = "lead", tool_call_id: str | None = None, metered: bool = True) -> ToolResult:
     started = time.perf_counter()
     tool = tools.get(name)
+    if name in ctx.state.get("disabled_tools", set()):
+        return ToolResult(content=f"{name} is unavailable this run (it failed with an auth or setup error earlier); use another tool.",
+                          error="Disabled", store_source=False)
     memo: dict[str, ToolResult] = ctx.state.setdefault("_memo", {})
     key = _memo_key(name, args)
     if key is not None and key in memo:
         cached = memo[key]
+        if name in ("fetch_page", "exa_contents") and int(args.get("max_chars") or 0) > len(cached.content):
+            memo.pop(key, None)   # a larger read was asked for than the cached one; refetch
+            cached = None
+    if key is not None and key in memo and cached is not None:
         ctx.trace.write("execute_tool", tool=name, args=args, thread=thread, step=step, tool_call_id=tool_call_id,
                         latency_ms=int((time.perf_counter() - started) * 1000), cached=True,
                         result_bytes=len(cached.content.encode("utf-8")), source_id=cached.meta.get("source_id"), error=cached.error)
@@ -139,7 +166,7 @@ async def run_tool(tools: dict[str, Tool], name: str, args: dict[str, Any], ctx:
     ticket = None
     if tool is None:
         result = ToolResult(content=f"Unknown tool '{name}'. Available: {', '.join(tools)}.", error="UnknownTool", store_source=False)
-    elif name not in BOOKKEEPING_TOOLS and (ticket := await ctx.budget.reserve(name)) is None:
+    elif name not in BOOKKEEPING_TOOLS and metered and (ticket := await ctx.budget.reserve(name)) is None:
         result = ToolResult(content=f"Skipped: run budget exhausted ({ctx.budget.exhausted()}). Record what you have and finish.",
                             error="BudgetExhausted", store_source=False)
     else:
@@ -156,6 +183,8 @@ async def run_tool(tools: dict[str, Tool], name: str, args: dict[str, Any], ctx:
             tc = ctx.state.setdefault("thread_calls", {})
             tc[thread] = tc.get(thread, 0) + 1
 
+    if tool is not None:
+        _mark_dead(ctx, name, result)
     if len(result.content) > MAX_TOOL_OUTPUT_CHARS:
         result.content = result.content[:MAX_TOOL_OUTPUT_CHARS] + f"\n\n[truncated to {MAX_TOOL_OUTPUT_CHARS} chars]"
 
@@ -178,7 +207,7 @@ async def run_tool(tools: dict[str, Tool], name: str, args: dict[str, Any], ctx:
     if ents is not None and name not in BOOKKEEPING_TOOLS:
         try:
             ents.mark_explored(url=args.get("url"), handle=args.get("username"), email=args.get("email"),
-                               name=args.get("name") or (args.get("query") if name in ("web_search", "openalex_lookup") else None),
+                               name=args.get("name"), query=(args.get("query") if name in ("web_search", "openalex_lookup", "people_search") else None),
                                domain=(args.get("url") or "").split("/")[0] if name == "wayback_lookup" else None)
             ents.persist()
         except Exception:  # noqa: BLE001

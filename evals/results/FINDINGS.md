@@ -29,12 +29,15 @@ the rest before this rebuild).
 3. **Web search is the second gain (+0.43 on the subset).** Perplexity resolves the author's own
    baseline (it corroborates employer and location across two domains) and takes Michael Jordan from
    0.35 to 0.88 and the with-key collision target to 1.0 with zero decoy leaks.
-4. **Firecrawl alone adds nothing (+0.004).** The pages it can render, the free tools already reach;
-   the pages that matter (LinkedIn) it cannot. Correction (2026-09-04): the two provenance failures first
-   attributed to this rung were a report-layer bug (dedupe replaced a finding's value with a richer
-   duplicate but kept the old excerpt), found by the autoresearch extractor probe and fixed; after the
-   fix and a rescore that run scores 0.353 with 0 failures. The admission rule added at the time (a value
-   may not say more than its quoted line) stays, because it also blocks real embellishment.
+4. **Rung 6 did not measure Firecrawl.** Every fetch_page call in every rung 6 run returned an HTTP
+   error: the Firecrawl key in .env is rejected by Firecrawl's API (401, verified directly on
+   2026-09-04). The rung therefore measured rung 3's tool set plus a tool that always failed, and its
+   score is inside the band of rung 3 as expected. "Firecrawl adds nothing" is NOT a finding of this
+   ladder; it is untested. Two earlier corrections stand: the run's two provenance failures were a
+   report-layer dedupe bug, since fixed, and the admission rule that a value may not say more than
+   its quoted line stays because it blocks real embellishment. Tools that fail with an auth error are
+   now removed from the model's tool list for the rest of the run, so a dead key can no longer burn a
+   fifth of the call budget the way it did here.
 5. **Input-shape hardening did not move the group score (+0.011)**, though its resolver rule fixed the
    handle-only target (0.147 to 0.362). The rule is kept as a correctness fix; the recitation nudge is
    unproven.

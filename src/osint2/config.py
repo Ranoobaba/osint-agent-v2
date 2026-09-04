@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-ALL_DATA_TOOLS = ("github", "gravatar", "wayback", "whatsmyname", "openalex", "roblox", "tinder", "holehe", "peoplesearch", "perplexity", "exa", "firecrawl")
+ALL_DATA_TOOLS = ("github", "gravatar", "wayback", "whatsmyname", "openalex", "roblox", "tinder", "holehe", "peoplesearch", "profiles", "perplexity", "exa", "firecrawl")
 BOOKKEEPING_TOOLS = ("record_candidate", "record_claim", "record_not_found", "finish")
 
 # Dollars per call, charged to the run budget at reserve time and settled after the call.
@@ -17,7 +17,7 @@ TOOL_PRICES: dict[str, float] = {
     "web_search": 0.005,       # perplexity or exa search
     "exa_contents": 0.001,     # per page
     "fetch_page": 0.002,       # firecrawl scrape
-    "github_intel": 0.0, "gravatar_lookup": 0.0, "wayback_lookup": 0.0, "whatsmyname": 0.0, "openalex_lookup": 0.0, "roblox_lookup": 0.0, "tinder_check": 0.0, "holehe_check": 0.0, "people_search": 0.005,
+    "github_intel": 0.0, "gravatar_lookup": 0.0, "wayback_lookup": 0.0, "whatsmyname": 0.0, "openalex_lookup": 0.0, "roblox_lookup": 0.0, "tinder_check": 0.0, "holehe_check": 0.0, "people_search": 0.005, "profile_read": 0.0,
 }
 
 
@@ -65,6 +65,7 @@ class Settings:
     extractor: bool
     extractor_model: str
     extractor_chars: int
+    sweep: bool
     reasoning_max_tokens: int
     max_output_tokens: int
     nudges: frozenset[str]
@@ -107,6 +108,8 @@ class Settings:
             extractor=_flag(env.get("EXTRACTOR"), False),
             extractor_model=env.get("EXTRACTOR_MODEL", "anthropic/claude-haiku-4.5"),
             extractor_chars=int(env.get("EXTRACTOR_CHARS", "6000")),
+            # SWEEP=1: once resolved, code drives every surface tool at the confirmed keys (no model turn).
+            sweep=_flag(env.get("SWEEP"), True),
             reasoning_max_tokens=int(env.get("REASONING_MAX_TOKENS", "1024")),
             max_output_tokens=int(env.get("MAX_OUTPUT_TOKENS", "6000")),
             nudges=nudges,
@@ -119,5 +122,5 @@ class Settings:
         """What this run was configured with; written into report.run so a row is reproducible."""
         return {"tools": list(self.tools), "deep_dive": self.deep_dive, "nudges": sorted(self.nudges),
                 "max_tool_calls": self.max_tool_calls, "max_usd": self.max_usd, "max_seconds": self.max_seconds,
-                "saturation_dry_steps": self.saturation_dry_steps, "prune_steps": self.prune_steps, "extractor": self.extractor, "extractor_model": self.extractor_model, "lead_model": self.lead_model,
+                "saturation_dry_steps": self.saturation_dry_steps, "prune_steps": self.prune_steps, "extractor": self.extractor, "extractor_model": self.extractor_model, "sweep": self.sweep, "lead_model": self.lead_model,
                 "judge_model": self.judge_model}

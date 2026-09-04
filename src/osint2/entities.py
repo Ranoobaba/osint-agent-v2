@@ -30,6 +30,14 @@ NAME_SHAPE = re.compile(r"^(?:[A-Z][a-zA-Z'\-.]+\s){1,3}[A-Z][a-zA-Z'\-.]+$")
 TITLE_WORDS = {"president", "director", "manager", "intern", "engineer", "officer", "co", "vice", "chief", "head", "lead", "professor", "student", "founder", "ceo", "cto", "analyst", "fellow", "research", "researcher", "assistant", "associate", "university", "lab", "club", "college", "school", "company", "inc", "llc"}
 
 
+JUNK_RE = re.compile(r"^(?:\d[\d.,\-/ ]*|v?\d+(?:\.\d+)+|\d{4}\s*[-–]\s*(?:\d{4}|present)|(?:mit|apache|bsd|gpl)[\w .\-]*licen[cs]e|.*\b(?:connections?|contributions?|followers?|following)\b.*)$", re.I)
+
+
+def is_junk_label(v: str) -> bool:
+    v = (v or "").strip()
+    return len(v) < 2 or bool(JUNK_RE.match(v))
+
+
 def looks_like_person_name(v: str) -> bool:
     v = (v or "").strip()
     if not NAME_SHAPE.match(v) or any(ch.isdigit() for ch in v):
@@ -150,12 +158,19 @@ class EntityGraph:
         order = {"person": 0, "account": 1, "domain": 2, "email": 3, "org": 4, "project": 5, "document": 6}
         items = [n for n in self.nodes.values() if not n.explored and n.type != "target"]
         # a connection with a handle or profile URL is a hard lead; a bare name is a soft one
-        items.sort(key=lambda n: (order.get(n.type, 9), 0 if (n.hints.get("handle") or n.url) else 1, -len(n.claims)))
+        # hard leads first: anything with a handle, URL or email beats a bare name
+        def rank(n: Node) -> tuple:
+            hard = 0 if (n.hints.get("handle") or n.url or n.type == "email") else 1
+            return (hard, order.get(n.type, 9), -len(n.claims))
+        items.sort(key=rank)
         return items[:limit]
 
     def mark_explored(self, *, url: str | None = None, handle: str | None = None, email: str | None = None,
-                      name: str | None = None, domain: str | None = None) -> list[str]:
+                      name: str | None = None, domain: str | None = None, query: str | None = None) -> list[str]:
+        """A node counts as explored when a tool was pointed at it: its URL fetched, its handle or email
+        looked up, or its label contained in a search query (label in query, not query in label)."""
         hit = []
+        q = (query or "").lower()
         for n in self.nodes.values():
             if url and n.url and _host(n.url) == _host(url) and urlparse(n.url).path.rstrip("/").lower() == urlparse(url if "://" in url else "https://" + url).path.rstrip("/").lower():
                 n.explored = True; hit.append(n.id)
@@ -163,7 +178,9 @@ class EntityGraph:
                 n.explored = True; hit.append(n.id)
             elif email and n.type == "email" and n.label.lower() == email.lower():
                 n.explored = True; hit.append(n.id)
-            elif name and n.type in ("person", "org", "project") and name.lower() in n.label.lower():
+            elif name and n.type in ("person", "org", "project") and n.label.lower() in name.lower():
+                n.explored = True; hit.append(n.id)
+            elif q and n.type in ("person", "org", "project") and len(n.label) >= 4 and n.label.lower() in q:
                 n.explored = True; hit.append(n.id)
             elif domain and n.type == "domain" and n.label.lower() == domain.lower():
                 n.explored = True; hit.append(n.id)
@@ -205,6 +222,8 @@ class EntityGraph:
             self.upsert(Node(id=pid, type="person", label=cid, explored=True, about=f"candidate:{cid}"))
         f = (claim.field or "").lower()
         v = (claim.value or "").strip()
+        if is_junk_label(v) and not URL_RE.search(v) and not EMAIL_RE.search(v):
+            return
         about = "target" if cid == resolved_id else f"candidate:{cid}"
         # connection_<key>_<attr>: an attribute of an already known connection (key = its handle or slug)
         cm = CONNECTION_FIELD_RE.match(f)
@@ -366,7 +385,7 @@ class EntityGraph:
         lines = ["Unexplored leads (each is backed by an admitted claim):"]
         for n in items:
             move = {"person": "identify their public profile and how they relate to the target; record as a connection with evidence",
-                    "account": "read the profile page (exa_contents) and record what it states",
+                    "account": (f"exa_contents {n.url}" if n.url else f"whatsmyname / roblox_lookup / tinder_check on handle {n.hints.get('handle', n.label)}"),
                     "domain": "read it and its archived versions (wayback_lookup)",
                     "email": "github_intel by email, gravatar_lookup",
                     "org": "search the target's name with this organization for roles, dates, colleagues",

@@ -101,7 +101,8 @@ web_search = Tool(
         "query": {"type": "string"},
         "num_results": {"type": "integer", "default": 8},
         "domains": {"type": "array", "items": {"type": "string"}},
-        "category": {"type": "string", "enum": ["people", "company", "news", "github", "research paper", "personal site", "linkedin profile"]},
+        "category": {"type": "string", "enum": ["people", "company", "news", "github", "research paper", "personal site", "linkedin profile", "tweet", "pdf"],
+                     "description": "Exa index categories. 'tweet' finds the person's own posts; 'pdf' finds resumes, CVs, theses and conference PDFs."},
     }, "required": ["query"]},
     fn=_web_search, requires=("perplexity", "exa"),
 )

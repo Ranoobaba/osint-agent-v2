@@ -53,15 +53,20 @@ def collect_leads(cand: Candidate, entities: Any = None) -> list[dict[str, str]]
     for h in cand.handles:
         if h.lower() in linkedin_slugs:
             continue   # a LinkedIn slug is not a username to sweep
-        leads.append({"kind": "handle", "value": h, "task": f"Handle '{h}': the lead already ran whatsmyname on it if it appears in the done list; do not repeat that. Read the most informative profiles found for it that clearly belong to this person (fetch_page or exa_contents) and record what they state."})
+        leads.append({"kind": "handle", "value": h, "task": f"Handle '{h}': whatsmyname already ran (see the done list); do not repeat it. Read the most informative accounts it found "
+                                                              f"that clearly belong to this person: profile_read for reddit, dockerhub, hackernews, keybase; exa_contents for other pages. Record what they state."})
         break
     for u in cand.profile_urls:
         host = urlparse(u if "://" in u else "https://" + u).netloc.lower().removeprefix("www.")
         if host and not any(host == s or host.endswith("." + s) for s in SKIP_HOSTS):
             leads.append({"kind": "domain", "value": host, "task": f"Personal domain {host}: read it (fetch_page or exa_contents if available) and its archived versions with wayback_lookup; recover old bios, projects, handles."})
             break
-    for e in cand.emails[:1]:
-        leads.append({"kind": "email", "value": e, "task": f"Email {e}: github_intel by email, gravatar_lookup, and a web_search for the address in quotes if search is available."})
+    emails = list(cand.emails)
+    if entities is not None:
+        emails += [n.label for n in entities.nodes.values() if n.type == "email" and n.about in ("target", f"candidate:{cand.id}") and n.label not in emails]
+    for e in emails[:1]:
+        leads.append({"kind": "email", "value": e, "task": f"Email {e}: the sweep already ran holehe, gravatar and the GitHub reverse search on it (see the done list); "
+                                                            f"now web_search the address in quotes and category='pdf' for documents that contain it, and read what you find with exa_contents."})
     return leads[:MAX_SUBAGENTS]
 
 

@@ -22,7 +22,7 @@ RUNS = "/runs"
 
 image = (
     modal.Image.debian_slim(python_version="3.12")
-    .pip_install("fastapi[standard]>=0.115", "httpx>=0.27", "openai>=1.50", "pydantic>=2.8", "rapidfuzz>=3.9")
+    .pip_install("fastapi[standard]>=0.115", "httpx>=0.27", "openai>=1.50", "pydantic>=2.8", "rapidfuzz>=3.9", "holehe>=1.61", "trio>=0.20")
     .add_local_python_source("osint2")
     .add_local_dir(str(ROOT / "web" / "dist"), remote_path="/root/web/dist")
 )

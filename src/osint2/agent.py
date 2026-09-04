@@ -20,6 +20,7 @@ from .extractor import extract_source
 from .llm import OpenRouterClient
 from .report import build_report
 from .resolution import Resolution, apply_judge, judge_candidates
+from .sweep import sweep
 from .tools import RunContext, parse_tool_args, registry, run_tool
 from .trace import TraceWriter, read_trace, summarize_trace
 from .workspace import Workspace, new_run_id
@@ -88,6 +89,22 @@ def recitation(ctx: RunContext, step: int, store: EvidenceStore) -> str:
     read = [s.url for s in store.sources.values() if s.url][-8:]
     if read:
         lines.append("Already read (do not re-fetch): " + "; ".join(read))
+    searched = [str(s.args.get("query")) for s in store.sources.values() if s.tool == "web_search" and s.args.get("query")][-8:]
+    if searched:
+        lines.append("Searched already (do not repeat; vary the angle or move on): " + " | ".join(q[:60] for q in searched))
+    disabled = ctx.state.get("disabled_tools")
+    if disabled:
+        lines.append("Unavailable this run: " + ", ".join(sorted(disabled)) + ". Use exa_contents to read pages.")
+    if "NUDGE_COVERAGE" in ctx.settings.nudges and res is not None and res.status == "resolved":
+        done = {(s.tool, str(s.args.get("username") or s.args.get("email") or s.args.get("url") or s.args.get("name") or s.args.get("query") or "")[:30]) for s in store.sources.values()}
+        by_tool: dict[str, list[str]] = {}
+        for t, a in done:
+            by_tool.setdefault(t, []).append(a)
+        cov = []
+        for t in ("whatsmyname", "roblox_lookup", "tinder_check", "holehe_check", "gravatar_lookup", "openalex_lookup", "wayback_lookup", "people_search", "profile_read", "exa_contents", "web_search"):
+            cov.append(f"{t} {'done: ' + ', '.join(by_tool[t][:3]) if t in by_tool else 'not yet'}")
+        lines.append("Coverage: " + " | ".join(cov))
+        lines.append("Still worth a call: a resume or CV (web_search category='pdf'), the person's own posts (category='tweet'), and any account listed above you have not read.")
     if "NUDGE_FRONTIER" in ctx.settings.nudges:
         ft = ctx.state["entities"].frontier_text(6)
         if ft:
@@ -99,7 +116,7 @@ def recitation(ctx: RunContext, step: int, store: EvidenceStore) -> str:
                  "name": "Expect namesakes. Gather a disambiguator (employer, handle) before trusting any profile."}
         lines.append(first.get(anchor.target_type, ""))
     text = "\n".join(lines)
-    return text[:2400]
+    return text[:3600]
 
 
 def _prune(messages: list[dict[str, Any]], keep_steps: int, step: int) -> None:
@@ -189,6 +206,24 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
                     if total:
                         messages.append({"role": "user", "content": f"[extractor] {total} claims from the pages above were admitted automatically; "
                                                                     f"do not re-record them. Spend your next call on a new lead."})
+            r_now = ctx.state.get("resolution")
+            if settings.sweep and r_now is not None and r_now.status == "resolved" and not ctx.state.get("swept"):
+                best_now = next((c for c in ctx.state.get("candidates", []) if c.id == r_now.best_candidate_id), None)
+                if best_now is not None:
+                    try:
+                        sw = await sweep(ctx, tools, best_now, step)
+                        messages.append({"role": "user", "content": f"[sweep] identity resolved, so code ran the surface tools on the confirmed keys: "
+                                                                    f"handles {sw['handles']}, emails {sw['emails']}, domains {sw['domains']}"
+                                                                    f"{', people_search' if sw['people_search'] else ''}; {sw['calls']} calls, {sw['admitted']} claims admitted"
+                                                                    f"{', profiles read: ' + ', '.join(sw['profile_reads']) if sw['profile_reads'] else ''}. "
+                                                                    f"Their results are stored as sources; read any that look worth quoting, and do not repeat these lookups."})
+                        if settings.extractor:
+                            new_sids = [sid for sid, src in store.sources.items() if src.step == step and src.tool in ("wayback_lookup", "people_search", "profile_read")]
+                            if new_sids:
+                                await asyncio.gather(*[extract_source(ctx, llm, sid, step) for sid in new_sids])
+                    except Exception as exc:  # noqa: BLE001
+                        trace.write("sweep", event="error", error=f"{type(exc).__name__}: {str(exc)[:200]}")
+            specs = [t.spec() for n, t in tools.items() if n not in ctx.state.get("disabled_tools", set())]
             if on_step:
                 r = ctx.state.get("resolution")
                 on_step({"step": step, "status": r.status if r else "unresolved", "score": r.score if r else 0.0,
