@@ -13,6 +13,11 @@ from typing import Any
 from .llm import OpenRouterClient
 from .tools import RunContext
 
+# Only page-like sources are worth an extractor pass. Tool renderings (GitHub API, Gravatar, whatsmyname,
+# OpenAlex, holehe, Roblox) are already structured and the lead records what matters from them; running
+# the extractor over them produced run metadata as findings ("repos_scanned = 5").
+PAGE_TOOLS = {"exa_contents", "fetch_page", "wayback_lookup", "web_search", "people_search", "tinder_check"}
+
 PROMPT = """You extract facts about ONE person from ONE page. Return only a JSON object {"claims": [...]}.
 Each claim: {"field": snake_case, "value": the fact as stated, "excerpt": the exact line from the page that states it,
 "category": one of identity, contact, professional, education, online_presence, projects, connections, personal, sensitive, other}.
@@ -29,6 +34,9 @@ async def extract_source(ctx: RunContext, llm: OpenRouterClient, source_id: str,
     res = ctx.state.get("resolution")
     if res is None or res.status != "resolved":
         return {"skipped": "not resolved"}
+    src = ctx.store.sources.get(source_id)
+    if src is None or src.tool not in PAGE_TOOLS:
+        return {"skipped": "not a page source"}
     cands = ctx.state.get("candidates", [])
     person = next((c for c in cands if c.id == res.best_candidate_id), None)
     who = f"{person.label} (names {person.names}, handles {person.handles}, emails {person.emails})" if person else ctx.state["anchor"].raw

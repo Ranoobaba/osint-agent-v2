@@ -73,3 +73,13 @@ def test_connection_attributes_attach_to_one_node(tmp_path):
     assert "email:saqib.mumtaz.h@gmail.com" in g.nodes and "org:georgia_tech" in g.nodes
     accounts = [n.label for n in g.nodes.values() if n.type == "account"]
     assert "twitter (email registered)" in accounts and not any("2021" in a for a in accounts)
+
+
+def test_connection_counts_and_contribution_strings_are_not_people(tmp_path):
+    g = EntityGraph(Workspace(tmp_path, "r"))
+    g.ingest_target("x")
+    g.ingest_claim(claim("c1", "connections_count", "500 connections"), "cand1")
+    g.ingest_claim(claim("c2", "collaborator_mahirtshah13", "mahirtshah13 - 1 contribution"), "cand1")
+    g.ingest_claim(claim("c3", "collaborator", "mahirtshah13"), "cand1")
+    people = [n.label for n in g.nodes.values() if n.type == "person" and n.about == "connection"]
+    assert people == ["mahirtshah13"]

@@ -262,7 +262,8 @@ class EntityGraph:
             self._account_from_url(pid, u, claim.id, about=about)
         blocked = any(k in f for k in ROLE_FIELDS + NOT_PERSON_FIELDS)
         person_field = any(k in f for k in PERSON_FIELDS) and not blocked
-        if (person_field and (looks_like_person_name(v) or GITHUB_REPO_RE.match(v) or "_" in v or v.islower())) or (
+        handle_shaped = bool(re.fullmatch(r"[A-Za-z0-9_.\-]{2,40}", v)) and not v.isdigit()
+        if (person_field and (looks_like_person_name(v) or GITHUB_REPO_RE.match(v) or handle_shaped)) or (
                 looks_like_person_name(v) and not blocked and not any(k in f for k in ORG_FIELDS + PROJECT_FIELDS) and about == "target"
                 and f not in ("name", "full_name", "legal_name", "alias")):
             m = GITHUB_REPO_RE.match(v)
