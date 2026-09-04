@@ -56,8 +56,10 @@ def rung_summary(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
     for r in rows:
         by_rung[str(r["rung"])][str(r["target"])].append(r)
     out = {}
+    per_target_by_rung: dict[str, dict[str, float]] = {}
     for rung, targets in by_rung.items():
         per_target = {t: statistics.median(float(x["net"] or 0) for x in runs) for t, runs in targets.items()}
+        per_target_by_rung[rung] = per_target
         all_runs = [x for runs in targets.values() for x in runs]
         baseline_runs = [float(x["net"] or 0) for t, runs in targets.items() if t == "baseline" for x in runs]
         out[rung] = {
@@ -72,7 +74,18 @@ def rung_summary(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
             "identity_pass": sum(1 for x in all_runs if x.get("identity_ok")),
             "prov_fail": sum(int(x.get("prov_fail") or 0) for x in all_runs),
             "decoy_leak": sum(int(x.get("decoy_leak") or 0) for x in all_runs),
+            "per_target": per_target,
         }
+    # The comparison is always on the same target set: a subset rung is compared against the
+    # comparison rung restricted to that subset.
+    for rung, s in out.items():
+        cmp = s.get("compare_to")
+        if cmp and str(cmp) in per_target_by_rung:
+            common = [t for t in s["per_target"] if t in per_target_by_rung[str(cmp)]]
+            if common:
+                s["compare_score"] = round(statistics.mean(per_target_by_rung[str(cmp)][t] for t in common), 4)
+                s["compare_self"] = round(statistics.mean(s["per_target"][t] for t in common), 4)
+                s["compare_targets"] = len(common)
     return out
 
 
@@ -97,9 +110,9 @@ def render_md() -> str:
     for rung, s in summary.items():
         cmp = s.get("compare_to")
         delta = moved = ""
-        if cmp and str(cmp) in summary:
-            d = s["score"] - summary[str(cmp)]["score"]
-            delta = f"{d:+.3f}"
+        if s.get("compare_score") is not None:
+            d = s["compare_self"] - s["compare_score"]
+            delta = f"{d:+.3f} on {s['compare_targets']}"
             moved = "yes" if d > band else "no"
         lines.append(f"| {rung} | {s['score']:.3f} | {s['min']:.3f} | {cmp or ''} | {delta} | {moved} | {s['targets']} | {s['runs']} | "
                      f"{s['identity_pass']}/{s['runs']} | {s['prov_fail']} | {s['decoy_leak']} | ${s['cost_usd']:.2f} | {s['duration_s']}s |")
