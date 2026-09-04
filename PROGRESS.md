@@ -69,6 +69,17 @@
   Michael Jordan resolved, 54 findings, net 0.824 with provenance verified on the served sources, 0.89
   dollars. Rung D recorded.
 
+- Depth pass (2026-09-04, on Rayyan's own key, about 9 dollars of tests): entity graph with an unexplored
+  frontier (entities.py), frontier nudge in the lead loop, connection and account leads in the deep dive
+  with per-subagent call shares, OpenAlex, Roblox, Tinder web-profile, holehe email-registration and
+  people_search (aggregator snippets, sensitive) tools. Measured on Kunal Baldava: 35 findings at 20 calls
+  and no deep dive; 50 with the frontier nudge; 65 at 40 calls with the deep dive (1.71 dollars), where the
+  subagents admitted 60 claims and took a GitHub collaborator handle to a fully identified person with
+  LinkedIn, employer, location and prior roles. Shipped configuration is now 40 calls, 2.50 dollars,
+  deep dive on, all free tools plus Perplexity, Exa and Firecrawl. These rungs are unmeasured on the
+  ladder (no money for repeats); the numbers above are single runs. scripts/rebuild_report.py recovers a
+  report from a run that died (the claims are on disk); --rederive rebuilds the entity graph.
+
 ## In progress
 - Nothing. Remaining ladder work needs about 33 dollars of OpenRouter credit.
 

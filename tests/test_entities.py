@@ -55,3 +55,21 @@ def test_locations_and_topics_are_not_people(tmp_path):
     g.ingest_claim(claim("c4", "past_role", "Co President"), "cand1")
     people = [n.label for n in g.nodes.values() if n.type == "person" and n.about == "connection"]
     assert people == ["Abhishek Nagaraj"]
+
+
+def test_connection_attributes_attach_to_one_node(tmp_path):
+    g = EntityGraph(Workspace(tmp_path, "r"))
+    g.ingest_target("x")
+    g.ingest_claim(claim("c1", "collaborator", "saqibmtz"), "cand1")
+    g.ingest_claim(claim("c2", "collaborator_email", "saqib.mumtaz.h@gmail.com"), "cand1")
+    g.ingest_claim(claim("c3", "collaborator_identity", "Saqib Mumtaz"), "cand1")
+    g.ingest_claim(claim("c4", "connection_saqibmtz_profile", "https://www.linkedin.com/in/saqib-mumtaz-b3306020"), "cand1")
+    g.ingest_claim(claim("c5", "connection_saqibmtz_employer", "Georgia Tech"), "cand1")
+    g.ingest_claim(claim("c6", "github_profile_name", "Kunal Baldava"), "cand1")
+    g.ingest_claim(claim("c7", "account_twitter", "twitter"), "cand1")
+    g.ingest_claim(claim("c8", "github_account_created", "2021-09-14"), "cand1")
+    people = [n for n in g.nodes.values() if n.type == "person" and n.about == "connection"]
+    assert len(people) == 1 and people[0].label == "Saqib Mumtaz" and people[0].explored
+    assert "email:saqib.mumtaz.h@gmail.com" in g.nodes and "org:georgia_tech" in g.nodes
+    accounts = [n.label for n in g.nodes.values() if n.type == "account"]
+    assert "twitter (email registered)" in accounts and not any("2021" in a for a in accounts)

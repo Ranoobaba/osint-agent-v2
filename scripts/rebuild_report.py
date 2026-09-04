@@ -31,7 +31,23 @@ def main(run_dir: str) -> None:
            "budget": {"calls": stats.get("tool_calls"), "max_calls": None, "usd": stats.get("cost_usd"), "max_usd": None}, **store.stats()}
     same = set(res.judge.same_person_ids) if res.judge and res.judge.verdict == "same" else set()
     report = build_report(anchor, res, cands, store, run, same)
-    ents = EntityGraph(ws)
+    if "--rederive" in sys.argv:
+        (ws.dir / "entities.json").unlink(missing_ok=True)
+        ents = EntityGraph(ws)
+        ents.ingest_target(anchor.raw)
+        for c in cands:
+            ents.ingest_candidate(c.id, c.label, c.names, c.handles, c.emails, c.profile_urls, [e.name for e in c.employers],
+                                  [e.name for e in c.education], resolved=(res.status == "resolved" and res.best_candidate_id == c.id))
+        for cl in store.claims:
+            ents.ingest_claim(cl, res.best_candidate_id if res.status == "resolved" else None)
+        for ev in read_trace(ws.trace_path):
+            if ev.get("span") == "execute_tool" and ev.get("tool") not in ("record_claim", "record_candidate", "record_not_found", "finish"):
+                a = ev.get("args") or {}
+                ents.mark_explored(url=a.get("url"), handle=a.get("username"), email=a.get("email"),
+                                   name=a.get("name") or (a.get("query") if ev.get("tool") in ("web_search", "openalex_lookup") else None))
+        ents.persist()
+    else:
+        ents = EntityGraph(ws)
     report["entities"] = ents.to_report()
     ws.write_json("report.json", report)
     ws.write_json("graph.json", report["graph"])
@@ -40,6 +56,6 @@ def main(run_dir: str) -> None:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) < 2:
         sys.exit(__doc__)
     main(sys.argv[1])

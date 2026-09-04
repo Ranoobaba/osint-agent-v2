@@ -23,7 +23,9 @@ PERSON_FIELDS = ("collaborator", "coauthor", "co_author", "connection", "manager
 ROLE_FIELDS = ("role", "title", "position")   # a role field holds a title, not a person
 # fields whose values are never people even when they look like names
 NOT_PERSON_FIELDS = ("location", "city", "country", "region", "address", "area", "topic", "research", "interest", "skill",
-                     "language", "award", "honor", "headline", "bio", "summary", "degree", "major", "field_of_study", "hobby")
+                     "language", "award", "honor", "headline", "bio", "summary", "degree", "major", "field_of_study", "hobby",
+                     "name", "alias", "handle", "username", "email", "created", "joined", "count", "date", "url", "profile", "description")
+CONNECTION_FIELD_RE = re.compile(r"^(?:connection|collaborator|coauthor|relative|associate|colleague)_([a-z0-9][a-z0-9.\-]*)_([a-z_]+)$")
 NAME_SHAPE = re.compile(r"^(?:[A-Z][a-zA-Z'\-.]+\s){1,3}[A-Z][a-zA-Z'\-.]+$")
 TITLE_WORDS = {"president", "director", "manager", "intern", "engineer", "officer", "co", "vice", "chief", "head", "lead", "professor", "student", "founder", "ceo", "cto", "analyst", "fellow", "research", "researcher", "assistant", "associate", "university", "lab", "club", "college", "school", "company", "inc", "llc"}
 
@@ -43,6 +45,7 @@ PLATFORM_HOSTS = {"github.com": "github", "linkedin.com": "linkedin", "x.com": "
                   "devpost.com": "devpost", "medium.com": "medium", "open.spotify.com": "spotify", "scholar.google.com": "scholar",
                   "instagram.com": "instagram", "facebook.com": "facebook", "youtube.com": "youtube", "substack.com": "substack",
                   "huggingface.co": "huggingface", "stackoverflow.com": "stackoverflow", "reddit.com": "reddit", "dev.to": "devto"}
+PLATFORM_WORDS = set(PLATFORM_HOSTS.values()) | {"twitter", "eventbrite", "pinterest", "snapchat", "discord", "twitch", "steam", "roblox", "tinder", "bumble", "hinge", "duolingo", "strava", "vimeo", "flickr", "tumblr", "quora", "wordpress", "adobe", "apple", "amazon", "ebay", "paypal", "venmo", "cashapp", "patreon", "gravatar", "imgur", "lastfm", "soundcloud", "deezer", "telegram", "signal", "protonmail", "yahoo", "outlook", "mailru", "instagram", "facebook", "linkedin", "github", "kaggle", "devpost", "medium", "spotify", "substack", "youtube"}
 
 
 def _slug(s: str) -> str:
@@ -105,7 +108,42 @@ class EntityGraph:
         self.edges.append(Edge(src, dst, rel, claim))
 
     def persist(self) -> None:
+        self._merge_people()
         self.ws.write_json("entities.json", {"nodes": [asdict(n) for n in self.nodes.values()], "edges": [asdict(e) for e in self.edges]})
+
+    def _merge_people(self) -> None:
+        """Connection nodes that share a handle, a label, or a name recorded as an attribute of the
+        other are the same person: fold them into one node and redirect edges."""
+        people = [n for n in self.nodes.values() if n.type == "person" and n.about == "connection"]
+        def keys(n: Node) -> set[str]:
+            ks = {_slug(n.label)}
+            if n.hints.get("handle"):
+                ks.add(_slug(n.hints["handle"]))
+            for a in ("name", "identity", "full_name"):
+                if n.hints.get(a):
+                    ks.add(_slug(n.hints[a]))
+            return ks
+        merged = True
+        while merged:
+            merged = False
+            people = [n for n in self.nodes.values() if n.type == "person" and n.about == "connection"]
+            for i, a in enumerate(people):
+                for b in people[i + 1:]:
+                    if keys(a) & keys(b):
+                        keep, drop = (a, b) if (looks_like_person_name(a.label) or not looks_like_person_name(b.label)) else (b, a)
+                        keep.claims = sorted(set(keep.claims) | set(drop.claims))
+                        keep.hints = {**drop.hints, **keep.hints}
+                        keep.explored = keep.explored or drop.explored
+                        keep.url = keep.url or drop.url
+                        for e in self.edges:
+                            if e.src == drop.id: e.src = keep.id
+                            if e.dst == drop.id: e.dst = keep.id
+                        self.edges = [e for i2, e in enumerate(self.edges) if e.src != e.dst and not any(x.src == e.src and x.dst == e.dst and x.rel == e.rel for x in self.edges[:i2])]
+                        del self.nodes[drop.id]
+                        merged = True
+                        break
+                if merged:
+                    break
 
     def frontier(self, limit: int = 8) -> list[Node]:
         """Unexplored nodes worth a pivot, people and accounts first."""
@@ -121,7 +159,7 @@ class EntityGraph:
         for n in self.nodes.values():
             if url and n.url and _host(n.url) == _host(url) and urlparse(n.url).path.rstrip("/").lower() == urlparse(url if "://" in url else "https://" + url).path.rstrip("/").lower():
                 n.explored = True; hit.append(n.id)
-            elif handle and n.type == "account" and n.hints.get("handle", "").lower() == handle.lower():
+            elif handle and n.type in ("account", "person") and n.hints.get("handle", "").lower() == handle.lower():
                 n.explored = True; hit.append(n.id)
             elif email and n.type == "email" and n.label.lower() == email.lower():
                 n.explored = True; hit.append(n.id)
@@ -168,6 +206,54 @@ class EntityGraph:
         f = (claim.field or "").lower()
         v = (claim.value or "").strip()
         about = "target" if cid == resolved_id else f"candidate:{cid}"
+        # connection_<key>_<attr>: an attribute of an already known connection (key = its handle or slug)
+        cm = CONNECTION_FIELD_RE.match(f)
+        if cm:
+            key, attr = cm.group(1), cm.group(2)
+            node = self._find_person(key)
+            if node is not None:
+                node.claims = sorted(set(node.claims) | {claim.id})
+                if attr in ("name", "identity", "full_name") and looks_like_person_name(v):
+                    node.hints["handle"] = node.hints.get("handle") or key
+                    node.label = v
+                elif attr in ("profile", "linkedin", "url") and URL_RE.search(v):
+                    self._account_from_url(node.id, URL_RE.search(v).group(0), claim.id, about="connection")
+                    node.explored = True
+                elif attr in ("employer", "company", "organization"):
+                    oid = f"org:{_slug(v)}"; self.upsert(Node(id=oid, type="org", label=v, claims=[claim.id], about="connection")); self.link(node.id, oid, "works_at", claim.id)
+                elif attr == "email" and EMAIL_RE.fullmatch(v):
+                    eid = f"email:{v.lower()}"; self.upsert(Node(id=eid, type="email", label=v.lower(), claims=[claim.id], about="connection", explored=True)); self.link(node.id, eid, "has_email", claim.id)
+                else:
+                    node.hints[attr] = v[:120]
+                self.persist()
+                return
+        # "collaborator_identity = Real Name" with no key: it names the most recent connection that still
+        # carries only a handle as its label
+        if re.match(r"^(?:collaborator|connection|coauthor|relative|associate|colleague)_(?:identity|name|full_name|real_name)$", f) and looks_like_person_name(v):
+            recent = [n for n in self.nodes.values() if n.type == "person" and n.about == "connection" and not looks_like_person_name(n.label)]
+            if recent:
+                node = recent[-1]
+                node.hints["name"] = v
+                node.label = v
+                node.claims = sorted(set(node.claims) | {claim.id})
+                self.persist()
+                return
+        # holehe-style registrations: field account_<service>, value the service name
+        if f.startswith("account_") and v.lower() in PLATFORM_WORDS:
+            svc = v.lower()
+            key = f"account:{svc}:registered"
+            self.upsert(Node(id=key, type="account", label=f"{svc} (email registered)", claims=[claim.id], about=about, explored=True,
+                             hints={"platform": svc, "via": "email registration"}))
+            self.link(pid, key, "registered_on", claim.id)
+            self.persist()
+            return
+        if EMAIL_RE.fullmatch(v):
+            owner = self._find_person(f.split("_")[1]) if any(k in f for k in PERSON_FIELDS) and "_" in f else None
+            nid = f"email:{v.lower()}"
+            self.upsert(Node(id=nid, type="email", label=v.lower(), claims=[claim.id], about=("connection" if owner else about), explored=bool(owner)))
+            self.link(owner.id if owner else pid, nid, "has_email", claim.id)
+            self.persist()
+            return
         for e in EMAIL_RE.findall(v):
             nid = f"email:{e.lower()}"
             self.upsert(Node(id=nid, type="email", label=e.lower(), claims=[claim.id], about=about))
@@ -190,10 +276,23 @@ class EntityGraph:
                 proj = f"project:{_slug(v)}"
                 self.upsert(Node(id=proj, type="project", label=v, claims=[claim.id], url=f"https://github.com/{v}", about=about, explored=True))
                 self.link(pid, proj, "contributes_to", claim.id); self.link(other, proj, "contributes_to", claim.id)
+            elif v and EMAIL_RE.fullmatch(v):
+                # a collaborator's email: attach to the connection named in the field if any, else an email node
+                node = self._find_person(f.split("_")[1] if "_" in f else "")
+                eid = f"email:{v.lower()}"
+                self.upsert(Node(id=eid, type="email", label=v.lower(), claims=[claim.id], about="connection", explored=True))
+                self.link(node.id if node else pid, eid, "has_email", claim.id)
             elif v and not URL_RE.search(v) and (looks_like_person_name(v) or person_field):
-                other = f"person:{_slug(v)}"
-                self.upsert(Node(id=other, type="person", label=v, claims=[claim.id], about="connection", hints={"relation": f}))
-                self.link(pid, other, f, claim.id)
+                existing = self._find_person(v)
+                if existing is not None:
+                    existing.claims = sorted(set(existing.claims) | {claim.id})
+                    if looks_like_person_name(v) and not looks_like_person_name(existing.label):
+                        existing.label = v
+                    self.link(pid, existing.id, f, claim.id)
+                else:
+                    other = f"person:{_slug(v)}"
+                    self.upsert(Node(id=other, type="person", label=v, claims=[claim.id], about="connection", hints={"relation": f, **({"handle": v} if " " not in v else {})}))
+                    self.link(pid, other, f, claim.id)
         elif any(k in f for k in ORG_FIELDS) and v and not URL_RE.search(v):
             oid = f"org:{_slug(v)}"
             self.upsert(Node(id=oid, type="org", label=v, claims=[claim.id], about=about))
@@ -210,9 +309,20 @@ class EntityGraph:
             self._account(pid, v, platform, None, about=about, claim=claim.id)
         self.persist()
 
+    def _find_person(self, key: str) -> Optional[Node]:
+        """A connection node by handle, slug or label, so one real person stays one node."""
+        k = (key or "").strip().lower().lstrip("@")
+        if not k:
+            return None
+        for n in self.nodes.values():
+            if n.type == "person" and n.about == "connection" and (
+                    n.hints.get("handle", "").lower() == k or n.label.lower() == k or _slug(n.label) == _slug(k) or n.id in (f"person:gh_{_slug(k)}", f"person:{_slug(k)}")):
+                return n
+        return None
+
     def _account(self, pid: str, handle: str, platform: str | None, url: str | None, *, about: str, claim: str | None = None) -> None:
         handle = handle.strip().lstrip("@")
-        if not handle or len(handle) > 40 or " " in handle:
+        if not handle or len(handle) > 40 or " " in handle or re.fullmatch(r"[\d\-./]+", handle) or handle.lower() in PLATFORM_WORDS:
             return
         key = f"account:{platform or 'any'}:{handle.lower()}"
         self.upsert(Node(id=key, type="account", label=f"{platform + ' ' if platform else ''}{handle}", url=url, claims=[claim] if claim else [],
