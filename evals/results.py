@@ -77,7 +77,9 @@ def rung_summary(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
             "per_target": per_target,
         }
     # The comparison is always on the same target set: a subset rung is compared against the
-    # comparison rung restricted to that subset.
+    # comparison rung restricted to that subset. Alongside the mean delta, a paired statistic: how
+    # many targets moved up vs down, and the sign-test probability of at least that many ups under
+    # the null of no effect, so one target swinging cannot carry a rung on its own.
     for rung, s in out.items():
         cmp = s.get("compare_to")
         if cmp and str(cmp) in per_target_by_rung:
@@ -86,6 +88,12 @@ def rung_summary(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
                 s["compare_score"] = round(statistics.mean(per_target_by_rung[str(cmp)][t] for t in common), 4)
                 s["compare_self"] = round(statistics.mean(s["per_target"][t] for t in common), 4)
                 s["compare_targets"] = len(common)
+                deltas = [s["per_target"][t] - per_target_by_rung[str(cmp)][t] for t in common]
+                ups = sum(1 for d in deltas if d > 0.03); downs = sum(1 for d in deltas if d < -0.03)
+                n = ups + downs
+                from math import comb
+                p_sign = sum(comb(n, k) for k in range(ups, n + 1)) / (2 ** n) if n else 1.0
+                s["paired"] = {"up": ups, "down": downs, "flat": len(common) - n, "p_sign": round(p_sign, 3)}
     return out
 
 
@@ -105,8 +113,8 @@ def render_md() -> str:
              f"Generated {datetime.now(timezone.utc).isoformat(timespec='seconds')}. Noise band {band:.3f} "
              f"(largest within-rung spread of baseline repeats, floor 0.03). "
              f"Ladder spend ${sp.get('ladder', 0):.2f}, dev spend ${sp.get('dev', 0):.2f}.", "",
-             "| rung | score | min | vs | delta | moved | targets | runs | identity pass | prov fail | decoy leak | cost | time |",
-             "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+             "| rung | score | min | vs | delta | moved | paired up/down (p) | targets | runs | identity pass | prov fail | decoy leak | cost | time |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for rung, s in summary.items():
         cmp = s.get("compare_to")
         delta = moved = ""
@@ -114,7 +122,8 @@ def render_md() -> str:
             d = s["compare_self"] - s["compare_score"]
             delta = f"{d:+.3f} on {s['compare_targets']}"
             moved = "yes" if d > band else "no"
-        lines.append(f"| {rung} | {s['score']:.3f} | {s['min']:.3f} | {cmp or ''} | {delta} | {moved} | {s['targets']} | {s['runs']} | "
+        pr = s.get("paired"); paired = f"{pr['up']}/{pr['down']} ({pr['p_sign']})" if pr else ""
+        lines.append(f"| {rung} | {s['score']:.3f} | {s['min']:.3f} | {cmp or ''} | {delta} | {moved} | {paired} | {s['targets']} | {s['runs']} | "
                      f"{s['identity_pass']}/{s['runs']} | {s['prov_fail']} | {s['decoy_leak']} | ${s['cost_usd']:.2f} | {s['duration_s']}s |")
     lines += ["", "## Per run", "",
               "| rung | target | run | net | identity | recall | wrong | prov fail | decoy | admitted | rejected | calls | cost | time | stop | sha | note |",
