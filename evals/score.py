@@ -271,9 +271,15 @@ def score_target(golden: dict[str, Any], report: dict[str, Any], workspace: str 
         return row
 
     if exp_status == "ambiguous":
-        labels = [c.get("label") or c.get("name") or "" for c in identity.get("candidates") or []]
-        both = all(any(match(n, lab) for lab in labels) for n in expect.get("name_any", []))
-        base = 1.0 if (status == "ambiguous" and both) else 0.0
+        cands = identity.get("candidates") or []
+        labels = [c.get("label") or c.get("name") or "" for c in cands]
+        blobs = [normalize(json.dumps(c, ensure_ascii=False)) for c in cands]
+        names_ok = all(any(match(n, lab) for lab in labels) for n in expect.get("name_any", []))
+        markers = expect.get("expect_candidate_markers") or []
+        # the ambiguity must rest on real people: two or more candidates, and when markers are given at
+        # least one of them (a known slug or handle) must appear on some recorded candidate
+        real = len(cands) >= 2 and (not markers or any(normalize(m) in b for m in markers for b in blobs))
+        base = 1.0 if (status == "ambiguous" and names_ok and real) else 0.0
         row["identity_ok"] = base == 1.0
         leaks = row["decoy_leak"]
         row["branch"] = "ambiguous_expected"
