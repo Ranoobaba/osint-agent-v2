@@ -1,0 +1,4 @@
+iteration	commit	net	delta_vs_best_kept	prov_fail	decoy_leak	rejection_rate	findings_per_call	usd_per_finding	mean_cost	mean_duration	status	note	ts	runs
+1	a2b3e4c	0.9020		0	0	0.071	1.77	0.028	1.679	422	keep	baseline: shipped config, no change	2026-09-04T18:36:00+00:00	michael_jordan=0.706@20260904-182716-453cac;ariglad_cto=1.000@20260904-182716-52da33;invented=1.000@20260904-182716-040515
+2	a2b3e4c	0.4785		0	0				0.000	0	keep	J_replay: dedupe keeps provenance with the richer value (offline, 48 runs, 0.471 -> 0.479; also clears rung 6 michael_jordan)	2026-09-04T19:05:00+00:00	offline
+3	a2b3e4c	0.8235		0	0	0.070			0.660	0	probe	extractor probe on michael_jordan sources (Sonnet): recall 0.706 -> 0.824 offline, +$0.66; not shipped	2026-09-04T19:05:00+00:00	offline

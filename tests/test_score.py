@@ -110,3 +110,11 @@ def test_hash_mismatch_is_provenance_failure(tmp_path):
     ok = score_target(GOLDEN, report(findings=[finding("current_employer", "Example Labs", "works at Example Labs", source_id="s001", content_hash=good_hash)]), tmp_path)
     bad = score_target(GOLDEN, report(findings=[finding("current_employer", "Example Labs", "works at Example Labs", source_id="s001", content_hash="deadbeef")]), tmp_path)
     assert ok["wrong"] == 0.0 and bad["wrong"] == 2.0
+
+
+def test_dedupe_moves_provenance_with_the_richer_value():
+    from osint2.report import dedupe_findings
+    a = {"id": "c1", "field": "dept", "value": "Statistics", "excerpt": "Statistics", "source_id": "s1", "content_hash": "h1", "method": "wayback"}
+    b = {"id": "c2", "field": "dept", "value": "Department of Statistics", "excerpt": "Department of Statistics, Berkeley", "source_id": "s2", "content_hash": "h2", "method": "exa_contents"}
+    out = dedupe_findings([a, b])
+    assert len(out) == 1 and out[0]["value"] == "Department of Statistics" and out[0]["excerpt"] == "Department of Statistics, Berkeley" and out[0]["source_id"] == "s2"

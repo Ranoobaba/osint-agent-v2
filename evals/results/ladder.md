@@ -1,6 +1,6 @@
 # Ladder results
 
-Generated 2026-09-04T03:23:44+00:00. Noise band 0.030 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $20.13, dev spend $2.25.
+Generated 2026-09-04T18:42:05+00:00. Noise band 0.030 (largest within-rung spread of baseline repeats, floor 0.03). Ladder spend $20.13, dev spend $2.25.
 
 | rung | score | min | vs | delta | moved | targets | runs | identity pass | prov fail | decoy leak | cost | time |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -11,7 +11,7 @@ Generated 2026-09-04T03:23:44+00:00. Noise band 0.030 (largest within-rung sprea
 | 2 | 0.495 | 0.129 | 1 | +0.273 on 9 | yes | 9 | 11 | 6/11 | 0 | 0 | $5.16 | 3313s |
 | 3 | 0.506 | 0.129 | 2 | +0.011 on 9 | no | 9 | 9 | 7/9 | 0 | 0 | $4.28 | 2788s |
 | 4 | 0.841 | 0.483 | 3 | +0.429 on 4 | yes | 4 | 4 | 4/4 | 0 | 0 | $2.89 | 1038s |
-| 6 | 0.328 | 0.000 | 3 | -0.084 on 4 | no | 4 | 4 | 3/4 | 2 | 0 | $1.93 | 1184s |
+| 6 | 0.416 | 0.147 | 3 | +0.004 on 4 | no | 4 | 4 | 3/4 | 0 | 0 | $1.93 | 1184s |
 | 7 | 0.847 | 0.500 | best(4,5) |  |  | 4 | 4 | 4/4 | 0 | 0 | $2.00 | 720s |
 | 5 | 0.816 | 0.552 | 3 | +0.404 on 4 | yes | 4 | 4 | 4/4 | 0 | 0 | $2.47 | 748s |
 | D | 0.824 | 0.824 | 7 | -0.176 on 1 | no | 1 | 1 | 1/1 | 0 | 0 | $0.89 | 206s |
@@ -55,7 +55,7 @@ Generated 2026-09-04T03:23:44+00:00. Noise band 0.030 (largest within-rung sprea
 | 3 | ariglad_cto | 1 | 0.714 | resolved ok | 0.714 | 0.0 | 0 | 0 | 24 | 1 | 20 | $0.46 | 353s | budget:calls | 865682f | stage 3: input-shape hardening |
 | 6 | invented | 1 | 1.000 | unresolved ok | 0.000 | 0.0 | 0 | 0 | 5 | 0 | 17 | $0.23 | 254s | finish | 9929933 | stage 6: plus Firecrawl |
 | 6 | baseline | 1 | 0.147 | ambiguous | 0.293 | 0.0 | 0 | 0 | 21 | 1 | 19 | $0.56 | 280s | finish | 9929933 | stage 6: plus Firecrawl |
-| 6 | michael_jordan | 1 | 0.000 | resolved ok | 0.353 | 4.0 | 2 | 0 | 47 | 1 | 17 | $0.83 | 361s | finish | 9929933 | stage 6: plus Firecrawl |
+| 6 | michael_jordan | 1 | 0.353 | resolved ok | 0.353 | 0.0 | 0 | 0 | 47 | 1 | 17 | $0.83 | 361s | finish | 9929933 | stage 6: plus Firecrawl |
 | 1 | collision_nokey | 1 | 0.000 | unresolved | 0.000 | 0.0 | 0 | 0 | 0 | 2 | 0 | $0.06 | 35s | saturation | 53780f2 | backfill collision targets |
 | 1 | collision_key | 1 | 0.000 | unresolved | 0.000 | 0.0 | 0 | 0 | 0 | 2 | 0 | $0.06 | 38s | saturation | 53780f2 | backfill collision targets |
 | 2 | collision_nokey | 1 | 0.500 | ambiguous | 0.000 | 0.0 | 0 | 0 | 14 | 1 | 19 | $0.47 | 271s | finish | 53780f2 | backfill collision targets |

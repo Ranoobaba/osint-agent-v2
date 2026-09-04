@@ -1,0 +1,5 @@
+iteration	commit	net	delta_vs_best_kept	prov_fail	decoy_leak	rejection_rate	findings_per_call	usd_per_finding	mean_cost	mean_duration	status	note	ts	runs
+1	a2b3e4c	0.9020		0	0	0.071	1.77	0.028	1.679	422	keep	baseline: shipped config, no change	2026-09-04T18:36:00+00:00	michael_jordan=0.706@20260904-182716-453cac;ariglad_cto=1.000@20260904-182716-52da33;invented=1.000@20260904-182716-040515
+
+verdict by the hard rules: KEEP  (net 0.902, best kept None, band 0.03, prov_fail 0, decoy 0, mean cost $1.68)
+autoresearch spend $5.04 of $6

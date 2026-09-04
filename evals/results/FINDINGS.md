@@ -30,16 +30,19 @@ the rest before this rebuild).
    baseline (it corroborates employer and location across two domains) and takes Michael Jordan from
    0.35 to 0.88 and the with-key collision target to 1.0 with zero decoy leaks.
 4. **Firecrawl alone adds nothing (−0.084).** The pages it can render, the free tools already reach;
-   the pages that matter (LinkedIn) it cannot. Its one contribution was negative: the model recorded a
-   department that an archived page never stated, which the scorer caught and admission now blocks.
+   the pages that matter (LinkedIn) it cannot. Correction (2026-09-04): the two provenance failures first
+   attributed to this rung were a report-layer bug (dedupe replaced a finding's value with a richer
+   duplicate but kept the old excerpt), found by the autoresearch extractor probe and fixed; after the
+   fix and a rescore that run scores 0.353 with 0 failures. The admission rule added at the time (a value
+   may not say more than its quoted line) stays, because it also blocks real embellishment.
 5. **Input-shape hardening did not move the group score (+0.011)**, though its resolver rule fixed the
    handle-only target (0.147 to 0.362). The rule is kept as a correctness fix; the recitation nudge is
    unproven.
 6. **Identity never went wrong.** Across 51 scored runs, no run resolved to the wrong person and no
    finding about a same-name decoy was attributed to the target. Ambiguity was reported honestly on
    every collision-without-key run.
-7. **Provenance held.** Two provenance failures in 51 runs, both from one Firecrawl run, both caught
-   by the scorer before the admission rule was tightened.
+7. **Provenance held.** Zero provenance failures in 51 runs after the dedupe fix; the two once recorded
+   were a report-layer merge bug, caught by the scorer and corrected.
 
 ## Inferred (not measured)
 

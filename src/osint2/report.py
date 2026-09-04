@@ -37,7 +37,10 @@ def dedupe_findings(findings: list[dict[str, Any]]) -> list[dict[str, Any]]:
             kept.append(dict(f))
             continue
         if len(val) > len(_norm_fact(dup.get("value"))):
-            dup["value"] = f.get("value")
+            # the richer value wins, and its provenance travels with it: excerpt, source, hash, method
+            for k in ("value", "excerpt", "source_id", "source_url", "content_hash", "method", "id", "step"):
+                if f.get(k) is not None:
+                    dup[k] = f.get(k)
         try:
             if float(f.get("confidence") or 0) > float(dup.get("confidence") or 0):
                 dup["confidence"] = f.get("confidence")
