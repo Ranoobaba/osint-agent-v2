@@ -96,11 +96,15 @@
   cache 69% -> 88%, 0 dead calls. Rung 6 corrected: Firecrawl key is invalid (401), the rung never tested it.
   Endpoint locked (AGENT_API_KEY in .env). Key balance about $6 left.
 
+- Social/school/family sweep wave (2026-09-04, commit 6feef0b): Facebook and Instagram public profiles
+  via search snippets gated on name + school/city then read through Exa; high-school and PDF searches
+  read by the extractor; same-surname LinkedIn co-listings in the person's city as sensitive leads;
+  US-only obituary/wedding search admitted when the snippet names the person in full. Paid sweep
+  searches now charge the budget (Budget.charge_tool) but not the call cap. Live check: runs/deployed_kunal4.
+
 ## In progress
-- Next asked by Rayyan: high school, siblings/family, Facebook connections. Plan: sweep adds
-  web_search(domains=["facebook.com"]) and Exa reads of public profiles; family via people_search relatives
-  (US adults), obituary/wedding announcement searches, same-surname co-listings; all sensitive=true, minors
-  excluded, private third parties only from public pages. Firecrawl key still needed from Rayyan or drop it. Remaining ladder work needs about 33 dollars of OpenRouter credit.
+- Firecrawl key still needed from Rayyan or drop the tool (Instagram and Facebook pages need a renderer
+  when Exa has no cached copy). Remaining ladder work needs about 33 dollars of OpenRouter credit.
 
 ## Was: waiting on EXA_API_KEY and FIRECRAWL_API_KEY for rungs 5 to 9 and the collision targets.
 

@@ -27,6 +27,15 @@ lives in evals/results/ladder.md and is copied below as stages land.
   commits to recover real addresses with repo@sha evidence, then pivots into Gravatar (an email's
   hash is a public key into a profile directory) and a whatsmyname sweep across 700 curated sites.
   Rung 2 of the ladder, which has no web search at all, is where this chain is measured.
+- **The sweep is code, not a model choice.** The moment identity resolves, code points every
+  surface tool at the confirmed keys without spending a model turn: whatsmyname, Roblox and Tinder
+  per handle; holehe, Gravatar and the GitHub reverse search per email; Wayback per domain; keyless
+  profile reads (Reddit, Docker Hub, Hacker News, Keybase, chess sites) on the hits; public Facebook
+  and Instagram profiles found through search snippets and gated on name plus school or city; a
+  high-school and a PDF search; and a family pass (same-surname LinkedIn profiles in the person's
+  city recorded as leads under an honest field name, and for US adults obituary or wedding notices
+  that name the person in full). The sweep re-runs whenever a later step recovers a new handle,
+  email or domain. Everything family, dating or gaming related is flagged sensitive.
 - **One budget per run**, shared by the lead and any subagents: data-tool calls, dollars (LLM plus
   paid services), seconds. The tightest cap ends the run. Bookkeeping tools are free.
 - **Wrong is worse than missing.** The scorer subtracts for contradictions on single-valued fields,
@@ -166,5 +175,11 @@ content hash. examples/ ships those source files, so every claim there can be ch
   resolves on a candidate that matches that key.
 - LinkedIn is reachable only through Exa's cached index. Without an Exa key the baseline target,
   whose disambiguator is a LinkedIn URL, stays ambiguous.
+- Facebook friend and family lists are private since 2019 and every tool that still reads them needs
+  a logged-in session, which this agent does not use. It records public profile pages only.
+- A same-surname profile in the same city is a lead, not a relative; it is reported under the field
+  same_surname_in_city, flagged sensitive, and never restated as family.
+- Minors are out of scope: no claim is made about anyone the sources describe as a child or student
+  below university.
 - Emails recovered from commit metadata that appear on no public page are hashed before an example
   run is committed; the claim's content hash then refers to the unredacted file.
