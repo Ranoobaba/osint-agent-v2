@@ -114,9 +114,12 @@
   findings, family wave ran (6 Baldava LinkedIn leads, city unverified so now field same_surname_profile),
   high_school Pace Junior Science College and CNM School. OpenRouter balance after: $2.80.
 
+- Firecrawl key replaced 2026-09-05 and validated (scrape of example.com HTTP 200); deployed app reports
+  keys.firecrawl true. The old key was the one rung 6 ran with, so rung 6 is still an untested rung.
+
 ## In progress
-- Firecrawl key still needed from Rayyan or drop the tool (Instagram and Facebook pages need a renderer
-  when Exa has no cached copy). Remaining ladder work needs about 33 dollars of OpenRouter credit.
+- Nothing running. Balance $2.80: one live run of the full configuration ($1.25) or rung 6 on its
+  subset (about $1.90) would fit, not both. Remaining ladder work needs about 33 dollars of OpenRouter credit.
 
 ## Was: waiting on EXA_API_KEY and FIRECRAWL_API_KEY for rungs 5 to 9 and the collision targets.
 
