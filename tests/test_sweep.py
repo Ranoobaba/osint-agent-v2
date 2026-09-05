@@ -173,10 +173,11 @@ def test_social_wave_gates_profiles_and_records_family_leads(tmp_path):
     assert sum(1 for c in ctx.store.findings() if c.field == "account_facebook") == 1, "post URLs and namesakes are not profiles"
     assert "account_instagram" not in found, "instagram snippet without school or city does not pass the gate"
     lead = found["same_surname_in_city"]
-    assert lead.value.startswith("Rohan Baldava") and lead.sensitive
+    assert lead.value.startswith("Rohan Baldava - Analyst") and lead.sensitive
     assert sum(1 for c in ctx.store.findings() if c.field == "same_surname_in_city") == 1, "the person and the company are not leads"
     assert reads == ["https://www.facebook.com/kunal.baldava"] and out["social"] == 5
     assert ctx.budget.calls == 0 and abs(ctx.budget.usd - 0.025) < 1e-9, "paid sweep searches cost money but not calls"
     # a second sweep for the same name does not repeat the social wave
+    before = len(calls)
     out2 = asyncio.run(sweep(ctx, tools, cand, step=4))
-    assert out2["calls"] == 0
+    assert out2["social"] == 0 and len(calls) == before

@@ -164,7 +164,7 @@ def _record_social(ctx: RunContext, cand: Candidate, args: dict[str, Any], res, 
         elif args.get("category") == "linkedin profile":
             title = r["title"].split(" - ")[0].split(" | ")[0].strip()
             if surname in title.lower() and first not in title.lower() and len(title.split()) <= 4 and "linkedin.com/in/" in r["url"]:
-                n += _admit(ctx, sid, "same_surname_in_city", f"{title} ({r['url']})", f"{r['title']}\n   url: {r['url']}", "connections", True, cand.id, step)
+                n += _admit(ctx, sid, "same_surname_in_city", r["title"], r["title"], "connections", True, cand.id, step)
     return n, reads[:2]
 
 
