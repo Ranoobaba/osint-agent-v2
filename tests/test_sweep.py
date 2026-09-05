@@ -181,3 +181,43 @@ def test_social_wave_gates_profiles_and_records_family_leads(tmp_path):
     before = len(calls)
     out2 = asyncio.run(sweep(ctx, tools, cand, step=4))
     assert out2["social"] == 0 and len(calls) == before
+
+
+def test_entity_keys_must_tie_to_the_person(tmp_path):
+    from osint2.sweep import _domains, _emails
+    from osint2.entities import Node
+    ctx, cand = make_ctx(tmp_path, {})
+    ents = ctx.state["entities"]
+    for nid, node in {
+        "account:x:office365": Node(id="account:x:office365", type="account", label="x office365", about="target", hints={"handle": "office365"}),
+        "account:x:kunal-baldava": Node(id="account:x:kunal-baldava", type="account", label="x kunal-baldava", about="target", hints={"handle": "kunal-baldava"}),
+        "email:saqib.mumtaz.h@gmail.com": Node(id="email:saqib.mumtaz.h@gmail.com", type="email", label="saqib.mumtaz.h@gmail.com", about="target"),
+        "email:kunalb@berkeley.edu": Node(id="email:kunalb@berkeley.edu", type="email", label="kunalb@berkeley.edu", about="target"),
+        "domain:thegatewaypundit.com": Node(id="domain:thegatewaypundit.com", type="domain", label="thegatewaypundit.com", about="target"),
+        "domain:kunalbaldava.com": Node(id="domain:kunalbaldava.com", type="domain", label="kunalbaldava.com", about="target"),
+    }.items():
+        ents.upsert(node)
+    assert _handles(cand, ctx) == ["kvnalb", "kunal-baldava"]
+    assert _emails(cand, ctx) == ["k@berkeley.edu", "kunalb@berkeley.edu"]
+    assert _domains(cand, ctx) == ["kunalbaldava.com"]
+
+
+def test_registration_label_is_not_a_handle_and_noisy_hosts_are_skipped(tmp_path):
+    ctx, cand = make_ctx(tmp_path, {})
+    sid = ctx.store.add_source("holehe_check", {"email": "k@berkeley.edu"}, "# holehe_check: k@berkeley.edu\nregistered on (1): office365\n", None, 1).id
+    n, _ = _record(ctx, cand, "holehe_check", {"email": "k@berkeley.edu"}, ToolResult(content=ctx.store.source_text(sid), meta={"source_id": sid}), 1)
+    assert n == 1
+    ents = ctx.state["entities"]
+    assert not any(nd.hints.get("handle") == "office365" for nd in ents.nodes.values())
+    wmn = "# whatsmyname: kvnalb\n[news]\n  - The Gateway Pundit: https://www.thegatewaypundit.com/author/kvnalb/\n  - Twitch tracker: https://twitchtracker.com/kvnalb\n[coding]\n  - Kaggle: https://www.kaggle.com/kvnalb\n"
+    sid2 = ctx.store.add_source("whatsmyname", {"username": "kvnalb"}, wmn, None, 1).id
+    n2, _ = _record(ctx, cand, "whatsmyname", {"username": "kvnalb"}, ToolResult(content=wmn, meta={"source_id": sid2}), 1)
+    assert n2 == 1 and not any(nd.type == "domain" for nd in ents.nodes.values())
+
+
+def test_tool_commentary_is_rejected_as_a_value(tmp_path):
+    ctx, cand = make_ctx(tmp_path, {})
+    sid = ctx.store.add_source("exa_contents", {"url": "https://www.kaggle.com/x"}, "Both fetch_page and exa_contents returned only HTML framework without profile content", "https://www.kaggle.com/x", 1).id
+    claim, reason = ctx.store.admit({"field": "kaggle_bio", "value": "Both fetch_page and exa_contents returned only HTML framework without profile content",
+                                     "excerpt": "Both fetch_page and exa_contents returned only HTML framework", "source_id": sid}, step=1)
+    assert claim is None and "tool result" in reason

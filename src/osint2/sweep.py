@@ -37,7 +37,20 @@ RESULT_RE = re.compile(r"^\d+\. (.+)\n\s+url: (\S+)(?:\n\s+date: [^\n]*)?(?:\n\s
 SOCIAL_HOSTS = {"facebook.com": "facebook", "instagram.com": "instagram"}
 HIT_RE = re.compile(r"^\s*-\s*([^:]+):\s*(https?://\S+)\s*$", re.M)
 # whatsmyname checks existence through API, availability and search endpoints; those are not profile pages
+# sites that answer 200 for any username; a hit there is noise
+NOISY_HOSTS = ("thegatewaypundit.com", "twitchtracker.com", "wordpress.org", "archive.org")
 JUNK_URL_RE = re.compile(r"(api\.|/api/|username_available|/search\?|wayback/available|\?print=pretty|/v2/orgs/|/v2/users/|/v0/user/)", re.I)
+
+
+def _ties(value: str, cand: Candidate) -> bool:
+    """A key found on the entity graph is swept only when it visibly belongs to the person: it contains a
+    name token, a known handle, or the local part of a known email. This is what keeps a registration
+    label like 'office365' or a whatsmyname hit host from becoming the next thing swept."""
+    v = value.lower()
+    toks = {t for n in cand.names for t in re.findall(r"[a-z]{4,}", n.lower())}
+    toks |= {h.lower() for h in cand.handles if len(h) >= MIN_HANDLE}
+    toks |= {e.split("@")[0].lower() for e in cand.emails if len(e.split("@")[0]) >= MIN_HANDLE}
+    return any(t in v for t in toks)
 
 
 def _handles(cand: Candidate, ctx: RunContext) -> list[str]:
@@ -47,7 +60,7 @@ def _handles(cand: Candidate, ctx: RunContext) -> list[str]:
     ents = ctx.state.get("entities")
     if ents is not None:
         for n in ents.nodes.values():
-            if n.type == "account" and n.hints.get("handle") and n.about in ("target", f"candidate:{cand.id}"):
+            if n.type == "account" and n.hints.get("handle") and n.about in ("target", f"candidate:{cand.id}") and _ties(n.hints["handle"], cand):
                 pool.append(n.hints["handle"])
     for h in pool:
         h = h.strip().lstrip("@")
@@ -62,7 +75,7 @@ def _emails(cand: Candidate, ctx: RunContext) -> list[str]:
     pool = list(cand.emails)
     ents = ctx.state.get("entities")
     if ents is not None:
-        pool += [n.label for n in ents.nodes.values() if n.type == "email" and n.about in ("target", f"candidate:{cand.id}")]
+        pool += [n.label for n in ents.nodes.values() if n.type == "email" and n.about in ("target", f"candidate:{cand.id}") and _ties(n.label, cand)]
     out: list[str] = []
     for e in pool:
         e = e.strip().lower()
@@ -75,7 +88,7 @@ def _domains(cand: Candidate, ctx: RunContext) -> list[str]:
     ents = ctx.state.get("entities")
     if ents is None:
         return []
-    return [n.label for n in ents.nodes.values() if n.type == "domain" and n.about in ("target", f"candidate:{cand.id}")][:2]
+    return [n.label for n in ents.nodes.values() if n.type == "domain" and n.about in ("target", f"candidate:{cand.id}") and _ties(n.label, cand)][:2]
 
 
 def _us_location(ctx: RunContext) -> str | None:
@@ -129,12 +142,20 @@ def _social_jobs(cand: Candidate, ctx: RunContext, tools: dict[str, Tool]) -> li
                                               ("web_search", {"query": f'"{name}" high school', "num_results": 8})]
     if "exa" in ctx.settings.tools:
         jobs.append(("web_search", {"query": f"{name} {place or ''}".strip(), "category": "pdf", "num_results": 5}))
+    return jobs
+
+
+def _family_jobs(cand: Candidate, ctx: RunContext, tools: dict[str, Tool]) -> list[tuple[str, dict[str, Any]]]:
+    if "web_search" not in tools or not cand.names or not cand.locations:
+        return []
+    name = cand.names[0]
     surname = name.split()[-1] if len(name.split()) > 1 else None
-    city = cand.locations[0] if cand.locations else None
-    if surname and len(surname) >= 4 and city:
-        jobs.append(("web_search", {"query": f'"{surname}" {city}', "category": "linkedin profile", "num_results": 8}))
-        if _us_location(ctx):
-            jobs.append(("web_search", {"query": f'"{surname}" obituary OR wedding {city}', "num_results": 8}))
+    city = cand.locations[0]
+    if not surname or len(surname) < 4:
+        return []
+    jobs = [("web_search", {"query": f'"{surname}" {city}', "category": "linkedin profile", "num_results": 8})]
+    if _us_location(ctx):
+        jobs.append(("web_search", {"query": f'"{surname}" obituary OR wedding {city}', "num_results": 8}))
     return jobs
 
 
@@ -197,8 +218,8 @@ def _record(ctx: RunContext, cand: Candidate, name: str, args: dict[str, Any], r
             host = urlparse(url).netloc.lower().removeprefix("www.")
             svc = re.sub(r"[^a-z0-9]+", "_", site.lower()).strip("_")
             readable = next((plat for h, plat in READABLE.items() if host == h or host.endswith("." + h)), None)
-            if JUNK_URL_RE.search(url) and not readable:
-                continue   # an existence check, not a page anyone can read
+            if (JUNK_URL_RE.search(url) and not readable) or any(host == h or host.endswith("." + h) for h in NOISY_HOSTS):
+                continue   # an existence check or a site that answers for any name, not a page anyone can read
             if not JUNK_URL_RE.search(url):
                 n += _admit(ctx, sid, f"account_{svc}", url, m.group(0).strip(), "online_presence", any(k in svc for k in SENSITIVE_SVC), cand.id, step)
             for h, plat in READABLE.items():
@@ -246,8 +267,10 @@ async def sweep(ctx: RunContext, tools: dict[str, Tool], cand: Candidate, step: 
     domains = [d for d in _domains(cand, ctx) if f"d:{d}" not in done]
     loc = None if "people_search" in done else _us_location(ctx)
     social = _social_jobs(cand, ctx, tools) if cand.names and f"social:{cand.names[0].lower()}" not in done else []
+    family = _family_jobs(cand, ctx, tools) if cand.names and f"family:{cand.names[0].lower()}" not in done else []
     done.update({f"h:{h.lower()}" for h in handles} | {f"e:{e}" for e in emails} | {f"d:{d}" for d in domains} | ({"people_search"} if loc else set())
-                | ({f"social:{cand.names[0].lower()}"} if social else set()))
+                | ({f"social:{cand.names[0].lower()}"} if social else set()) | ({f"family:{cand.names[0].lower()}"} if family else set()))
+    social = social + family
     if not (handles or emails or domains or loc or social):
         return {"handles": [], "emails": [], "domains": [], "people_search": False, "social": 0, "calls": 0, "admitted": 0, "profile_reads": []}
     jobs: list[tuple[str, dict[str, Any]]] = list(social)

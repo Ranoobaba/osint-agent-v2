@@ -258,7 +258,7 @@ class EntityGraph:
                 self.persist()
                 return
         # holehe-style registrations: field account_<service>, value the service name
-        if f.startswith("account_") and v.lower() in PLATFORM_WORDS:
+        if f.startswith("account_") and (v.lower() in PLATFORM_WORDS or re.sub(r"[^a-z0-9]", "", v.lower()) == re.sub(r"[^a-z0-9]", "", f[len("account_"):].lower())):
             svc = v.lower()
             key = f"account:{svc}:registered"
             self.upsert(Node(id=key, type="account", label=f"{svc} (email registered)", claims=[claim.id], about=about, explored=True,
@@ -278,7 +278,7 @@ class EntityGraph:
             self.upsert(Node(id=nid, type="email", label=e.lower(), claims=[claim.id], about=about))
             self.link(pid, nid, "has_email", claim.id)
         for u in URL_RE.findall(v):
-            self._account_from_url(pid, u, claim.id, about=about)
+            self._account_from_url(pid, u, claim.id, about=about, allow_domain=not f.startswith("account_"))
         blocked = any(k in f for k in ROLE_FIELDS + NOT_PERSON_FIELDS)
         person_field = any(k in f for k in PERSON_FIELDS) and not blocked
         handle_shaped = bool(re.fullmatch(r"[A-Za-z0-9_.\-]{2,40}", v)) and not v.isdigit()
@@ -349,7 +349,7 @@ class EntityGraph:
                          about=about, hints={"platform": platform or "", "handle": handle}))
         self.link(pid, key, "owns_account", claim)
 
-    def _account_from_url(self, pid: str, url: str, claim: str | None, *, about: str) -> None:
+    def _account_from_url(self, pid: str, url: str, claim: str | None, *, about: str, allow_domain: bool = True) -> None:
         host = _host(url)
         platform = next((p for h, p in PLATFORM_HOSTS.items() if host == h or host.endswith("." + h)), None)
         path = urlparse(url if "://" in url else "https://" + url).path.strip("/")
@@ -361,7 +361,7 @@ class EntityGraph:
                 self.upsert(Node(id=key, type="account", label=f"{platform} {handle}", url=url, claims=[claim] if claim else [], about=about,
                                  hints={"platform": platform, "handle": handle}))
                 self.link(pid, key, "owns_account", claim)
-        elif host and not host.endswith(("web.archive.org", "gravatar.com", "whatsmyname.app", "api.github.com")):
+        elif allow_domain and host and not host.endswith(("web.archive.org", "gravatar.com", "whatsmyname.app", "api.github.com")):
             did = f"domain:{host}"
             self.upsert(Node(id=did, type="domain", label=host, url=f"https://{host}", claims=[claim] if claim else [], about=about))
             self.link(pid, did, "linked_domain", claim)

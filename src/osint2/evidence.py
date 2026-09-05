@@ -12,6 +12,8 @@ model proposes; code decides whether it is admitted, per kind:
 """
 from __future__ import annotations
 
+import re
+
 import hashlib
 import json
 import unicodedata
@@ -79,6 +81,9 @@ def anchor_excerpt(source_text: str, excerpt: str) -> Optional[tuple[int, int, f
     if al is None or al.score < REANCHOR_SCORE or al.dest_end <= al.dest_start:
         return None
     return offsets[al.dest_start], offsets[min(al.dest_end, len(offsets)) - 1] + 1, float(al.score)
+
+
+META_VALUE_RE = re.compile(r"\b(fetch_page|exa_contents|web_search|whatsmyname|returned only|HTML framework|no (public )?(profile|page)|could not (be )?(read|fetch|load)|unable to|not accessible|login wall)\b", re.I)
 
 
 @dataclass
@@ -174,6 +179,8 @@ class EvidenceStore:
         if kind == "finding":
             if not base["value"]:
                 return self._reject(proposal, "missing value")
+            if META_VALUE_RE.search(base["value"]):
+                return self._reject(proposal, "the value describes a tool result, not a fact about the person; record nothing for it")
             sid = proposal.get("source_id")
             if not sid or sid not in self.sources:
                 return self._reject(proposal, f"unknown source_id {sid!r}; cite a source id returned by a tool in this run")
