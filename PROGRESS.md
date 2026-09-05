@@ -87,8 +87,20 @@
   EXTRACTOR=1. Endpoint locked behind AGENT_API_KEY; the page has a key field. Architecture review
   (fresh-context subagent with Exa) in the session log; its ranked list is the ideas queue.
 
+- Depth + cost pass (2026-09-04, three fresh-context analysts): code-driven incremental sweep after resolution
+  (whatsmyname, roblox, tinder, holehe, gravatar, GitHub reverse, wayback, people_search, keyless profile
+  reads for reddit/dockerhub/hackernews/keybase/chess), dead tools disabled per run, memo keys by identifier,
+  frontier fixes, Exa tweet/pdf categories, extractor hygiene, notes folded into one live recitation (the
+  separate note message had been breaking the prompt cache: $0.61 per run), cache breakpoint on the last tool
+  result, 4k lead view, Haiku anchor, Sonnet subagents (SUB_MODEL). Kunal: 111 findings/$1.89 -> 131/$1.03,
+  cache 69% -> 88%, 0 dead calls. Rung 6 corrected: Firecrawl key is invalid (401), the rung never tested it.
+  Endpoint locked (AGENT_API_KEY in .env). Key balance about $6 left.
+
 ## In progress
-- Nothing. Remaining ladder work needs about 33 dollars of OpenRouter credit.
+- Next asked by Rayyan: high school, siblings/family, Facebook connections. Plan: sweep adds
+  web_search(domains=["facebook.com"]) and Exa reads of public profiles; family via people_search relatives
+  (US adults), obituary/wedding announcement searches, same-surname co-listings; all sensitive=true, minors
+  excluded, private third parties only from public pages. Firecrawl key still needed from Rayyan or drop it. Remaining ladder work needs about 33 dollars of OpenRouter credit.
 
 ## Was: waiting on EXA_API_KEY and FIRECRAWL_API_KEY for rungs 5 to 9 and the collision targets.
 
