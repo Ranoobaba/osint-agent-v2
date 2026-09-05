@@ -216,11 +216,12 @@ async def run_investigation(target: str, settings: Settings, runs_dir: Path | No
                         if sw["calls"]:
                             ctx.state.setdefault("notes", []).append(
                                 f"[sweep] identity resolved, so code ran the surface tools on the confirmed keys: handles {sw['handles']}, emails {sw['emails']}, "
-                                f"domains {sw['domains']}{', people_search' if sw['people_search'] else ''}; {sw['calls']} calls, {sw['admitted']} claims admitted"
+                                f"domains {sw['domains']}{', people_search' if sw['people_search'] else ''}{', social/school/family searches' if sw.get('social') else ''}; {sw['calls']} calls, {sw['admitted']} claims admitted"
                                 f"{', profiles read: ' + ', '.join(sw['profile_reads']) if sw['profile_reads'] else ''}. Results are stored sources "
                                 f"(ids {', '.join(sid for sid, src in store.sources.items() if src.step == step)}); quote from them; do not repeat these lookups.")
                         if settings.extractor and sw["calls"]:
-                            new_sids = [sid for sid, src in store.sources.items() if src.step == step and src.tool in ("wayback_lookup", "people_search", "profile_read")]
+                            new_sids = [sid for sid, src in store.sources.items() if src.step == step and (src.tool in ("wayback_lookup", "people_search", "profile_read", "exa_contents")
+                                        or (src.tool == "web_search" and best_now.names and best_now.names[0].lower() in str(src.args.get("query", "")).lower()))]
                             if new_sids:
                                 await asyncio.gather(*[extract_source(ctx, llm, sid, step) for sid in new_sids])
                     except Exception as exc:  # noqa: BLE001

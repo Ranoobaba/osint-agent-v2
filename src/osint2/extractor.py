@@ -22,7 +22,8 @@ PROMPT = """You extract facts about ONE person from ONE page. Return only a JSON
 Each claim: {"field": snake_case, "value": the fact as stated, "excerpt": the exact line from the page that states it,
 "category": one of identity, contact, professional, education, online_presence, projects, connections, personal, sensitive, other}.
 Rules: only facts the page states about the named person; one value per claim; the excerpt is copied verbatim and contains
-the value; a relationship to another person gets a field starting with connection_ or collaborator; skip navigation,
+the value; a relationship to another person gets a field starting with connection_ or collaborator, and a relative the page names
+gets family_<relation> (family_brother, family_mother) with sensitive=true; a school before university gets high_school; skip navigation,
 boilerplate, and anything inferred rather than read. Do not restate the person's own name, handle or affiliation given to you;
 do not repeat facts listed under ALREADY RECORDED. sensitive=true for dating, gaming, family, health, address, or anything the
 person would not put on a resume. At most 20 claims."""

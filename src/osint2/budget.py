@@ -70,6 +70,14 @@ class Budget:
             self.usd += usd
             self.llm_usd += usd
 
+    async def charge_tool(self, usd: float | None) -> None:
+        """A paid call made outside the call cap (the code-driven sweep) still costs money."""
+        if not usd:
+            return
+        async with self._lock:
+            self.usd += usd
+            self.tool_usd += usd
+
     def snapshot(self) -> dict[str, float]:
         return {"calls": self.calls, "max_calls": self.max_calls, "usd": round(self.usd, 4), "max_usd": self.max_usd,
                 "llm_usd": round(self.llm_usd, 4), "tool_usd": round(self.tool_usd, 4),

@@ -7,6 +7,13 @@ Structured hits become claims through the same admission gate, quoting the tool'
 sensitive set by surface, so the report and the ladder see them like any other finding. Readable hit
 URLs become account nodes so the lead and the deep dive can read them.
 
+A third wave runs once per resolved name and needs a search backend: public Facebook and Instagram
+profiles (search snippets, gated on the person's name plus school or city, then an Exa read of the
+matched profile), a high-school query and an Exa PDF search (the extractor reads the results), and
+a family pass: same-surname LinkedIn profiles in the person's city are recorded as leads with an
+honest field name, and for US adults an obituary or wedding-notice search whose snippet names the
+person in full is admitted as a family mention. Everything family-related is sensitive.
+
 Gates against false attribution: only handles that are identity markers or were recorded on a page
 naming the resolved person; handles shorter than 5 characters or that are dictionary-like words are
 skipped; tinder and people_search results are admitted only when the tool's own lines match the
@@ -26,6 +33,8 @@ MIN_HANDLE = 5
 COMMON_WORDS = {"admin", "user", "test", "hello", "music", "gaming", "official", "sports", "photos", "world", "player", "berkeley", "student"}
 READABLE = {"reddit.com": "reddit", "hub.docker.com": "dockerhub", "news.ycombinator.com": "hackernews", "keybase.io": "keybase", "chess.com": "chesscom", "lichess.org": "lichess"}
 SENSITIVE_SVC = {"tinder", "bumble", "hinge", "grindr", "roblox", "steam", "twitch", "pornhub", "onlyfans", "patreon", "spotify", "duolingo", "strava", "discord", "xbox", "playstation"}
+RESULT_RE = re.compile(r"^\d+\. (.+)\n\s+url: (\S+)(?:\n\s+date: [^\n]*)?(?:\n\s+author: [^\n]*)?(?:\n\s+snippet: ([^\n]*))?", re.M)
+SOCIAL_HOSTS = {"facebook.com": "facebook", "instagram.com": "instagram"}
 HIT_RE = re.compile(r"^\s*-\s*([^:]+):\s*(https?://\S+)\s*$", re.M)
 # whatsmyname checks existence through API, availability and search endpoints; those are not profile pages
 JUNK_URL_RE = re.compile(r"(api\.|/api/|username_available|/search\?|wayback/available|\?print=pretty|/v2/orgs/|/v2/users/|/v0/user/)", re.I)
@@ -83,7 +92,80 @@ async def _call(ctx: RunContext, tools: dict[str, Tool], name: str, args: dict[s
     if name not in tools or name in ctx.state.get("disabled_tools", set()):
         return name, args, None
     res = await run_tool(tools, name, args, ctx, step=step, thread="sweep", metered=False)
+    if res is not None and res.cost_usd:
+        await ctx.budget.charge_tool(res.cost_usd)
     return name, args, res
+
+
+def _place(cand: Candidate) -> str | None:
+    """The disambiguator used in social queries: first school, else first location, else first employer."""
+    for e in cand.education:
+        if e.name:
+            return e.name
+    if cand.locations:
+        return cand.locations[0]
+    for e in cand.employers:
+        if e.name:
+            return e.name
+    return None
+
+
+def _tokens(place: str) -> list[str]:
+    stop = {"university", "of", "the", "college", "school", "institute", "inc", "llc", "and", "at"}
+    return [t for t in re.findall(r"[a-z]{3,}", place.lower()) if t not in stop][:3]
+
+
+def _results(text: str) -> list[dict[str, str]]:
+    return [{"title": m.group(1).strip(), "url": m.group(2).strip(), "snippet": (m.group(3) or "").strip()} for m in RESULT_RE.finditer(text)]
+
+
+def _social_jobs(cand: Candidate, ctx: RunContext, tools: dict[str, Tool]) -> list[tuple[str, dict[str, Any]]]:
+    if "web_search" not in tools or not cand.names:
+        return []
+    name, place = cand.names[0], _place(cand)
+    q = f'"{name}" {place}' if place else f'"{name}"'
+    jobs: list[tuple[str, dict[str, Any]]] = [("web_search", {"query": q, "domains": ["facebook.com"], "num_results": 5}),
+                                              ("web_search", {"query": q, "domains": ["instagram.com"], "num_results": 5}),
+                                              ("web_search", {"query": f'"{name}" high school', "num_results": 8})]
+    if "exa" in ctx.settings.tools:
+        jobs.append(("web_search", {"query": f"{name} {place or ''}".strip(), "category": "pdf", "num_results": 5}))
+    surname = name.split()[-1] if len(name.split()) > 1 else None
+    city = cand.locations[0] if cand.locations else None
+    if surname and len(surname) >= 4 and city:
+        jobs.append(("web_search", {"query": f'"{surname}" {city}', "category": "linkedin profile", "num_results": 8}))
+        if _us_location(ctx):
+            jobs.append(("web_search", {"query": f'"{surname}" obituary OR wedding {city}', "num_results": 8}))
+    return jobs
+
+
+def _record_social(ctx: RunContext, cand: Candidate, args: dict[str, Any], res, step: int) -> tuple[int, list[str]]:
+    """Admit gated social profiles and family mentions from a sweep web_search. Returns (admitted, profile URLs to read)."""
+    sid = res.meta.get("source_id") if res and res.meta else None
+    if not sid or res.error:
+        return 0, []
+    name = cand.names[0]
+    first, surname = name.split()[0].lower(), name.split()[-1].lower()
+    place_tokens = _tokens(_place(cand) or "") + _tokens(cand.locations[0] if cand.locations else "")
+    n, reads = 0, []
+    domains = args.get("domains") or []
+    query = args.get("query", "")
+    for r in _results(res.content):
+        host = urlparse(r["url"]).netloc.lower().removeprefix("www.").removeprefix("m.")
+        blob = f"{r['title']} {r['snippet']}".lower()
+        if domains:
+            plat = next((p for h, p in SOCIAL_HOSTS.items() if host == h or host.endswith("." + h)), None)
+            # a public profile page, naming the person in full and the school or city
+            if plat and first in blob and surname in blob and any(t in blob for t in place_tokens) and not re.search(r"/(posts|photos|videos|groups|events|reel|p)/", r["url"]):
+                if _admit(ctx, sid, f"account_{plat}", r["url"], f"url: {r['url']}", "online_presence", False, cand.id, step):
+                    n += 1; reads.append(r["url"])
+        elif "obituary" in query:
+            if first in blob and surname in blob and r["snippet"]:
+                n += _admit(ctx, sid, "family_mention", r["snippet"][:200], f"snippet: {r['snippet']}", "connections", True, cand.id, step)
+        elif args.get("category") == "linkedin profile":
+            title = r["title"].split(" - ")[0].split(" | ")[0].strip()
+            if surname in title.lower() and first not in title.lower() and len(title.split()) <= 4 and "linkedin.com/in/" in r["url"]:
+                n += _admit(ctx, sid, "same_surname_in_city", f"{title} ({r['url']})", f"{r['title']}\n   url: {r['url']}", "connections", True, cand.id, step)
+    return n, reads[:2]
 
 
 def _admit(ctx: RunContext, sid: str, field: str, value: str, excerpt: str, category: str, sensitive: bool, cand_id: str, step: int) -> bool:
@@ -163,10 +245,12 @@ async def sweep(ctx: RunContext, tools: dict[str, Tool], cand: Candidate, step: 
     emails = [e for e in _emails(cand, ctx) if f"e:{e}" not in done]
     domains = [d for d in _domains(cand, ctx) if f"d:{d}" not in done]
     loc = None if "people_search" in done else _us_location(ctx)
-    done.update({f"h:{h.lower()}" for h in handles} | {f"e:{e}" for e in emails} | {f"d:{d}" for d in domains} | ({"people_search"} if loc else set()))
-    if not (handles or emails or domains or loc):
-        return {"handles": [], "emails": [], "domains": [], "people_search": False, "calls": 0, "admitted": 0, "profile_reads": []}
-    jobs: list[tuple[str, dict[str, Any]]] = []
+    social = _social_jobs(cand, ctx, tools) if cand.names and f"social:{cand.names[0].lower()}" not in done else []
+    done.update({f"h:{h.lower()}" for h in handles} | {f"e:{e}" for e in emails} | {f"d:{d}" for d in domains} | ({"people_search"} if loc else set())
+                | ({f"social:{cand.names[0].lower()}"} if social else set()))
+    if not (handles or emails or domains or loc or social):
+        return {"handles": [], "emails": [], "domains": [], "people_search": False, "social": 0, "calls": 0, "admitted": 0, "profile_reads": []}
+    jobs: list[tuple[str, dict[str, Any]]] = list(social)
     for h in handles:
         jobs += [("whatsmyname", {"username": h}), ("roblox_lookup", {"username": h}), ("tinder_check", {"username": h})]
     for e in emails:
@@ -175,12 +259,18 @@ async def sweep(ctx: RunContext, tools: dict[str, Tool], cand: Candidate, step: 
         jobs += [("wayback_lookup", {"url": d, "mode": "list", "limit": 20}), ("wayback_lookup", {"url": d, "mode": "read", "max_chars": 6000})]
     if loc and cand.names:
         jobs.append(("people_search", {"name": cand.names[0], "city_or_state": loc}))
-    ctx.trace.write("sweep", event="start", step=step, handles=handles, emails=emails, domains=domains, location=loc, jobs=len(jobs))
+    ctx.trace.write("sweep", event="start", step=step, handles=handles, emails=emails, domains=domains, location=loc, social=len(social), jobs=len(jobs))
     results = await asyncio.gather(*[_call(ctx, tools, n, a, step) for n, a in jobs])
     admitted = 0
     follow: list[dict[str, str]] = []
+    profile_urls: list[str] = []
     for name, args, res in results:
         if res is None:
+            continue
+        if name == "web_search":
+            n, urls = _record_social(ctx, cand, args, res, step)
+            admitted += n
+            profile_urls += urls
             continue
         n, hits = _record(ctx, cand, name, args, res, step)
         admitted += n
@@ -192,11 +282,13 @@ async def sweep(ctx: RunContext, tools: dict[str, Tool], cand: Candidate, step: 
         k = (h["platform"], h["handle"].lower())
         if k not in seen and "profile_read" in tools:
             seen.add(k); wave2.append(("profile_read", {"platform": h["platform"], "handle": h["handle"]}))
+    if "exa_contents" in tools:
+        wave2 += [("exa_contents", {"url": u, "max_chars": 6000}) for u in profile_urls]
     if wave2:
-        await asyncio.gather(*[_call(ctx, tools, n, a, step) for n, a in wave2[:6]])
+        await asyncio.gather(*[_call(ctx, tools, n, a, step) for n, a in wave2[:8]])
     ctx.state["swept"] = True
     ctx.state["step_admitted"] = ctx.state.get("step_admitted", 0) + admitted
-    out = {"handles": handles, "emails": emails, "domains": domains, "people_search": bool(loc), "calls": len(jobs) + len(wave2), "admitted": admitted,
-           "profile_reads": [f"{a['platform']}:{a['handle']}" for _, a in wave2[:6]]}
+    out = {"handles": handles, "emails": emails, "domains": domains, "people_search": bool(loc), "social": len(social), "calls": len(jobs) + len(wave2), "admitted": admitted,
+           "profile_reads": [f"{a['platform']}:{a['handle']}" if n == "profile_read" else a["url"] for n, a in wave2[:8]]}
     ctx.trace.write("sweep", event="end", step=step, **out)
     return out

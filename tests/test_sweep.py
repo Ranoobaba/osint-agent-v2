@@ -96,3 +96,87 @@ def test_roblox_and_tinder_need_a_tie(tmp_path):
     res2 = ToolResult(content=ctx.store.source_text(sid2), meta={"source_id": sid2})
     n2, _ = _record(ctx, cand, "roblox_lookup", {"username": "kvnalb"}, res2, 1)
     assert n2 == 2 and all(c.sensitive for c in ctx.store.findings())
+
+
+FB = """# web_search (perplexity): "Kunal Baldava" UC Berkeley
+results: 3
+
+1. Kunal Baldava | Facebook
+   url: https://www.facebook.com/kunal.baldava
+   snippet: Kunal Baldava is on Facebook. Studies at UC Berkeley. Lives in Berkeley, California.
+
+2. Kunal Baldava's post
+   url: https://www.facebook.com/kunal.baldava/posts/123
+   snippet: Kunal Baldava at UC Berkeley
+
+3. Kunal Sharma | Facebook
+   url: https://www.facebook.com/kunal.sharma.9
+   snippet: Kunal Sharma is on Facebook. UC Berkeley alumni.
+"""
+IG = """# web_search (perplexity): "Kunal Baldava" UC Berkeley
+results: 1
+
+1. Kunal (@kvnalb)
+   url: https://www.instagram.com/kvnalb/
+   snippet: 120 followers. Kunal Baldava. photos from Goa
+"""
+FAM = """# web_search (exa): "Baldava" Mumbai
+results: 3
+
+1. Rohan Baldava - Analyst - Deloitte | LinkedIn
+   url: https://in.linkedin.com/in/rohanbaldava
+   snippet: Mumbai, Maharashtra
+2. Kunal Baldava - UC Berkeley | LinkedIn
+   url: https://www.linkedin.com/in/kunalbaldava
+   snippet: Berkeley
+3. Baldava Textiles Pvt Ltd | LinkedIn
+   url: https://www.linkedin.com/company/baldava-textiles
+   snippet: Mumbai
+"""
+
+
+def test_social_wave_gates_profiles_and_records_family_leads(tmp_path):
+    calls = []
+
+    def search(ctx, **kw):
+        calls.append(kw)
+        if kw.get("domains") == ["facebook.com"]:
+            return ToolResult(content=FB, cost_usd=0.005)
+        if kw.get("domains") == ["instagram.com"]:
+            return ToolResult(content=IG, cost_usd=0.005)
+        if kw.get("category") == "linkedin profile":
+            return ToolResult(content=FAM, cost_usd=0.005)
+        return ToolResult(content="# web_search (perplexity): x\nresults: 0\n\nNo results.", cost_usd=0.005)
+
+    async def ws(ctx, **kw):
+        return search(ctx, **kw)
+
+    reads = []
+
+    async def exa(ctx, **kw):
+        reads.append(kw["url"])
+        return ToolResult(content="Kunal Baldava. Studies at UC Berkeley. Brother: Rohan Baldava", url=kw["url"])
+
+    tools = {"web_search": Tool(name="web_search", description="", parameters={"type": "object", "properties": {}}, fn=ws),
+             "exa_contents": Tool(name="exa_contents", description="", parameters={"type": "object", "properties": {}}, fn=exa)}
+    ctx, cand = make_ctx(tmp_path, tools)
+    cand.handles = []; cand.emails = []; cand.locations = ["Mumbai, India"]
+    import dataclasses
+    ctx.settings = dataclasses.replace(ctx.settings, tools=tuple(ctx.settings.tools) + ("exa", "perplexity"))
+    out = asyncio.run(sweep(ctx, tools, cand, step=3))
+    queries = [c.get("query") for c in calls]
+    assert any(c.get("domains") == ["facebook.com"] for c in calls) and any("high school" in q for q in queries)
+    assert any(c.get("category") == "pdf" for c in calls) and any(c.get("category") == "linkedin profile" for c in calls)
+    assert not any("obituary" in q for q in queries), "obituary search is US-only"
+    found = {c.field: c for c in ctx.store.findings()}
+    assert found["account_facebook"].value == "https://www.facebook.com/kunal.baldava"
+    assert sum(1 for c in ctx.store.findings() if c.field == "account_facebook") == 1, "post URLs and namesakes are not profiles"
+    assert "account_instagram" not in found, "instagram snippet without school or city does not pass the gate"
+    lead = found["same_surname_in_city"]
+    assert lead.value.startswith("Rohan Baldava") and lead.sensitive
+    assert sum(1 for c in ctx.store.findings() if c.field == "same_surname_in_city") == 1, "the person and the company are not leads"
+    assert reads == ["https://www.facebook.com/kunal.baldava"] and out["social"] == 5
+    assert ctx.budget.calls == 0 and abs(ctx.budget.usd - 0.025) < 1e-9, "paid sweep searches cost money but not calls"
+    # a second sweep for the same name does not repeat the social wave
+    out2 = asyncio.run(sweep(ctx, tools, cand, step=4))
+    assert out2["calls"] == 0
