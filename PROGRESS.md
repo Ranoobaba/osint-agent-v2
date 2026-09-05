@@ -102,6 +102,16 @@
   US-only obituary/wedding search admitted when the snippet names the person in full. Paid sweep
   searches now charge the budget (Budget.charge_tool) but not the call cap. Live check: runs/deployed_kunal4.
 
+- Live check runs/deployed_kunal4 (2026-09-04, $1.12, 21 steps, stop=handoff): 204 findings of which 61
+  were junk from the incremental re-sweep trusting entity-graph keys (holehe label "office365" became a
+  handle and whatsmyname on it admitted 57 accounts; two whatsmyname hit hosts became "domains"; a
+  connection's email was swept). Fixed in f7e2463 (keys must tie to the person, registration labels are
+  never handles, account_ URLs never make domain nodes, tool commentary rejected as a value; 62 tests).
+  Honest count 143 findings (vs 131): Saqib Mumtaz chased to Georgia Tech, Pace Junior Science College,
+  Mumbai/Hyderabad origin, Sciences Po dual degree, devpost/huggingface/soundcloud accounts, hobbies.
+  Social wave correctly rejected a Facebook namesake (Kunal Agarwal); no public FB/IG profile exists.
+  OpenRouter balance after this run: $4.06. The fixed build is deployed but not yet run live.
+
 ## In progress
 - Firecrawl key still needed from Rayyan or drop the tool (Instagram and Facebook pages need a renderer
   when Exa has no cached copy). Remaining ladder work needs about 33 dollars of OpenRouter credit.
