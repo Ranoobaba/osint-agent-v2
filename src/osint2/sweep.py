@@ -185,7 +185,10 @@ def _record_social(ctx: RunContext, cand: Candidate, args: dict[str, Any], res, 
         elif args.get("category") == "linkedin profile":
             title = r["title"].split(" - ")[0].split(" | ")[0].strip()
             if surname in title.lower() and first not in title.lower() and len(title.split()) <= 4 and "linkedin.com/in/" in r["url"]:
-                n += _admit(ctx, sid, "same_surname_in_city", r["title"], r["title"], "connections", True, cand.id, step)
+                # Exa does not enforce the city in the query; say "in city" only when the result itself states it
+                city_tokens = _tokens(cand.locations[0]) if cand.locations else []
+                field = "same_surname_in_city" if any(t in blob for t in city_tokens) else "same_surname_profile"
+                n += _admit(ctx, sid, field, r["title"], r["title"], "connections", True, cand.id, step)
     return n, reads[:2]
 
 

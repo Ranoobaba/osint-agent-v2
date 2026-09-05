@@ -178,7 +178,7 @@ content hash. examples/ ships those source files, so every claim there can be ch
 - Facebook friend and family lists are private since 2019 and every tool that still reads them needs
   a logged-in session, which this agent does not use. It records public profile pages only.
 - A same-surname profile in the same city is a lead, not a relative; it is reported under the field
-  same_surname_in_city, flagged sensitive, and never restated as family.
+  same_surname_in_city (or same_surname_profile when the result does not state the city), flagged sensitive, and never restated as family.
 - Minors are out of scope: no claim is made about anyone the sources describe as a child or student
   below university.
 - Emails recovered from commit metadata that appear on no public page are hashed before an example

@@ -110,7 +110,9 @@
   Honest count 143 findings (vs 131): Saqib Mumtaz chased to Georgia Tech, Pace Junior Science College,
   Mumbai/Hyderabad origin, Sciences Po dual degree, devpost/huggingface/soundcloud accounts, hobbies.
   Social wave correctly rejected a Facebook namesake (Kunal Agarwal); no public FB/IG profile exists.
-  OpenRouter balance after this run: $4.06. The fixed build is deployed but not yet run live.
+  Confirmation run runs/deployed_kunal5 on the fixed build ($1.26, 22 steps): 127 findings, 0 junk-key
+  findings, family wave ran (6 Baldava LinkedIn leads, city unverified so now field same_surname_profile),
+  high_school Pace Junior Science College and CNM School. OpenRouter balance after: $2.80.
 
 ## In progress
 - Firecrawl key still needed from Rayyan or drop the tool (Instagram and Facebook pages need a renderer
